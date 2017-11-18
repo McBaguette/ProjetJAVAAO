@@ -1,4 +1,4 @@
-public class Vertex implements Comparable<Vertex>{
+public class Vertex {
 
 	public Vertex(int x, int y)
 	{
@@ -8,11 +8,21 @@ public class Vertex implements Comparable<Vertex>{
 	
 	private int x,y;
 
-	@Override
+	public boolean equals(Object obj) {
+		Vertex v = (Vertex)obj;
+		return x == v.getX() && y == v.getY();
+	}
 	public int compareTo(Vertex o) {
-		if( o.x == this.x && o.y == this.y)
+
+		if( o.getX() == this.x && o.getY() == this.y)
 			return 0;
 		return -1;
 	}
+	public int getX(){
+		return x;
+	}
 
+	public int getY() {
+		return y;
+	}
 }
