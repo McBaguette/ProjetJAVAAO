@@ -1,63 +1,22 @@
-/**
- * Created by jakod on 16/11/2017.
- */
+import Graphes.Edges;
+import Graphes.Labyrinth;
+import Graphes.Vertex;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class Main {
+public class Main extends Application{
     public static int p = 0;
     public static void main(String[] args) {
-        Graph<Vertex, Edges> G = new Graph<Vertex, Edges>(Edges.class);
-        Vertex pointDeDepart = new Vertex(10,10);
-        G.addVertex(pointDeDepart);
-        generationLabryrinth(G, pointDeDepart);
-
+        Labyrinth<Vertex, Edges> G = new Labyrinth<>(Edges.class);
 
     }
-    public static void generationLabryrinth(Graph<Vertex,Edges> G, Vertex v)
-    {
 
-        int direction = (int) (1 + (Math.random() * (4 - 1)));
-        if (G.nbVertex >= 20*20)
-            return;
+    @Override
+    public void start(Stage primaryStage) throws Exception {
 
-        for (int i = 1; i <= 4; i++)
-        {
-            if (i == DefineClass.getInstance().NORTH)
-            {
-                Vertex v2 = new Vertex(v.getX(), v.getY()-1);
-                if (!G.containsVertex(v2) && v2.getY() > DefineClass.getInstance().NORTH_BORDER){
-                    G.addVertex(v2);
-                    G.addEdge(v,v2);
-                    generationLabryrinth(G,v2);
-                }
-            }
-            else if (i == DefineClass.getInstance().EAST)
-            {
-                Vertex v2 = new Vertex(v.getX() + 1, v.getY() );
-                if (!G.containsVertex(v2) && v2.getX() < DefineClass.getInstance().EAST_BORDER){
-                    G.addVertex(v2);
-                    G.addEdge(v,v2);
-                    generationLabryrinth(G,v2);
-                }
-
-            }
-            else if (i == DefineClass.getInstance().SOUTH)
-            {
-                Vertex v2 = new Vertex(v.getX(), v.getY()+1);
-                if (!G.containsVertex(v2) && v2.getY() < DefineClass.getInstance().SOUTH_BORDER){
-                    G.addVertex(v2);
-                    G.addEdge(v,v2);
-                    generationLabryrinth(G,v2);
-                }
-            }
-            else
-            {
-                Vertex v2 = new Vertex(v.getX() - 1, v.getY());
-                if (!G.containsVertex(v2) && v2.getX() > DefineClass.getInstance().WEST_BORDER){
-                    G.addVertex(v2);
-                    G.addEdge(v,v2);
-                    generationLabryrinth(G,v2);
-                }
-            }
-        }
+    }
+    @Override
+    public void stop(){
+        System.exit(0);
     }
 }

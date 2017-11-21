@@ -1,11 +1,11 @@
-import java.util.Map;
+package Graphes;
 
-import org.jgrapht.VertexFactory;
 import org.jgrapht.graph.SimpleGraph;
+import Model.DefineClass;
 
-public class Graph<Vertex,Edges> extends SimpleGraph<Vertex,Edges> {
+public class Labyrinth<Vertex,Edges> extends SimpleGraph<Vertex,Edges> {
 
-	public Graph(Class<? extends Edges> edgeClass) {
+	public Labyrinth(Class<? extends Edges> edgeClass) {
 		super(edgeClass);
 		nbVertex = 0;
 	}
@@ -18,6 +18,11 @@ public class Graph<Vertex,Edges> extends SimpleGraph<Vertex,Edges> {
 		}
 		return false;
 	}
+	public void GeneratePerfectLabyrinth(Vertex v)
+	{
+
+	}
+
 	public int nbVertex;
 
 
