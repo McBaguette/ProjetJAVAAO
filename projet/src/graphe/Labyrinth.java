@@ -1,7 +1,7 @@
-package Graphes;
+package graphe;
+
 
 import org.jgrapht.graph.SimpleGraph;
-import Model.DefineClass;
 
 public class Labyrinth<Vertex,Edges> extends SimpleGraph<Vertex,Edges> {
 

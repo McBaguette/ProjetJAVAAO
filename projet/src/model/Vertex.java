@@ -1,4 +1,5 @@
-package Graphes;
+package model;
+
 
 public class Vertex {
 

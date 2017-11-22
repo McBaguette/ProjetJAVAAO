@@ -1,4 +1,6 @@
-package Model;
+package model;
+
+
 
 public class DefineClass {
 	public enum Directions{
