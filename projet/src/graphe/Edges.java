@@ -1,9 +1,6 @@
 package graphe;
 
-
 import org.jgrapht.graph.DefaultEdge;
-
-import model.Vertex;
 
 public class Edges extends DefaultEdge{
 

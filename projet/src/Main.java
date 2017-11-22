@@ -1,8 +1,8 @@
 import graphe.Edges;
 import graphe.Labyrinth;
+import graphe.Vertex;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import model.Vertex;
 
 public class Main extends Application{
     public static int p = 0;
