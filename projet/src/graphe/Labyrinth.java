@@ -1,5 +1,6 @@
 package graphe;
 
+import model.DefineClass;
 import org.jgrapht.graph.SimpleGraph;
 
 public class Labyrinth<Vertex, Edges> extends SimpleGraph<Vertex, Edges> {
@@ -20,6 +21,12 @@ public class Labyrinth<Vertex, Edges> extends SimpleGraph<Vertex, Edges> {
 
 	public void GeneratePerfectLabyrinth(Vertex v) {
 
+	}
+
+	public Vertex getNeighborVertex(Vertex v, DefineClass.Directions dir){
+		//Emile si tu vois ça, c'est que je l'ai pas implémenté et si tu veux le faire c'est en fait la méthode getVertexByDir du prof.
+		//TODO
+		return null;
 	}
 
 }
