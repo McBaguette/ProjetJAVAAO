@@ -4,6 +4,8 @@ import org.jgrapht.graph.DefaultEdge;
 
 public class Edges extends DefaultEdge{
 
+	private boolean traversable;
+
 	public boolean equals(Edges o)
 	{
 		int j = ((Vertex)o.getSource()).compareTo(((Vertex)this.getSource()));
@@ -12,6 +14,10 @@ public class Edges extends DefaultEdge{
 		if (i == 0 && j == 0)
 			return true;
 		return false;
+	}
+
+	public boolean isTraversable(){
+		return traversable;
 	}
 
 }

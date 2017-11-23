@@ -6,8 +6,8 @@ import javafx.scene.image.Image;
 
 public abstract class Deplacable implements IDeplacable {
 
-    private Vertex position;
-    private Image image;
+    protected Vertex position;
+    protected Image image;
     public Deplacable(Vertex position, Image image)
     {
         this.position = position;

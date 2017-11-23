@@ -7,9 +7,11 @@ public class Vertex {
     {
         this.x = x;
         this.y = y;
+        nbr = 0;
     }
 
     private int x,y;
+    private int nbr;
 
     public boolean equals(Object obj) {
         Vertex v = (Vertex)obj;
@@ -28,5 +30,7 @@ public class Vertex {
     public int getY() {
         return y;
     }
+
+    public int getNbr(){return nbr;}
 }
 
