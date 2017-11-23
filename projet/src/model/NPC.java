@@ -6,6 +6,9 @@ import graphe.Labyrinth;
 import graphe.Vertex;
 import javafx.scene.image.Image;
 
+/**
+ * Class for enemies in the game
+ */
 public class NPC extends Deplacable{
     private boolean flee;
     public NPC(Vertex position, Image image){
@@ -15,7 +18,7 @@ public class NPC extends Deplacable{
     public boolean move(Labyrinth labyrinth){      //labyrinth with vertex marked with Manahatan algorithm
         for(DefineClass.Directions dir : DefineClass.Directions.values()) {
             Vertex next = (Vertex) Game.getInstance().getLabyrinth().getNeighborVertex(position, dir);
-            if (next != null) { //it could be null, if next is on the limit of the labyrinth
+            if (next != null) { //it can be null, if next is on labyrinth's limits
                 Edges edge = (Edges) Game.getInstance().getLabyrinth().getEdge(position, next);
                 if (edge.isTraversable() && position.getNbr() == next.getNbr()-1){
                     setPosition(next);
