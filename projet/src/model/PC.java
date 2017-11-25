@@ -1,7 +1,7 @@
 package model;
 
 
-import graphe.Edges;
+import graphe.Edge;
 import graphe.Vertex;
 import javafx.scene.image.Image;
 
@@ -22,7 +22,7 @@ public class PC extends Deplacable{
         Vertex to = (Vertex) Game.getInstance().getLabyrinth().getNeighborVertex(position, direction);
         if (to == null)     //can be null if the vertex to is on labyrinth's limits
             return false;
-        Edges edge = (Edges) Game.getInstance().getLabyrinth().getEdge(position,to);
+        Edge edge = (Edge) Game.getInstance().getLabyrinth().getEdge(position,to);
 
         if (edge.isTraversable()){
             setPosition(to);
