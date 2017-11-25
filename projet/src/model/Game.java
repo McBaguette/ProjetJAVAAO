@@ -47,7 +47,18 @@ public class Game {
     private void restart(int level){
         score = 0;
     }
-    private void generateLabyrinth(int level){
+    private void generateLabyrinthGame(int level){
+        //call Labyrinth.buildLabyrinth(nbArête)
+        int numEdgesPerfectLabyrinth = DefineClass.HEIGHT*DefineClass.WIDTH*4 - (2*(2*DefineClass.HEIGHT + 2*DefineClass.WIDTH));
+        labyrinth.buildLabyrinth(numEdgesPerfectLabyrinth - level*150);
+
+        //place door and candies (random)
+        int x = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
+        int y = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
+
+        //on place le joueur le plus loin possible de la porte
+        //place enemies en vérifiant que les enemis ne croiseront pas nécessairement le joueur
+
 
     }
     private void manageInteractionWithMap(){
