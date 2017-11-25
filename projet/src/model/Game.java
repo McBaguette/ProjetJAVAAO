@@ -2,6 +2,7 @@ package model;
 
 import graphe.Edges;
 import graphe.Labyrinth;
+import graphe.Vertex;
 
 import java.util.List;
 
@@ -52,11 +53,30 @@ public class Game {
         int numEdgesPerfectLabyrinth = DefineClass.HEIGHT*DefineClass.WIDTH*4 - (2*(2*DefineClass.HEIGHT + 2*DefineClass.WIDTH));
         labyrinth.buildLabyrinth(numEdgesPerfectLabyrinth - level*150);
 
-        //place door and candies (random)
+        //place door (random)
         int x = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
         int y = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
 
-        //on place le joueur le plus loin possible de la porte
+        Vertex vertexDoor = labyrinth.getVertex(x,y);
+        //vertexDoor.getVertex(x,y).setObjetMap = DOOR;
+
+        //place candies (random)
+        //TODO
+
+
+        //place player far from the door
+        labyrinth.launchManhattan(vertexDoor, vertexDoor);
+        int maxNbr = 0;
+        graphe.Vertex vertexFarAway = null;
+        for (Object v: labyrinth.vertexSet()) {
+            if (((graphe.Vertex)v).getNbr() > maxNbr){
+                vertexFarAway = ((graphe.Vertex)v);
+                maxNbr = ((graphe.Vertex)v).getNbr();
+            }
+        }
+        player.setPosition(vertexFarAway);
+
+
         //place enemies en vérifiant que les enemis ne croiseront pas nécessairement le joueur
 
 

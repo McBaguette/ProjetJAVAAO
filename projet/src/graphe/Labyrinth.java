@@ -41,4 +41,7 @@ public class Labyrinth<Vertex, Edges> extends SimpleGraph<Vertex, Edges> {
 		return null;
 	}
 
+	public void launchManhattan(Vertex source, Vertex target) {
+		//TODO
+	}
 }
