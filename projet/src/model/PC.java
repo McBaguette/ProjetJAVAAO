@@ -19,7 +19,12 @@ public class PC extends Deplacable{
      * @return boolean      to say if it has moved
      */
     public boolean move(DefineClass.Directions direction){
-        Vertex to = (Vertex) Game.getInstance().getLabyrinth().getNeighborVertex(position, direction);
+    	if(Game.getInstance().getLabyrinth().isNonBlocking(position, direction)) {
+    		setPosition(Game.getInstance().getLabyrinth().getNeighborVertex(position, direction));
+            return true;
+    	}
+        return false;
+    	/*Vertex to = (Vertex) Game.getInstance().getLabyrinth().getNeighborVertex(position, direction);
         if (to == null)     //can be null if the vertex to is on labyrinth's limits
             return false;
         Edge edge = (Edge) Game.getInstance().getLabyrinth().getEdge(position,to);
@@ -29,6 +34,7 @@ public class PC extends Deplacable{
             return true;
         }
         return false;
+        */
     }
 
 }

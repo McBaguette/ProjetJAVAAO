@@ -12,15 +12,9 @@ public class Vertex {
 	private int nbr;
 
 	public boolean equals(Object obj) {
+		if (!(obj instanceof Vertex)) return false;
 		Vertex v = (Vertex) obj;
 		return x == v.getX() && y == v.getY();
-	}
-
-	public int compareTo(Vertex o) {
-		if (o.getX() == this.x && o.getY() == this.y) {
-			return 0;
-		}
-		return -1;
 	}
 
 	public int getX() {

@@ -7,7 +7,7 @@ import java.util.Set;
 import org.jgrapht.graph.SimpleGraph;
 import org.junit.jupiter.api.Test;
 
-import graphe.Edge.Type;
+import model.DefineClass.Type;
 
 class LabyrinthTest {
 	
@@ -42,11 +42,10 @@ class LabyrinthTest {
 		
 		printGraph(g);
 
-		/*Si on implémente pas IComparable, on peut utiliser les classes mère g.contains(), et les g.contains() utilisent equals, c'est pour ça que j'avais retiré compareTo*/
 		Edge ref = g.getEdge(v2, v);
 		int eq = 0;
 		for(Edge e : g.edgeSet()) {
-			if(ref.compareTo(e) == 0) {
+			if(ref.equals(e)) {
 				++eq;
 			}
 		}

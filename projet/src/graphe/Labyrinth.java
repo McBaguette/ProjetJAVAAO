@@ -2,12 +2,11 @@ package graphe;
 
 import model.DefineClass;
 import model.DefineClass.Directions;
+import model.DefineClass.Type;
 
 import java.util.Set;
 
 import org.jgrapht.graph.SimpleGraph;
-
-import graphe.Edge.Type;
 
 @SuppressWarnings("serial")
 public class Labyrinth extends SimpleGraph<Vertex, Edge> {
@@ -19,16 +18,28 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	/**
 	 * @return Vertex at pos x:y
 	 *
-	 * @deprecated Ne devrais plus �tre utilis�, on ne devrais pas avoir � acceder �
-	 *             un vertex par ses coordon�es
+	 * @deprecated Ne devrais plus etre utilisee, on ne devrais pas avoir e acceder
+	 *             a un vertex par ses coordonees
 	 */
 	public graphe.Vertex getVertex(int x, int y) {
 		// On doit pouvoir se passer de cette m�thode il me semble (?)
 		// Pour l'affichage, il suffira de parcourir le graphe
 		// Et pour les d�placement, on � juste be soin d'acceder aux voisins
 		// Si y'a d'autres cas auquel j'ai pas pens�, j'essayerais d'y remedier !
-		/* j'avais ajouté cette méthode, pouvoir initialiser la position de joueurs, des monstres et des bonbons, sans avoir  à chaque fois à parcourir la liste des sommets */
-		/*Parce que si sur un sommet il y a un bonbon, alors le sommet fait référence à un objetMap*/
+		/*
+		 * j'avais ajouté cette méthode, pouvoir initialiser la position de joueurs,
+		 * des monstres et des bonbons, sans avoir à chaque fois à parcourir la liste
+		 * des sommets
+		 */
+		/*
+		 * Parce que si sur un sommet il y a un bonbon, alors le sommet fait référence
+		 * à un objetMap
+		 */
+		
+		/*
+		 * Dans la generation du prof, on accede a chaque fois juste aux voisins, du coup on doit pouvoir faire avec juste getNeighbors
+		 * Et pour les bonbon/porte, on peut prendre un sommet au hasard avec le set
+		 */
 		return null;
 	}
 
@@ -53,7 +64,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	 */
 	public Vertex getNeighborVertex(Vertex v, DefineClass.Directions dir) {
 		/*
-		 * TODO : V�rifier si l'ordre des coordonn�es est le m�me (nord->y- , ouest->x-,
+		 * TODO : Verifier si l'ordre des coordonnees est le meme (nord->y- , ouest->x-,
 		 * ect)
 		 */
 		int targetX = v.getX(), targetY = v.getY();
@@ -77,7 +88,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		for (Edge e : neighbors) { // Ne devrais pas faire plus de 4 passages, sauf erreur de conception du
 									// labyrinthe
 			/*
-			 * TODO : Optimiser si target ou source sont toujours les m�me ?
+			 * TODO : Optimiser si target ou source sont toujours les meme ?
 			 */
 			if (e.getSource().getX() == targetX && e.getSource().getY() == targetY)
 				return e.getSource();
