@@ -41,7 +41,8 @@ class LabyrinthTest {
 		g.addEdge(v, v3, new Edge(Type.CORRIDOR));
 		
 		printGraph(g);
-		
+
+		/*Si on implémente pas IComparable, on peut utiliser les classes mère g.contains(), et les g.contains() utilisent equals, c'est pour ça que j'avais retiré compareTo*/
 		Edge ref = g.getEdge(v2, v);
 		int eq = 0;
 		for(Edge e : g.edgeSet()) {
