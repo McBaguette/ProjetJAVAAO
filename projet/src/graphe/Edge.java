@@ -5,6 +5,7 @@ import org.jgrapht.graph.DefaultEdge;
 @SuppressWarnings("serial")
 public class Edge extends DefaultEdge implements Comparable<Edge> {
 
+	/*Selon notre UML, c'est dans DefineClass le Type, comme Ã§a on a tout au mÃªme endroit, et Ã§a Ã©vite d'avoir du static avec du non static*/
 	public enum Type {
 		OPENED_DOOR, CLOSED_DOOR, CORRIDOR;
 	};
@@ -35,8 +36,8 @@ public class Edge extends DefaultEdge implements Comparable<Edge> {
 	/**
 	 * @return true if the edge is traversable
 	 *
-	 * @deprecated Ne devrais plus être utilisé, il faudrai utiliser les méthodes de
-	 *             labyrinth à la place
+	 * @deprecated Ne devrais plus ï¿½tre utilisï¿½, il faudrai utiliser les mï¿½thodes de
+	 *             labyrinth ï¿½ la place
 	 */
 	public boolean isTraversable() {
 		return (type == Type.CORRIDOR || type == Type.OPENED_DOOR);

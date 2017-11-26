@@ -19,12 +19,14 @@ public class NPC extends Deplacable{
             Vertex next = (Vertex) Game.getInstance().getLabyrinth().getNeighborVertex(position, dir);
             if (next != null) { //it can be null, if next is on labyrinth's limits
                 Edge edge = (Edge) Game.getInstance().getLabyrinth().getEdge(position, next);
-                // Je préfere ne pas modifier du code de quelqu'un d'autre sans permission -
-                // Il vaudrait pas mieux utiliser les méthode de labyrinth
-                // qui donne l'état d'un Edge à partir du sommet actuel et de la direction ?
+                // Je prï¿½fere ne pas modifier du code de quelqu'un d'autre sans permission -
+                // Il vaudrait pas mieux utiliser les mï¿½thode de labyrinth
+                // qui donne l'ï¿½tat d'un Edge ï¿½ partir du sommet actuel et de la direction ?
                 // genre ici :
                 // labyrinth.isNonBlocking(position, dir)
-                // J'ai ptetre tout faux, si c'est le cas désolé, je restaurerais le isTraversable ! :p
+                // J'ai ptetre tout faux, si c'est le cas dï¿½solï¿½, je restaurerais le isTraversable ! :p
+                /*En fait, au lieu de faire comme le prof, l'idÃ©e est d'avoir juste un mÃ©thode isTraversable (et chaque edges Ã  un boolean traversable), puisqu'on a juste besoin de savoir
+                * si on peut traverser. Et donc on s'en fiche de savoir si c'est un mur ou une porte ouvert/fermÃ© un corridor â€¦ c'est plus simple de juste savoir si on peut passer. */
                 if (edge.isTraversable() && position.getNbr() == next.getNbr()-1){
                     setPosition(next);
                     return true;

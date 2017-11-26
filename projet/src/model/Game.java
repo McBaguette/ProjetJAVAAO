@@ -1,6 +1,6 @@
 package model;
 
-import graphe.Edges;
+import graphe.Edge;
 import graphe.Labyrinth;
 import graphe.Vertex;
 
@@ -16,7 +16,7 @@ public class Game {
     private int score;
 
     public Game(){
-        labyrinth = new Labyrinth(Edges.class);
+        labyrinth = new Labyrinth();
     }
 
     /**

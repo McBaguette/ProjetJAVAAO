@@ -19,14 +19,16 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	/**
 	 * @return Vertex at pos x:y
 	 *
-	 * @deprecated Ne devrais plus être utilisé, on ne devrais pas avoir à acceder à
-	 *             un vertex par ses coordonées
+	 * @deprecated Ne devrais plus ï¿½tre utilisï¿½, on ne devrais pas avoir ï¿½ acceder ï¿½
+	 *             un vertex par ses coordonï¿½es
 	 */
 	public graphe.Vertex getVertex(int x, int y) {
-		// On doit pouvoir se passer de cette méthode il me semble (?)
+		// On doit pouvoir se passer de cette mï¿½thode il me semble (?)
 		// Pour l'affichage, il suffira de parcourir le graphe
-		// Et pour les déplacement, on à juste be soin d'acceder aux voisins
-		// Si y'a d'autres cas auquel j'ai pas pensé, j'essayerais d'y remedier !
+		// Et pour les dï¿½placement, on ï¿½ juste be soin d'acceder aux voisins
+		// Si y'a d'autres cas auquel j'ai pas pensï¿½, j'essayerais d'y remedier !
+		/* j'avais ajoutÃ© cette mÃ©thode, pouvoir initialiser la position de joueurs, des monstres et des bonbons, sans avoir  Ã  chaque fois Ã  parcourir la liste des sommets */
+		/*Parce que si sur un sommet il y a un bonbon, alors le sommet fait rÃ©fÃ©rence Ã  un objetMap*/
 		return null;
 	}
 
@@ -51,7 +53,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	 */
 	public Vertex getNeighborVertex(Vertex v, DefineClass.Directions dir) {
 		/*
-		 * TODO : Vérifier si l'ordre des coordonnées est le même (nord->y- , ouest->x-,
+		 * TODO : Vï¿½rifier si l'ordre des coordonnï¿½es est le mï¿½me (nord->y- , ouest->x-,
 		 * ect)
 		 */
 		int targetX = v.getX(), targetY = v.getY();
@@ -75,7 +77,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		for (Edge e : neighbors) { // Ne devrais pas faire plus de 4 passages, sauf erreur de conception du
 									// labyrinthe
 			/*
-			 * TODO : Optimiser si target ou source sont toujours les même ?
+			 * TODO : Optimiser si target ou source sont toujours les mï¿½me ?
 			 */
 			if (e.getSource().getX() == targetX && e.getSource().getY() == targetY)
 				return e.getSource();
