@@ -15,12 +15,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		super(Edge.class);
 	}
 
-	/**
-	 * @return Vertex at pos x:y
-	 *
-	 * @deprecated Ne devrais plus etre utilisee, on ne devrais pas avoir e acceder
-	 *             a un vertex par ses coordonees
-	 */
+
 	public graphe.Vertex getVertex(int x, int y) {
 		// On doit pouvoir se passer de cette m�thode il me semble (?)
 		// Pour l'affichage, il suffira de parcourir le graphe
@@ -40,6 +35,11 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		 * Dans la generation du prof, on accede a chaque fois juste aux voisins, du coup on doit pouvoir faire avec juste getNeighbors
 		 * Et pour les bonbon/porte, on peut prendre un sommet au hasard avec le set
 		 */
+		Set<Vertex> setVertex = this.vertexSet();
+		for (Vertex v : setVertex){
+			if (v.getX() == x && v.getY() == y)
+				return v;
+		}
 		return null;
 	}
 

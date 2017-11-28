@@ -1,6 +1,5 @@
-package model;
+package model.mapobject;
 
 
 public interface IMapObject {
-
 }

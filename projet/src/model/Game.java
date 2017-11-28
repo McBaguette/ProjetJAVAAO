@@ -3,6 +3,8 @@ package model;
 import graphe.Edge;
 import graphe.Labyrinth;
 import graphe.Vertex;
+import model.mapobject.Candy;
+import model.mapobject.IMapObject;
 
 import java.util.List;
 
@@ -56,15 +58,25 @@ public class Game {
         int numEdgesPerfectLabyrinth = DefineClass.HEIGHT*DefineClass.WIDTH*4 - (2*(2*DefineClass.HEIGHT + 2*DefineClass.WIDTH));
         labyrinth.buildLabyrinth(numEdgesPerfectLabyrinth - level*150);
 
+
+        //place candies (random)
+        int nbCandies = 0;
+        while(nbCandies < DefineClass.NUMBER_CANDIES_ON_MAP) {
+            int x = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
+            int y = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
+            Vertex v = labyrinth.getVertex(x,y);
+            if (v.getMapObject() == null){
+                v.setMapObject(Candy.getInstance());
+                nbCandies ++;
+            }
+        }
+
+
         //place door (random)
         int x = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
         int y = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
-
         Vertex vertexDoor = labyrinth.getVertex(x,y);
-        //vertexDoor.getVertex(x,y).setObjetMap = DOOR;
-
-        //place candies (random)
-        //TODO
+        //vertexDoor.setObjeMap = DOOR;
 
 
         //place player far from the door
