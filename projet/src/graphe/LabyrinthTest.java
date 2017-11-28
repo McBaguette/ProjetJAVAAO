@@ -43,14 +43,11 @@ class LabyrinthTest {
 		printGraph(g);
 
 		Edge ref = g.getEdge(v2, v);
-		int eq = 0;
-		for(Edge e : g.edgeSet()) {
-			if(ref.equals(e)) {
-				++eq;
-			}
+		if(!g.containsVertex(v3)){
+			fail("Should contain this vertex.");
 		}
-		if(eq != 1) {
-			fail("Should be one equal pair of edge.");
+		if(!g.containsEdge(ref)){
+			fail("Should contain this edge.");
 		}
 	}
 
