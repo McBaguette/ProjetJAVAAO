@@ -57,7 +57,7 @@ public class Controller implements EventHandler<ActionEvent>{
      */
     public void start(Stage primaryStage){
         view.start(primaryStage);
-        view.getScene().addEventHandler(KeyEvent.ANY, handler);
+        //view.getScene().addEventHandler(KeyEvent.ANY, handler);
     }
 
 
