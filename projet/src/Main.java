@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 public class Main extends Application{
     public static int p = 0;
     public static void main(String[] args) {
-        Labyrinth G = new Labyrinth();
 
     }
 

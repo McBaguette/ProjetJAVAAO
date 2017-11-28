@@ -1,16 +1,16 @@
 package graphe;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Set;
 
 import org.jgrapht.graph.SimpleGraph;
-import org.junit.jupiter.api.Test;
 
 import model.DefineClass.Type;
+import org.junit.Test;
 
-class LabyrinthTest {
-	
+import static junit.framework.Assert.fail;
+
+public class LabyrinthTest {
 	void printGraph(SimpleGraph<Vertex, Edge> g) {
 		
 		Set<Vertex> V = g.vertexSet();
@@ -26,7 +26,7 @@ class LabyrinthTest {
 	}
 	
 	@Test
-	void test() {
+	public void test() {
 		Labyrinth g = new Labyrinth();
 		
 		Vertex v = new Vertex(1,3);

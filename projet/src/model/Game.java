@@ -20,7 +20,7 @@ public class Game {
     }
 
     /**
-     * Called by main, to start all the game.
+     * Called by Controller, to start all the game.
      */
     public void launch(){
         restart(0);
@@ -42,6 +42,9 @@ public class Game {
 
     }
 
+    /**
+     * Call gameOver() of Controller
+     */
     private void gameOver(){
 
     }

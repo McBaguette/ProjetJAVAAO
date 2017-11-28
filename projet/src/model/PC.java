@@ -15,7 +15,7 @@ public class PC extends Deplacable{
 
     /**
      * Try to move to a direction
-     * @param direction
+     * @param direction, what direction the PC will moved, but check if it can
      * @return boolean      to say if it has moved
      */
     public boolean move(DefineClass.Directions direction){
@@ -24,17 +24,6 @@ public class PC extends Deplacable{
             return true;
     	}
         return false;
-    	/*Vertex to = (Vertex) Game.getInstance().getLabyrinth().getNeighborVertex(position, direction);
-        if (to == null)     //can be null if the vertex to is on labyrinth's limits
-            return false;
-        Edge edge = (Edge) Game.getInstance().getLabyrinth().getEdge(position,to);
-
-        if (edge.isTraversable()){
-            setPosition(to);
-            return true;
-        }
-        return false;
-        */
     }
 
 }
