@@ -6,6 +6,7 @@ import graphe.Vertex;
 import model.mapobject.Candy;
 import model.mapobject.IMapObject;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Game {
@@ -93,8 +94,72 @@ public class Game {
 
 
         //place enemies en vérifiant que les enemis ne croiseront pas nécessairement le joueur
+        int nbMonstre = 2;
+        int maxSizePath;
+        int nbWhileMax = 100;
+        List<Vertex> listPathPlayer;
+        List<List<Vertex>> listPathEnemies;
+
+        int nbWhile = 0;
+        do
+        {
+            nbWhile ++;
+            //we search the differents paths from enemies to the player
+            maxSizePath = 0;
+            listPathEnemies = new LinkedList<>();
+            for (int i = 0; i < nbMonstre; i++) {
+                listPathEnemies.add(new LinkedList<Vertex>());
+                labyrinth.launchManhattan(enemies.get(i).getPosition(),player.getPosition());
+                listPathEnemies.get(i).add(enemies.get(i).getPosition());
+                findPath(labyrinth, listPathEnemies.get(i), player.getPosition());
+                if (listPathEnemies.get(i).size() > maxSizePath)
+                    maxSizePath = listPathEnemies.get(i).size();
+            }
+
+            //we launch Manhattan algorithm to find path from the player to the door
+            labyrinth.launchManhattan(player.getPosition(), vertexDoor);
+
+            listPathPlayer = new LinkedList<>();
+            listPathPlayer.add(player.getPosition());
+            for (int index = 0; index < maxSizePath; index ++){
+                for(DefineClass.Directions dir : DefineClass.Directions.values()){
+                    Vertex neighbor = labyrinth.getNeighborVertex(listPathPlayer.get(index), dir);
+                    if (neighbor.getNbr() == listPathPlayer.get(index).getNbr() - 1){
+                        //we check if the next position of an enemy is not the neighbor
+                        boolean onEnemiesPaths = false;
+                        for (List l : listPathEnemies){
+                            if (index+1 < l.size() && l.get(index+1).equals(neighbor)){
+                                onEnemiesPaths = true;
+                                break;
+                            }
+                        }
+                        //if not, we can add the vertex to the player's path
+                        if (!onEnemiesPaths){
+                            listPathPlayer.add(neighbor);
+                        }
+                    }
+                }
+            }
+        }while (listPathPlayer.size() < maxSizePath && nbWhile < nbWhileMax);
 
 
+
+
+
+
+    }
+    private void findPath(Labyrinth g, List<Vertex> path, Vertex end){
+        Vertex actual = path.get(0);
+        while (!actual.equals(end)){
+            for (DefineClass.Directions dir : DefineClass.Directions.values()){
+                Vertex next = g.getNeighborVertex(actual, dir);
+                if (next.getNbr() == actual.getNbr() - 1){
+                    path.add(next);
+                    actual = next;
+                    break;
+                }
+            }
+        }
     }
     private void manageInteractionWithMap(){
 
