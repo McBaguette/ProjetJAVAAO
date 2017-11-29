@@ -10,8 +10,11 @@ import javafx.scene.image.Image;
  */
 public class NPC extends Deplacable{
     private boolean flee;
-    public NPC(Vertex position, Image image){
-        super(position, image);
+    public NPC(){
+        super();
+    }
+    public NPC(Vertex position){
+        this();
         flee = false;
     }
 

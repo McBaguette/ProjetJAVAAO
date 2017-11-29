@@ -9,8 +9,11 @@ import javafx.scene.image.Image;
  * Class for player in the game
  */
 public class PC extends Deplacable{
-    public PC(Vertex position, Image image){
-        super(position, image);
+    public PC(){
+        super();
+    }
+    public PC(Vertex position){
+        super(position);
     }
 
     /**

@@ -55,6 +55,9 @@ public class Vertex {
 	public int getNbr() {
 		return nbr;
 	}
+	public void setNbr(int n){
+		nbr = n;
+	}
 
 	public IMapObject getMapObject(){
 		return mapObject;

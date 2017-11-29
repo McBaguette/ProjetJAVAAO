@@ -6,7 +6,7 @@ public class DefineClass {
 	};
 
 	public enum Type {
-		OPENED_DOOR, CLOSED_DOOR, CORRIDOR;
+		OPENED_DOOR, CLOSED_DOOR, CORRIDOR, WALL;
 	};
 
 	public static int HEIGHT = 20, WIDTH = 20;

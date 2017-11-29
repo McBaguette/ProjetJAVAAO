@@ -3,6 +3,8 @@ package graphe;
 
 import java.util.Set;
 
+import model.DefineClass;
+import model.Deplacable;
 import org.jgrapht.graph.SimpleGraph;
 
 import model.DefineClass.Type;
@@ -55,6 +57,17 @@ public class LabyrinthTest {
 		Set<Vertex> vset = g.vertexSet();
 		for(Vertex v : vset) {
 			if(g.edgesOf(v).size()>4) fail("Erreur nb edge.");
+		}
+
+
+		g = new Labyrinth();
+		g.buildLabyrinth(0);
+		g.launchManhattan(g.getVertex(0,0), g.getVertex(10,10));
+		for (int y = 0; y < DefineClass.HEIGHT; y++){
+			for (int x = 0; x < DefineClass.WIDTH; x++){
+				System.out.print(g.getVertex(x,y).getNbr() + " ");
+			}
+			System.out.print("\n");
 		}
 	}
 

@@ -53,8 +53,16 @@ public class Game {
     }
     private void restart(int level){
         score = 0;
+        labyrinth = new Labyrinth();
+        player = new PC();
+        enemies = new LinkedList<IDeplacable>();
+        for (int i = 0; i < level; i++)
+            enemies.add(new NPC());
+
+        generateLabyrinthGame(level);
     }
     private void generateLabyrinthGame(int level){
+
         //call Labyrinth.buildLabyrinth(nbArête)
         int numEdgesPerfectLabyrinth = DefineClass.HEIGHT*DefineClass.WIDTH*4 - (2*(2*DefineClass.HEIGHT + 2*DefineClass.WIDTH));
         labyrinth.buildLabyrinth(numEdgesPerfectLabyrinth - level*150);
@@ -79,35 +87,58 @@ public class Game {
         Vertex vertexDoor = labyrinth.getVertex(x,y);
         //vertexDoor.setObjeMap = DOOR;
 
-
         //place player far from the door
-        labyrinth.launchManhattan(vertexDoor, vertexDoor);
+        labyrinth.launchManhattan(vertexDoor, labyrinth.getVertex(0,0));
+
+        System.out.println( " x= "+vertexDoor.getNbr() + " y= "+vertexDoor.getY());
         int maxNbr = 0;
         graphe.Vertex vertexFarAway = null;
-        for (Object v: labyrinth.vertexSet()) {
-            if (((graphe.Vertex)v).getNbr() > maxNbr){
-                vertexFarAway = ((graphe.Vertex)v);
-                maxNbr = ((graphe.Vertex)v).getNbr();
+        for (Vertex v: labyrinth.vertexSet()) {
+           // System.out.println(v.getNbr());
+            if (v.getNbr() > maxNbr){
+                //System.out.println("nbr: "+v.getNbr() + " x= "+v.getX() + " y= "+v.getY());
+                vertexFarAway = v;
+                maxNbr = v.getNbr();
             }
         }
         player.setPosition(vertexFarAway);
 
 
         //place enemies en vérifiant que les enemis ne croiseront pas nécessairement le joueur
-        int nbMonstre = 2;
         int maxSizePath;
         int nbWhileMax = 100;
         List<Vertex> listPathPlayer;
         List<List<Vertex>> listPathEnemies;
-
         int nbWhile = 0;
         do
         {
             nbWhile ++;
+            //place randomly enemies
+            int positionListEnemies = 0;
+            for (IDeplacable enemy: enemies){
+                //enemies can't be at the same position
+                boolean ok = true;
+                do{
+                    enemy.setPosition(null);
+                    int coordX = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
+                    int coordY = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
+                    enemy.setPosition(labyrinth.getVertex(coordX, coordY));
+                    for(int p = positionListEnemies; p != 0; p--){
+                        if (enemies.get(p).getPosition().equals(enemy.getPosition())){
+                            ok = false;
+                            break;
+                        }
+                    }
+
+
+                }while(!ok);
+                positionListEnemies ++;
+            }
+
             //we search the differents paths from enemies to the player
             maxSizePath = 0;
             listPathEnemies = new LinkedList<>();
-            for (int i = 0; i < nbMonstre; i++) {
+            for (int i = 0; i < enemies.size(); i++) {
                 listPathEnemies.add(new LinkedList<Vertex>());
                 labyrinth.launchManhattan(enemies.get(i).getPosition(),player.getPosition());
                 listPathEnemies.get(i).add(enemies.get(i).getPosition());
@@ -115,7 +146,6 @@ public class Game {
                 if (listPathEnemies.get(i).size() > maxSizePath)
                     maxSizePath = listPathEnemies.get(i).size();
             }
-
             //we launch Manhattan algorithm to find path from the player to the door
             labyrinth.launchManhattan(player.getPosition(), vertexDoor);
 
@@ -141,12 +171,6 @@ public class Game {
                 }
             }
         }while (listPathPlayer.size() < maxSizePath && nbWhile < nbWhileMax);
-
-
-
-
-
-
     }
     private void findPath(Labyrinth g, List<Vertex> path, Vertex end){
         Vertex actual = path.get(0);

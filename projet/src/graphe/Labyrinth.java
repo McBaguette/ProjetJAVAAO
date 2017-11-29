@@ -6,9 +6,7 @@ import model.DefineClass.Type;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Random;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 
 import org.jgrapht.graph.SimpleGraph;
 
@@ -120,6 +118,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		 * TODO : Verifier si l'ordre des coordonnees est le meme (nord->y- , ouest->x-,
 		 * ect)
 		 */
+
 		int targetX = v.getX(), targetY = v.getY();
 		switch (dir) {
 		case NORTH:
@@ -137,6 +136,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		default:
 			return null;
 		}
+
 		Set<Edge> neighbors = this.edgesOf(v);
 		for (Edge e : neighbors) { // Ne devrais pas faire plus de 4 passages, sauf erreur de conception du
 									// labyrinthe
@@ -145,14 +145,34 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 			 */
 			if (e.getSource().getX() == targetX && e.getSource().getY() == targetY)
 				return e.getSource();
-			if (e.getTarget().getX() == targetX && e.getTarget().getY() == targetY)
-				return e.getSource();
+
 		}
 		return null;
 	}
 
+	private void calculateManhattanDistance(Vertex source, Vertex target){
+		Queue<Vertex> fifo = new ArrayDeque<Vertex>();
+		target.setNbr(1);
+		fifo.add(target);
+		while(!fifo.isEmpty()){
+			Vertex actual = fifo.remove();
+			for (Directions dir: Directions.values()){
+				if (this.isNonBlocking(actual, dir)){
+					Vertex next = this.getNeighborVertex(actual, dir);
+					if (next.getNbr() == 0){
+						next.setNbr(actual.getNbr() +1);
+						if (!next.equals(source)){
+							fifo.add(next);
+						}
+					}
+				}
+			}
+		}
+	}
 	public void launchManhattan(Vertex source, Vertex target) {
-		// TODO
+		for (Vertex vertex: this.vertexSet())
+			vertex.setNbr(0);
+		calculateManhattanDistance(source, target);
 	}
 
 	/**
@@ -164,8 +184,11 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	 */
 	public boolean isWall(Vertex v, Directions dir) {
 		Vertex u = this.getNeighborVertex(v, dir);
-		Edge edge = this.getEdge(u, v);
-		return (edge == null);
+
+		if (u == null){
+			return  false;
+		}
+		return getEdge(v,u).getType() == Type.WALL;
 	}
 
 	/**

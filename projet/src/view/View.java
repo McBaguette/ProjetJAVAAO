@@ -114,7 +114,6 @@ public class View {
 			for (DefineClass.Directions dir: DefineClass.Directions.values()){
 				if (lab.isWall(v, dir))
 					drawWall(v.getX(), v.getY(), lab.getNeighborVertex(v,dir).getX(), lab.getNeighborVertex(v,dir).getY(), view.Image.paintWall);
-
 			}
 		}
 	}
@@ -130,6 +129,7 @@ public class View {
 
 	public static void draw(Labyrinth lab, IDeplacable player, List<IDeplacable> enemies){
 		//va parcourir labyrinth, et appeler drawWall
+		drawImage(view.Image.imagePlayer, player.getPosition().getX(), player.getPosition().getY());
 
 	}
 
