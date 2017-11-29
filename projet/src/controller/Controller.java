@@ -30,10 +30,10 @@ public class Controller implements EventHandler<ActionEvent>{
      * Start the launch functions of the view and the model and launch the timer.
      * Also initialise a KeyEvent Handler to for keyboardinput that called movePlayer method from Game class.
      */
-    public void launch() {
+    public void launch(Stage primaryStage) {
 
         game.launch();
-        view.launch();
+        view.launch(primaryStage, DefineClass.WIDTH, DefineClass.HEIGHT);
 
         this.runTimer();
         handler = KeyEvent -> {
@@ -56,7 +56,6 @@ public class Controller implements EventHandler<ActionEvent>{
      * @param primaryStage
      */
     public void start(Stage primaryStage){
-        view.start(primaryStage);
         //view.getScene().addEventHandler(KeyEvent.ANY, handler);
     }
 
@@ -66,13 +65,13 @@ public class Controller implements EventHandler<ActionEvent>{
      */
 
     public void runTimer(){
-
+        /*
         Timeline timeline = new Timeline();
         final KeyFrame keyFrameForView = new KeyFrame(Duration.millis(16.7), actionEvent -> view.update());
         final KeyFrame keyFrameForModel = new KeyFrame(Duration.millis(16.7), actionEvent -> game.manageGame());
         timeline.getKeyFrames().addAll(keyFrameForView, keyFrameForModel);
         timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+        timeline.play();*/
     }
 
     public static Controller getInstance(){

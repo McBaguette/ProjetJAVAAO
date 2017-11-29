@@ -120,14 +120,19 @@ public class View {
 		//va parcourir labyrinth, et appeler drawWall
 	}
 
-	public void launch(){
+	public void launch(Stage stage, int labyrinthWidth, int labyrinthHeight){
 
+		start(stage, labyrinthWidth, labyrinthHeight);
+
+		//rajouter les setOnAction(Controller)
 	}
 
-	public void start(Stage stage, int labyrinthWidth, int labyrinthHeight){
+	private void start(Stage stage, int labyrinthWidth, int labyrinthHeight){
 
 		StackPane root = new StackPane();
-		Scene scene = new Scene(root, 300, 250);
+		int width = labyrinthWidth*(CELL*SPAN);
+		int height = labyrinthHeight*(CELL*SPAN);
+		Scene scene = new Scene(root, width, height);
 		stage.setScene(scene);
 		stage.show();
 	}
