@@ -8,6 +8,11 @@ import model.DefineClass.Type;
 public class Edge extends DefaultEdge {
 	private Type type;
 
+	public Edge() {
+		super();
+		this.type = Type.CORRIDOR;
+	}
+	
 	public Edge(Type type) {
 		super();
 		this.type = type;

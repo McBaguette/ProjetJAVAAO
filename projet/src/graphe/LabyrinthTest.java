@@ -29,7 +29,7 @@ public class LabyrinthTest {
 	public void test() {
 		Labyrinth g = new Labyrinth();
 		
-		Vertex v = new Vertex(1,3);
+		/*Vertex v = new Vertex(1,3);
 		Vertex v2 = new Vertex(5,2);
 		Vertex v3 = new Vertex(4,1);
 		
@@ -48,6 +48,13 @@ public class LabyrinthTest {
 		}
 		if(!g.containsEdge(ref)){
 			fail("Should contain this edge.");
+		}*/
+		g.buildLabyrinth(0);
+		System.out.println(g.vertexSet().size() + " - " + g.edgeSet().size());
+		g.toDot("laby");
+		Set<Vertex> vset = g.vertexSet();
+		for(Vertex v : vset) {
+			if(g.edgesOf(v).size()>4) fail("Erreur nb edge.");
 		}
 	}
 
