@@ -66,6 +66,11 @@ public class LabyrinthTest {
 		for (int y = 0; y < DefineClass.HEIGHT; y++){
 			for (int x = 0; x < DefineClass.WIDTH; x++){
 				System.out.print(g.getVertex(x,y).getNbr() + " ");
+				for(DefineClass.Directions dir: DefineClass.Directions.values()){
+					Vertex v = g.getNeighborVertex(g.getVertex(x,y), dir);
+					if (v != null && g.getEdge(g.getVertex(x,y), v).getType() != Type.CORRIDOR)
+						fail("Error number of corridor");
+				}
 			}
 			System.out.print("\n");
 		}
