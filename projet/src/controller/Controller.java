@@ -1,20 +1,17 @@
 package controller;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import model.DefineClass;
 import model.Game;
 import view.View;
 
 
 
-public class Controller implements EventHandler<ActionEvent>{
+public class Controller implements IController {
 
     private static Controller INSTANCE = null;
     private Game game;
@@ -80,8 +77,9 @@ public class Controller implements EventHandler<ActionEvent>{
         return INSTANCE;
     }
 
+
     @Override
-    public void handle(ActionEvent event) {
+    public void setOnAction() {
 
     }
 }

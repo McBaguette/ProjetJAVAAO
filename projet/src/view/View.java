@@ -4,11 +4,18 @@ import java.awt.Frame;
 import java.util.List;
 
 import javax.print.DocFlavor.URL;
+import javax.swing.event.DocumentEvent;
 
+import controller.Controller;
+import controller.ControllerUser;
 import graphe.Labyrinth;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -123,16 +130,16 @@ public class View {
 	public void launch(Stage stage, int labyrinthWidth, int labyrinthHeight){
 
 		start(stage, labyrinthWidth, labyrinthHeight);
-
 		//rajouter les setOnAction(Controller)
-	}
+		ControllerUser.getInstance().setOnAction();
 
+	}
 	private void start(Stage stage, int labyrinthWidth, int labyrinthHeight){
 
 		StackPane root = new StackPane();
 		int width = labyrinthWidth*(CELL*SPAN);
 		int height = labyrinthHeight*(CELL*SPAN);
-		Scene scene = new Scene(root, width, height);
+		scene = new Scene(root, width, height);
 		stage.setScene(scene);
 		stage.show();
 	}
