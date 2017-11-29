@@ -31,6 +31,7 @@ public class Controller implements IController {
 
         game.launch();
         view.launch(primaryStage, DefineClass.WIDTH, DefineClass.HEIGHT);
+        view.drawWalls(Game.getInstance().getLabyrinth());
 
         this.runTimer();
         handler = KeyEvent -> {

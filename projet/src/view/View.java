@@ -1,22 +1,13 @@
 package view;
 
-import java.awt.Frame;
 import java.util.List;
 
-import javax.print.DocFlavor.URL;
-import javax.swing.event.DocumentEvent;
-
-import controller.Controller;
 import controller.ControllerUser;
 import graphe.Labyrinth;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
+import graphe.Vertex;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -46,7 +37,13 @@ public class View {
 		return instance;
 	}
 
-	private static void drawFrame(Stage stage, int nbX, int nbY){
+	/**
+	 * Call to initiliate the game, to draws all cells
+	 * @param stage	where draw cells
+	 * @param nbX	number of cells in the labyrinth on x
+	 * @param nbY   number of cells in the labyrinth on y
+	 */
+	private static void drawFrames(Stage stage, int nbX, int nbY){
 		scene = new Scene(pane,
 				((WALL+CELL)*nbX+WALL)*SPAN,
 				((WALL+CELL)*nbY+WALL)*SPAN);
@@ -112,10 +109,18 @@ public class View {
 			pane.getChildren().add(square);
 		}
 	}
+	public static void drawWalls(Labyrinth lab){
+		for(Vertex v :lab.vertexSet()){
+			for (DefineClass.Directions dir: DefineClass.Directions.values()){
+				if (lab.isWall(v, dir))
+					drawWall(v.getX(), v.getY(), lab.getNeighborVertex(v,dir).getX(), lab.getNeighborVertex(v,dir).getY(), view.Image.paintWall);
 
-	private static void drawImage(String img, int x, int y){
-		Image image = new Image(View.class.getResource(img).toExternalForm());
-		ImageView imageView = new ImageView(image);
+			}
+		}
+	}
+
+
+	private static void drawImage(ImageView imageView, int x, int y){
 		pane.getChildren().add(imageView);
 		double xt = (int)((WALL+x*(WALL+CELL))*SPAN);
 		double yt = (int)((WALL+y*(WALL+CELL))*SPAN);
@@ -125,6 +130,7 @@ public class View {
 
 	public static void draw(Labyrinth lab, IDeplacable player, List<IDeplacable> enemies){
 		//va parcourir labyrinth, et appeler drawWall
+
 	}
 
 	public void launch(Stage stage, int labyrinthWidth, int labyrinthHeight){
@@ -132,14 +138,14 @@ public class View {
 		start(stage, labyrinthWidth, labyrinthHeight);
 		//rajouter les setOnAction(Controller)
 		ControllerUser.getInstance().setOnAction();
-
 	}
 	private void start(Stage stage, int labyrinthWidth, int labyrinthHeight){
 
 		StackPane root = new StackPane();
 		int width = labyrinthWidth*(CELL*SPAN);
 		int height = labyrinthHeight*(CELL*SPAN);
-		scene = new Scene(root, width, height);
+		//scene = new Scene(root, width, height);
+		drawFrames(stage, labyrinthWidth, labyrinthHeight);
 		stage.setScene(scene);
 		stage.show();
 	}
