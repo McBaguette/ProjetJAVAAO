@@ -40,4 +40,11 @@ public class Vertex {
 	public void setMapObject(IMapObject o){
 		mapObject = o;
 	}
+
+	public String dotName(){
+		return x + " ; "+y;
+	}
+	public String toDot(){
+		return dotName() + "[ label=\"" + dotName() + "\"]";
+	}
 }

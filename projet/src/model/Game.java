@@ -42,7 +42,7 @@ public class Game {
      * @param dir directions given by keyboard Event from Controller
      */
     public void movePlayer(DefineClass.Directions dir){
-
+        System.out.println("player is moving to :"+dir);
     }
 
     /**

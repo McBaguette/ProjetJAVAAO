@@ -34,5 +34,8 @@ public class Edge extends DefaultEdge {
 		Edge e = (Edge)obj;
 		return this.getSource().equals(e.getSource()) && this.getTarget().equals(e.getTarget());
 	}
+	public String toDot(){
+		return ((Vertex)this.getSource()).dotName() + " -- " +((Vertex)this.getTarget()).dotName();
+	}
 
 }

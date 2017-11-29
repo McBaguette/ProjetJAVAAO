@@ -4,6 +4,8 @@ import model.DefineClass;
 import model.DefineClass.Directions;
 import model.DefineClass.Type;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Set;
 
 import org.jgrapht.graph.SimpleGraph;
@@ -168,6 +170,24 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		Vertex u = this.getNeighborVertex(v, dir);
 		Edge edge = this.getEdge(u, v);
 		return (edge != null && (edge.getType() == Type.CORRIDOR || edge.getType() == Type.OPENED_DOOR));
+	}
+
+	public void toDot(String fileName){
+		try {
+			PrintWriter file = new PrintWriter(fileName+".dot");
+			file.println("graph labyrinth {");
+			for(Vertex v :this.vertexSet()){
+				file.println(v.toDot());
+			}
+			for (Edge e: this.edgeSet()){
+				file.println(e.toDot());
+			}
+			file.println("}");
+			file.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }
