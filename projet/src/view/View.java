@@ -1,9 +1,11 @@
 package view;
 
 import java.awt.Frame;
+import java.util.List;
 
 import javax.print.DocFlavor.URL;
 
+import graphe.Labyrinth;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import model.IDeplacable;
 
 public class View {
 
@@ -38,7 +41,7 @@ public class View {
 		return view;
 	}
 
-	public static void drawFrame(Stage stage, int nbX, int nbY){
+	private static void drawFrame(Stage stage, int nbX, int nbY){
 		scene = new Scene(pane,
 				((WALL+CELL)*nbX+WALL)*SPAN,
 				((WALL+CELL)*nbY+WALL)*SPAN);
@@ -82,7 +85,7 @@ public class View {
 	/*
 	 * Draw a wall between the cells s and t
 	 */
-	public static void drawWall(int xs, int ys, int xt, int yt,
+	private static void drawWall(int xs, int ys, int xt, int yt,
 								Paint color){
 		int x = 0, y = 0, xspan = 0, yspan = 0;
 		if(ys==yt){
@@ -105,7 +108,7 @@ public class View {
 		}
 	}
 
-	public static void drawImage(String img, int x, int y){
+	private static void drawImage(String img, int x, int y){
 		Image image = new Image(View.class.getResource(img).toExternalForm());
 		ImageView imageView = new ImageView(image);
 		pane.getChildren().add(imageView);
@@ -113,6 +116,10 @@ public class View {
 		double yt = (int)((WALL+y*(WALL+CELL))*SPAN);
 		imageView.setX(xt);
 		imageView.setY(yt);
+	}
+
+	public static void draw(Labyrinth lab, IDeplacable player, List<IDeplacable> enemies){
+
 	}
 
 	public void launch(){
@@ -125,10 +132,6 @@ public class View {
 		Scene scene = new Scene(root, 300, 250);
 		stage.setScene(scene);
 		stage.show();
-	}
-
-	public void update(){
-
 	}
 
 	public Scene getScene(){
