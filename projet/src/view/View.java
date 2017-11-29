@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import model.DefineClass;
 import model.IDeplacable;
 
 public class View {
@@ -26,7 +27,7 @@ public class View {
 	static final Paint WALL_COLOR = Color.BURLYWOOD;
 	static final Paint SCENE_COLOR = Color.WHITE;
 
-	private static View view;
+	private static View instance = new View();
 	private static Scene scene;
 	private static Pane pane;
 
@@ -35,10 +36,7 @@ public class View {
 	}
 
 	public static View getInstance(){
-		if(view==null){
-			view = new View();
-		}
-		return view;
+		return instance;
 	}
 
 	private static void drawFrame(Stage stage, int nbX, int nbY){
@@ -119,14 +117,14 @@ public class View {
 	}
 
 	public static void draw(Labyrinth lab, IDeplacable player, List<IDeplacable> enemies){
-
+		//va parcourir labyrinth, et appeler drawWall
 	}
 
 	public void launch(){
 
 	}
 
-	public void start(Stage stage){
+	public void start(Stage stage, int labyrinthWidth, int labyrinthHeight){
 
 		StackPane root = new StackPane();
 		Scene scene = new Scene(root, 300, 250);
