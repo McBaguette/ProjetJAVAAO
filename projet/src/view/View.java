@@ -2,12 +2,15 @@ package view;
 
 import java.util.List;
 
+import controller.Controller;
 import controller.ControllerUser;
 import graphe.Labyrinth;
 import graphe.Vertex;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -136,15 +139,11 @@ public class View {
 	public void launch(Stage stage, int labyrinthWidth, int labyrinthHeight){
 
 		start(stage, labyrinthWidth, labyrinthHeight);
-		//rajouter les setOnAction(Controller)
-		ControllerUser.getInstance().setOnAction();
+		scene.setOnKeyPressed( ControllerUser.getInstance());
 	}
 	private void start(Stage stage, int labyrinthWidth, int labyrinthHeight){
 
 		StackPane root = new StackPane();
-		int width = labyrinthWidth*(CELL*SPAN);
-		int height = labyrinthHeight*(CELL*SPAN);
-		//scene = new Scene(root, width, height);
 		drawFrames(stage, labyrinthWidth, labyrinthHeight);
 		stage.setScene(scene);
 		stage.show();

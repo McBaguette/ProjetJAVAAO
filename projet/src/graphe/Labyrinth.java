@@ -74,7 +74,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 			Vertex v2 = new Vertex(vertex, dir);
 			//System.out.printf("Check vertex %d/%d... ", v2.getX(), v2.getY());
 			if (v2.inBorders() && this.getVertex(v2.getX(), v2.getY()) == null) {
-				System.out.printf("Ok.\n");
+				//System.out.printf("Ok.\n");
 				int x = vertex.getX();
 				int y = vertex.getY();
 				int xt = 0, yt = 0;

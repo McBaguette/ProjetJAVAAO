@@ -11,7 +11,7 @@ import view.View;
 
 
 
-public class Controller implements IController {
+public class Controller implements EventHandler<ActionEvent>{
 
     private static Controller INSTANCE = null;
     private Game game;
@@ -81,7 +81,7 @@ public class Controller implements IController {
 
 
     @Override
-    public void setOnAction() {
+    public void handle(ActionEvent event) {
 
     }
 }

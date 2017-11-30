@@ -90,7 +90,6 @@ public class Game {
         //place player far from the door
         labyrinth.launchManhattan(vertexDoor, labyrinth.getVertex(0,0));
 
-        System.out.println( " x= "+vertexDoor.getNbr() + " y= "+vertexDoor.getY());
         int maxNbr = 0;
         graphe.Vertex vertexFarAway = null;
         for (Vertex v: labyrinth.vertexSet()) {
