@@ -127,6 +127,7 @@ public class View {
 
 		start(stage, labyrinthWidth, labyrinthHeight);
 		scene.setOnKeyPressed( ControllerUser.getInstance());
+		scene.setOnKeyReleased(ControllerUser.getInstance());
 	}
 	private void start(Stage stage, int labyrinthWidth, int labyrinthHeight){
 
