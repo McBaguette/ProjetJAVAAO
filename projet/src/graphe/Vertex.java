@@ -67,7 +67,7 @@ public class Vertex {
 	}
 
 	public String dotName(){
-		return x + "_"+y;
+		return "V"+x + "t"+y;
 	}
 	public String toDot(){
 		return dotName() + "[ label=\"" + dotName() + "\"]";

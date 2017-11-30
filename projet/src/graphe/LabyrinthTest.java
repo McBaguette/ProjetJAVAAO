@@ -55,6 +55,8 @@ public class LabyrinthTest {
 		System.out.println(g.vertexSet().size() + " - " + g.edgeSet().size());
 		g.toDot("laby");
 		Set<Vertex> vset = g.vertexSet();
+
+
 		for(Vertex v : vset) {
 			if(g.edgesOf(v).size()>4) fail("Erreur nb edge.");
 		}
@@ -62,7 +64,7 @@ public class LabyrinthTest {
 
 		g = new Labyrinth();
 		g.buildLabyrinth(0);
-		g.launchManhattan(g.getVertex(0,0), g.getVertex(10,10));
+		g.launchManhattan(g.getVertex(0,0), g.getVertex(1,1));
 		for (int y = 0; y < DefineClass.HEIGHT; y++){
 			for (int x = 0; x < DefineClass.WIDTH; x++){
 				System.out.print(g.getVertex(x,y).getNbr() + " ");

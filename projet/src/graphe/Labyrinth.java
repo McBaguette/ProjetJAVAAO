@@ -72,7 +72,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		for (int i = 0; i < 4; ++i) {
 			Directions dir = directions[i];
 			Vertex v2 = new Vertex(vertex, dir);
-			System.out.printf("Check vertex %d/%d... ", v2.getX(), v2.getY());
+			//System.out.printf("Check vertex %d/%d... ", v2.getX(), v2.getY());
 			if (v2.inBorders() && this.getVertex(v2.getX(), v2.getY()) == null) {
 				System.out.printf("Ok.\n");
 				int x = vertex.getX();
@@ -101,7 +101,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 				this.addEdge(vertex, next);
 				GeneratePerfectLabyrinth(next);
 			} else {
-				System.out.printf("Nope.\n");
+				//System.out.printf("Nope.\n");
 			}
 		}
 	}
@@ -143,6 +143,8 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 			/*
 			 * TODO : Optimiser si target ou source sont toujours les meme ?
 			 */
+			if (e.getTarget().getX() == targetX && e.getTarget().getY() == targetY)
+				return e.getTarget();
 			if (e.getSource().getX() == targetX && e.getSource().getY() == targetY)
 				return e.getSource();
 
@@ -156,17 +158,21 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		fifo.add(target);
 		while(!fifo.isEmpty()){
 			Vertex actual = fifo.remove();
+			boolean b = false;
 			for (Directions dir: Directions.values()){
 				if (this.isNonBlocking(actual, dir)){
+					b = true;
 					Vertex next = this.getNeighborVertex(actual, dir);
 					if (next.getNbr() == 0){
 						next.setNbr(actual.getNbr() +1);
-						if (!next.equals(source)){
+						//if (!next.equals(source)){
 							fifo.add(next);
-						}
+						//}
 					}
 				}
 			}
+			if (!b)
+				System.out.println("erreur edge vertex: "+actual.getX() + " ; "+actual.getY());
 		}
 	}
 	public void launchManhattan(Vertex source, Vertex target) {
@@ -250,9 +256,9 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		try {
 			PrintWriter file = new PrintWriter(fileName + ".dot");
 			file.println("graph labyrinth {");
-			for (Vertex v : this.vertexSet()) {
+			/*for (Vertex v : this.vertexSet()) {
 				file.println(v.toDot());
-			}
+			}*/
 			for (Edge e : this.edgeSet()) {
 				file.println(e.toDot());
 			}
