@@ -4,19 +4,18 @@ import graphe.Labyrinth;
 import graphe.Vertex;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import model.DefineClass;
 import model.Game;
-import view.Image;
+import view.Images;
 import view.View;
 
 
 
 public class Controller implements EventHandler<ActionEvent>{
 
-    private static Controller INSTANCE = null;
+    private static Controller instance = new Controller();
     private Game game;
     private View view;
     private ControllerUser controllerUser;
@@ -64,21 +63,19 @@ public class Controller implements EventHandler<ActionEvent>{
                     }
                     Vertex tmpVertex = new Vertex(x,y);
                     if (tmpVertex.inBorders())
-                        View.getInstance().drawWall(v.getX(), v.getY(), x, y, Image.paintWall);
+                        View.getInstance().drawWall(v.getX(), v.getY(), x, y, Images.paintWall);
                 }
 
             }
         }
     }
-    private void refreshView(){
+    public void refreshView(){
 
-        view.drawImage(Image.imagePlayer, game.getPlayer().getPosition().getX(), game.getPlayer().getPosition().getY());
+        view.drawImage(Images.imagePlayer, game.getPlayer().getPosition().getX(), game.getPlayer().getPosition().getY());
     }
 
     public static Controller getInstance(){
-        if(INSTANCE == null)
-            INSTANCE=new Controller();
-        return INSTANCE;
+        return instance;
     }
 
 

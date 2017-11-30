@@ -22,6 +22,7 @@ public class PC extends Deplacable{
      * @return boolean      to say if it has moved
      */
     public boolean move(DefineClass.Directions direction){
+
     	if(Game.getInstance().getLabyrinth().isNonBlocking(position, direction)) {
     		setPosition(Game.getInstance().getLabyrinth().getNeighborVertex(position, direction));
             return true;

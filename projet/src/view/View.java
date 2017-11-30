@@ -1,24 +1,17 @@
 package view;
 
-import java.util.List;
-
-import controller.Controller;
 import controller.ControllerUser;
-import graphe.Labyrinth;
-import graphe.Vertex;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import model.DefineClass;
-import model.IDeplacable;
+
+import java.awt.*;
 
 public class View {
 
@@ -31,9 +24,11 @@ public class View {
 	private static View instance = new View();
 	private static Scene scene;
 	private static Pane pane;
+	private ImageView imageViewPlayer = new ImageView(Images.imagePlayer);	//en attendant c'est juste pour tester
 
 	private View(){
 		pane = new Pane();
+		pane.getChildren().add(imageViewPlayer);
 	}
 
 	public static View getInstance(){
@@ -114,12 +109,13 @@ public class View {
 	}
 
 
-	public void drawImage(ImageView imageView, int x, int y){
-		pane.getChildren().add(imageView);
+	public void drawImage(Image image, int x, int y){
+		/*En attendant, c'est juste pour tester*/
+		int index = pane.getChildren().indexOf(imageViewPlayer);
 		double xt = (int)((WALL+x*(WALL+CELL))*SPAN);
 		double yt = (int)((WALL+y*(WALL+CELL))*SPAN);
-		imageView.setX(xt);
-		imageView.setY(yt);
+		imageViewPlayer.setX(xt);
+		imageViewPlayer.setY(yt);
 	}
 
 

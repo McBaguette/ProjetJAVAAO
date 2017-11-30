@@ -248,6 +248,8 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	 */
 	public boolean isNonBlocking(Vertex v, Directions dir) {
 		Vertex u = this.getNeighborVertex(v, dir);
+		if (u == null)
+		    return false;
 		Edge edge = this.getEdge(u, v);
 		return (edge != null && (edge.getType() == Type.CORRIDOR || edge.getType() == Type.OPENED_DOOR));
 	}

@@ -57,5 +57,7 @@ public class ControllerUser implements EventHandler<KeyEvent> {
         if(event.getEventType() == KeyEvent.KEY_RELEASED) {
             valdir = null;
         }
+        /*En attendant juste pour tester*/
+        Controller.getInstance().refreshView();
     }
 }
