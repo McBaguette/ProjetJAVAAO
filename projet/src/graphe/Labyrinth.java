@@ -192,7 +192,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		Vertex u = this.getNeighborVertex(v, dir);
 
 		if (u == null){
-			return  false;
+			return  true;
 		}
 		return getEdge(v,u).getType() == Type.WALL;
 	}

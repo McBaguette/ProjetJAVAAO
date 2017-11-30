@@ -46,7 +46,7 @@ public class View {
 	 * @param nbX	number of cells in the labyrinth on x
 	 * @param nbY   number of cells in the labyrinth on y
 	 */
-	private static void drawFrames(Stage stage, int nbX, int nbY){
+	private void drawFrames(Stage stage, int nbX, int nbY){
 		scene = new Scene(pane,
 				((WALL+CELL)*nbX+WALL)*SPAN,
 				((WALL+CELL)*nbY+WALL)*SPAN);
@@ -90,7 +90,7 @@ public class View {
 	/*
 	 * Draw a wall between the cells s and t
 	 */
-	private static void drawWall(int xs, int ys, int xt, int yt,
+	public void drawWall(int xs, int ys, int xt, int yt,
 								Paint color){
 		int x = 0, y = 0, xspan = 0, yspan = 0;
 		if(ys==yt){
@@ -112,17 +112,9 @@ public class View {
 			pane.getChildren().add(square);
 		}
 	}
-	public static void drawWalls(Labyrinth lab){
-		for(Vertex v :lab.vertexSet()){
-			for (DefineClass.Directions dir: DefineClass.Directions.values()){
-				if (lab.isWall(v, dir))
-					drawWall(v.getX(), v.getY(), lab.getNeighborVertex(v,dir).getX(), lab.getNeighborVertex(v,dir).getY(), view.Image.paintWall);
-			}
-		}
-	}
 
 
-	private static void drawImage(ImageView imageView, int x, int y){
+	public void drawImage(ImageView imageView, int x, int y){
 		pane.getChildren().add(imageView);
 		double xt = (int)((WALL+x*(WALL+CELL))*SPAN);
 		double yt = (int)((WALL+y*(WALL+CELL))*SPAN);
@@ -130,11 +122,6 @@ public class View {
 		imageView.setY(yt);
 	}
 
-	public static void draw(Labyrinth lab, IDeplacable player, List<IDeplacable> enemies){
-		//va parcourir labyrinth, et appeler drawWall
-		drawImage(view.Image.imagePlayer, player.getPosition().getX(), player.getPosition().getY());
-
-	}
 
 	public void launch(Stage stage, int labyrinthWidth, int labyrinthHeight){
 
