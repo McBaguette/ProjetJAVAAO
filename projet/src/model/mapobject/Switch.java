@@ -5,4 +5,8 @@ public class Switch extends MapObject{
         instance = new Switch();
     }
 
+    @Override
+    public String getName() {
+        return "Switch";
+    }
 }

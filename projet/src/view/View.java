@@ -24,13 +24,9 @@ public class View {
 	private static View instance = new View();
 	private static Scene scene;
 	private static Pane pane;
-	private ImageView imageViewPlayer = new ImageView(Images.imagePlayer);	//en attendant c'est juste pour tester
-	private ImageView imageViewDoor = new ImageView(Images.imageDoorOpen);
 
 	private View(){
 		pane = new Pane();
-		pane.getChildren().add(imageViewPlayer);
-		pane.getChildren().add(imageViewDoor);
 	}
 
 	public static View getInstance(){
@@ -111,15 +107,19 @@ public class View {
 	}
 
 
-	public void drawImage(Image image, int x, int y){
-		/*En attendant, c'est juste pour tester*/
-		int index = pane.getChildren().indexOf(imageViewPlayer);
+	public void drawImageView(ImageView image, int x, int y){
 		double xt = (int)((WALL+x*(WALL+CELL))*SPAN);
 		double yt = (int)((WALL+y*(WALL+CELL))*SPAN);
-		imageViewPlayer.setX(xt);
-		imageViewPlayer.setY(yt);
+		image.setX(xt);
+		image.setY(yt);
 	}
 
+	public void addImageView(ImageView image){
+		pane.getChildren().add(image);
+	}
+	public void removeImageView(ImageView image){
+		pane.getChildren().remove(image);
+	}
 
 	public void launch(Stage stage, int nbCellsX, int nbCellsY){
 

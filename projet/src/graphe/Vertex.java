@@ -3,23 +3,24 @@ package graphe;
 import model.DefineClass;
 import model.DefineClass.Directions;
 import model.mapobject.IMapObject;
-import model.mapobject.MapObject;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class Vertex {
 	private int x, y;
 	private int nbr;
-	private IMapObject mapObject;
+	private List<IMapObject> mapObjects;
 
 	public Vertex(int x, int y) {
 		this.x = x;
 		this.y = y;
 		nbr = 0;
-		mapObject = null;
+		mapObjects = new LinkedList<>();
 	}
 
 	public Vertex(Vertex v, Directions dir) {
-		this.x = v.getX();
-		this.y = v.getY();
+		this(v.getX(), v.getY());
 		switch (dir) {
 		case NORTH:
 			--y;
@@ -34,8 +35,6 @@ public class Vertex {
 			--x;
 			break;
 		}
-		nbr = 0;
-		mapObject = null;
 	}
 
 	public boolean equals(Object obj) {
@@ -59,11 +58,15 @@ public class Vertex {
 		nbr = n;
 	}
 
-	public IMapObject getMapObject(){
-		return mapObject;
+	public List<IMapObject> getMapObjects(){
+		return mapObjects;
 	}
-	public void setMapObject(IMapObject o){
-		mapObject = o;
+	public void removeMapObject(IMapObject o){
+		mapObjects.remove(o);
+
+	}
+	public void addMapObject(IMapObject o){
+		mapObjects.add(o);
 	}
 
 	public String dotName(){

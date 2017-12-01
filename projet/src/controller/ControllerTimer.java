@@ -35,7 +35,6 @@ public class ControllerTimer{
      * Also initialise a KeyEvent Handler to for keyboardinput that called movePlayer method from Game class.
      */
     public void launch(Stage primaryStage) {
-
         game.launch();
         controllerView.launch(primaryStage, game.getLabyrinth());
         controllerView.refreshView(game.getLabyrinth(), game.getPlayer(), game.getEnemies());

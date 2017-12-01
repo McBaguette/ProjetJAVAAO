@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 import model.DefineClass;
 import model.Game;
 import model.IDeplacable;
+import model.mapobject.Candy;
+import model.mapobject.IMapObject;
 import view.Images;
 import view.View;
 
@@ -25,6 +27,7 @@ public class ControllerView {
     private Game game;
     private View view;
     private ImageView imageViewPlayer;
+    private ImageView imageViewDoor;
     private List<ImageView> listImageViewEnemies;
     private List<ImageView>[][] arrayListImageViewItemsMap;
 
@@ -68,17 +71,33 @@ public class ControllerView {
             }
         }
     }
+
     private void loadImageViewsDeplacable(){
-        if (imageViewPlayer == null)
+        if (imageViewPlayer == null){
             imageViewPlayer = new ImageView(Images.imagePlayer);
+            view.addImageView(imageViewPlayer);
+        }
 
         while (listImageViewEnemies.size() < game.getEnemies().size()){
             listImageViewEnemies.add(new ImageView(Images.imageEnemy));
+            view.addImageView(listImageViewEnemies.get(listImageViewEnemies.size()-1));
         }
 
     }
     private void loadImageViews(){
         loadImageViewsDeplacable();
+        imageViewDoor = new ImageView(Images.imageDoorOpen);
+        view.addImageView(imageViewDoor);
+        for (Vertex v: game.getLabyrinth().vertexSet()){
+            for (IMapObject o: v.getMapObjects()){
+                if (o instanceof Candy){
+                    ImageView img = new ImageView(Images.imageCandy);
+                    img.setId(Candy.getInstance().getName());
+                    arrayListImageViewItemsMap[v.getX()][v.getY()].add(img);
+                    view.addImageView(img);
+                }
+            }
+        }
 
     }
     public void launch(Stage primaryStage, Labyrinth laby){
@@ -89,11 +108,26 @@ public class ControllerView {
     }
     public void refreshView(Labyrinth laby, IDeplacable player, List<IDeplacable> enemies){
 
-        view.drawImage(Images.imagePlayer, game.getPlayer().getPosition().getX(), game.getPlayer().getPosition().getY());
+        view.drawImageView(imageViewPlayer, game.getPlayer().getPosition().getX(), game.getPlayer().getPosition().getY());
+        view.drawImageView(imageViewDoor, game.getVertexDoor().getX(), game.getVertexDoor().getY());
 
         for(Vertex v: game.getLabyrinth().vertexSet()){
+            List<IMapObject> listMapObject = v.getMapObjects();
+            for (IMapObject o: listMapObject){
+                ImageView imgView = findImageViewArrayMapObject(v.getX(), v.getY(), o);
+                if (imgView != null)
+                    view.drawImageView(imgView, v.getX(), v.getY());
+            }
 
         }
+
+    }
+    private ImageView findImageViewArrayMapObject(int x, int y, IMapObject o){
+        for (ImageView obj: arrayListImageViewItemsMap[x][y]){
+            if (obj.getId() == o.getName())
+                return obj;
+        }
+        return null;
     }
 
     public static ControllerView getInstance(){

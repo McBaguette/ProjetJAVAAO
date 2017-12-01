@@ -1,10 +1,8 @@
 package model;
 
-import graphe.Edge;
 import graphe.Labyrinth;
 import graphe.Vertex;
 import model.mapobject.Candy;
-import model.mapobject.IMapObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +13,7 @@ public class Game {
 
     private IDeplacable player;
     private List<IDeplacable> enemies;
+    private Vertex vertexDoor;
 
     private int score;
 
@@ -75,8 +74,9 @@ public class Game {
             int x = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
             int y = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
             Vertex v = labyrinth.getVertex(x,y);
-            if (v.getMapObject() == null){
-                v.setMapObject(Candy.getInstance());
+            //we can have many objects on a vertec, but only one candy; and we will place other objects later.
+            if (v.getMapObjects() != null && v.getMapObjects().size() == 0){
+                v.addMapObject(Candy.getInstance());
                 nbCandies ++;
             }
         }
@@ -85,7 +85,7 @@ public class Game {
         //place door (random)
         int x = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
         int y = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
-        Vertex vertexDoor = labyrinth.getVertex(x,y);
+        vertexDoor = labyrinth.getVertex(x,y);
         //vertexDoor.setObjeMap = DOOR;
 
         //place player far from the door
@@ -102,7 +102,6 @@ public class Game {
             }
         }
         player.setPosition(vertexFarAway);
-
 
         //place enemies en vérifiant que les enemis ne croiseront pas nécessairement le joueur
         int maxSizePath;
@@ -211,4 +210,5 @@ public class Game {
     public List<IDeplacable> getEnemies(){
         return enemies;
     }
+    public Vertex getVertexDoor(){return vertexDoor;}
 }
