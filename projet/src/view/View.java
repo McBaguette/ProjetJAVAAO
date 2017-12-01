@@ -25,10 +25,12 @@ public class View {
 	private static Scene scene;
 	private static Pane pane;
 	private ImageView imageViewPlayer = new ImageView(Images.imagePlayer);	//en attendant c'est juste pour tester
+	private ImageView imageViewDoor = new ImageView(Images.imageDoorOpen);
 
 	private View(){
 		pane = new Pane();
 		pane.getChildren().add(imageViewPlayer);
+		pane.getChildren().add(imageViewDoor);
 	}
 
 	public static View getInstance(){
@@ -119,9 +121,9 @@ public class View {
 	}
 
 
-	public void launch(Stage stage, int labyrinthWidth, int labyrinthHeight){
+	public void launch(Stage stage, int nbCellsX, int nbCellsY){
 
-		start(stage, labyrinthWidth, labyrinthHeight);
+		start(stage, nbCellsX, nbCellsY);
 		scene.setOnKeyPressed( ControllerUser.getInstance());
 		scene.setOnKeyReleased(ControllerUser.getInstance());
 	}

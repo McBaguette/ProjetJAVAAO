@@ -34,7 +34,7 @@ public class Game {
      * Manage all the game: move enemies, process collision (with enemies and objects on map)
      */
     public void manageGame(){
-
+        moveEnemies();
     }
 
     /**
@@ -192,7 +192,10 @@ public class Game {
 
     }
     private void moveEnemies(){
-
+        for(IDeplacable e:enemies){
+            labyrinth.launchManhattan(e.getPosition(), player.getPosition());
+            ((NPC)e).move(labyrinth);
+        }
     }
 
     public static Game getInstance(){

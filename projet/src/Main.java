@@ -1,7 +1,5 @@
-import controller.Controller;
-import graphe.Edge;
-import graphe.Labyrinth;
-import graphe.Vertex;
+
+import controller.ControllerTimer;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -13,7 +11,7 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Controller.getInstance().launch(primaryStage);
+        ControllerTimer.getInstance().launch(primaryStage);
     }
     @Override
     public void stop(){
