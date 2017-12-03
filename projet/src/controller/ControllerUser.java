@@ -25,7 +25,10 @@ public class ControllerUser implements EventHandler<KeyEvent>{
     }
 
 
-
+    /**
+     * Handler created in the View, called when there is a keyboard event.
+     * @param event from the keyboard
+     */
     @Override
     public void handle(KeyEvent event) {
         if (event.getEventType() == KeyEvent.KEY_PRESSED)
@@ -36,6 +39,11 @@ public class ControllerUser implements EventHandler<KeyEvent>{
             keycode = null;
 
     }
+
+    /**
+     * get the key pressing, and in function return the direction.
+     * @return the direction where the player want to go.
+     */
     public DefineClass.Directions getDirectionsPlayer(){
         if (keycode == KeyCode.RIGHT)
             return DefineClass.Directions.EAST;

@@ -25,6 +25,7 @@ public class Game {
      * Called by Controller, to start all the game.
      */
     public void launch(){
+        score = 0;
         restart(0);
     }
 
@@ -51,16 +52,26 @@ public class Game {
     private void gameOver(){
 
     }
+
+    /**
+     * Call to create a new level, when the player went to the door
+     * @param level which level you want
+     */
     private void restart(int level){
-        score = 0;
         labyrinth = new Labyrinth();
         player = new PC();
         enemies = new LinkedList<IDeplacable>();
-        for (int i = 0; i < level; i++)
+        for (int i = 0; i < level+1; i++)
             enemies.add(new NPC());
 
         generateLabyrinthGame(level);
     }
+
+    /**
+     * Call to create the labyrinth, place walls, objects, enemies, the player and the door
+     * Checked if the game is winnable
+     * @param level
+     */
     private void generateLabyrinthGame(int level){
 
         //call Labyrinth.buildLabyrinth(nbArête)
@@ -94,9 +105,7 @@ public class Game {
         int maxNbr = 0;
         graphe.Vertex vertexFarAway = null;
         for (Vertex v: labyrinth.vertexSet()) {
-           // System.out.println(v.getNbr());
             if (v.getNbr() > maxNbr){
-                //System.out.println("nbr: "+v.getNbr() + " x= "+v.getX() + " y= "+v.getY());
                 vertexFarAway = v;
                 maxNbr = v.getNbr();
             }
@@ -104,7 +113,7 @@ public class Game {
         player.setPosition(vertexFarAway);
 
         //place enemies en vérifiant que les enemis ne croiseront pas nécessairement le joueur
-        int maxSizePath;
+        int maxSizePath = 0;
         int nbWhileMax = 100;
         List<Vertex> listPathPlayer;
         List<List<Vertex>> listPathEnemies;
@@ -153,7 +162,7 @@ public class Game {
             for (int index = 0; index < maxSizePath; index ++){
                 for(DefineClass.Directions dir : DefineClass.Directions.values()){
                     Vertex neighbor = labyrinth.getNeighborVertex(listPathPlayer.get(index), dir);
-                    if (neighbor.getNbr() == listPathPlayer.get(index).getNbr() - 1){
+                    if (neighbor != null && neighbor.getNbr() == listPathPlayer.get(index).getNbr() - 1){
                         //we check if the next position of an enemy is not the neighbor
                         boolean onEnemiesPaths = false;
                         for (List l : listPathEnemies){
@@ -170,13 +179,22 @@ public class Game {
                 }
             }
         }while (listPathPlayer.size() < maxSizePath && nbWhile < nbWhileMax);
+        //TODO
+        //rajouter le fait d'enlever des bouts de murs, si c'est impossible de créer un jeu.
     }
+
+    /**
+     * Find the path from path.get(0) to to end
+     * @param g the labyrinth
+     * @param path will contains the result.
+     * @param end the last point
+     */
     private void findPath(Labyrinth g, List<Vertex> path, Vertex end){
         Vertex actual = path.get(0);
         while (!actual.equals(end)){
             for (DefineClass.Directions dir : DefineClass.Directions.values()){
                 Vertex next = g.getNeighborVertex(actual, dir);
-                if (next.getNbr() == actual.getNbr() - 1){
+                if (next != null && next.getNbr() == actual.getNbr() - 1){
                     path.add(next);
                     actual = next;
                     break;

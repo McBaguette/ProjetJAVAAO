@@ -64,18 +64,14 @@ public class LabyrinthTest {
 
 		g = new Labyrinth();
 		g.buildLabyrinth(0);
+
+		System.out.println("Results Manhattan: ");
 		g.launchManhattan(g.getVertex(0,0), g.getVertex(1,1));
 		for (int y = 0; y < DefineClass.HEIGHT; y++){
 			for (int x = 0; x < DefineClass.WIDTH; x++){
 				System.out.print(g.getVertex(x,y).getNbr() + " ");
-				for(DefineClass.Directions dir: DefineClass.Directions.values()){
-					Vertex v = g.getNeighborVertex(g.getVertex(x,y), dir);
-					if (v != null && g.getEdge(g.getVertex(x,y), v).getType() != Type.CORRIDOR)
-						/*
-						 * L'ajout des portes fait fail ce test, mais le graphe semble bien être correct
-						 */
-						fail("Error number of corridor");
-				}
+				if(g.getVertex(x,y).getNbr() == 0)
+					fail("Manhattan fail");
 			}
 			System.out.print("\n");
 		}

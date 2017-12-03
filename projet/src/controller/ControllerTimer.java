@@ -38,10 +38,14 @@ public class ControllerTimer{
         game.launch();
         controllerView.launch(primaryStage, game.getLabyrinth());
         controllerView.refreshView(game.getLabyrinth(), game.getPlayer(), game.getEnemies());
-        timer();
+        initTimer();
 
     }
-    public void timer(){
+
+    /**
+     * Call at the begining of the game, to create the game timer.
+     */
+    public void initTimer(){
         Timeline timeline = new Timeline();
         final KeyFrame keyFrameForModel = new KeyFrame(Duration.millis(valueTimer), actionEvent -> handle(actionEvent));
         timeline.getKeyFrames().addAll(keyFrameForModel);
@@ -50,7 +54,7 @@ public class ControllerTimer{
     }
 
     /**
-     *
+     * Call by the timer every valueTimer millisecond
      * @param event
      */
     public void handle(ActionEvent event) {

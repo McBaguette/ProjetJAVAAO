@@ -106,7 +106,12 @@ public class View {
 		}
 	}
 
-
+	/**
+	 * Set the ImageView image to the coordonate x,y.
+	 * @param image the ImageView to set
+	 * @param x coordonate will be recalculate to be drawn on screen
+	 * @param y coordonate will be recalculate to be drawn on screen
+	 */
 	public void drawImageView(ImageView image, int x, int y){
 		double xt = (int)((WALL+x*(WALL+CELL))*SPAN);
 		double yt = (int)((WALL+y*(WALL+CELL))*SPAN);
@@ -114,23 +119,43 @@ public class View {
 		image.setY(yt);
 	}
 
+	/**
+	 * Add an ImageView to the Pane pane
+	 * @param image ImageView to add
+	 */
 	public void addImageView(ImageView image){
 		pane.getChildren().add(image);
 	}
+	/**
+	 * Remove an ImageView to the Pane pane
+	 * @param image ImageView to remove
+	 */
 	public void removeImageView(ImageView image){
-		pane.getChildren().remove(image);
+		if (image != null)
+			pane.getChildren().remove(image);
 	}
 
+	/**
+	 * Call at the begining of the game, to create keyboard event and call start()
+	 * @param stage Where to draw
+	 * @param nbCellsX  The number of cells on abscissa
+	 * @param nbCellsY  The number of cells on ordinate
+	 */
 	public void launch(Stage stage, int nbCellsX, int nbCellsY){
 
 		start(stage, nbCellsX, nbCellsY);
 		scene.setOnKeyPressed( ControllerUser.getInstance());
 		scene.setOnKeyReleased(ControllerUser.getInstance());
 	}
-	private void start(Stage stage, int labyrinthWidth, int labyrinthHeight){
 
-		StackPane root = new StackPane();
-		drawFrames(stage, labyrinthWidth, labyrinthHeight);
+	/**
+	 * Call by launch at the begining of the game to initiate the window.
+	 * @param stage where to draw
+	 * @param nbCellsX The number of cells on abscissa
+	 * @param nbCellsY The number of cells on ordinate
+	 */
+	private void start(Stage stage, int nbCellsX, int nbCellsY){
+		drawFrames(stage, nbCellsX, nbCellsY);
 		stage.setScene(scene);
 		stage.show();
 	}
