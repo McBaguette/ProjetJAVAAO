@@ -54,6 +54,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		Vertex v = new Vertex(0, 0);
 		this.addVertex(v);
 		GeneratePerfectLabyrinth(v);
+		for (int i = 1; i <= 10; ++i) openDoorRandom();
 	}
 
 	private void GeneratePerfectLabyrinth(Vertex vertex) {
@@ -105,6 +106,27 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 			}
 		}
 	}
+	
+	public void openDoorRandom() {
+		Random random = new Random();
+		// Onessaie1000fois,apr‘esquoionrenonce
+		for (int i = 1; i <= 1000; ++i) {
+			// Onchoisiunsommetauhasard
+			Vertex vertex = this.getVertex(random.nextInt(DefineClass.WIDTH), random.nextInt(DefineClass.HEIGHT)); //Devrait être optimisé pour ne pas utiliser les coordonées
+			if (vertex != null) {
+				// Onchoisiunedirectionauhasard(ondevraitprendreseulement
+				// cellesquicorrespondent‘adesmurs...)
+				Directions dir = Directions.values()[random.nextInt(Directions.values().length)];
+				if (isWall(vertex, dir)) {
+					Vertex vertex2 = getVertexByDir(vertex, dir);
+					if (vertex2 != null) {
+						addEdge(vertex, vertex2, new Edge(Type.OPENED_DOOR));
+						return;
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * @param v
@@ -112,6 +134,40 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	 * @param dir
 	 *            Direction
 	 * @return vertex in the direction dir from v.
+	 */
+	public Vertex getVertexByDir(Vertex v, DefineClass.Directions dir) {
+		/*
+		 * TODO : Verifier si l'ordre des coordonnees est le meme (nord->y- , ouest->x-,
+		 * ect)
+		 */
+
+		int targetX = v.getX(), targetY = v.getY();
+		switch (dir) {
+		case NORTH:
+			--targetY;
+			break;
+		case EAST:
+			++targetX;
+			break;
+		case SOUTH:
+			++targetY;
+			break;
+		case WEST:
+			--targetX;
+			break;
+		default:
+			return null;
+		}
+
+		return getVertex(targetX, targetY);
+	}
+	
+	/**
+	 * @param v
+	 *            Vertex
+	 * @param dir
+	 *            Direction
+	 * @return vertex in the direction dir from v if an edge link them.
 	 */
 	public Vertex getNeighborVertex(Vertex v, DefineClass.Directions dir) {
 		/*
