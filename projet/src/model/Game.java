@@ -157,9 +157,13 @@ public class Game {
             //we launch Manhattan algorithm to find path from the player to the door
             labyrinth.launchManhattan(player.getPosition(), vertexDoor);
 
+
+
             listPathPlayer = new LinkedList<>();
             listPathPlayer.add(player.getPosition());
             for (int index = 0; index < maxSizePath; index ++){
+                if (index >= listPathPlayer.size())
+                    break;
                 for(DefineClass.Directions dir : DefineClass.Directions.values()){
                     Vertex neighbor = labyrinth.getNeighborVertex(listPathPlayer.get(index), dir);
                     if (neighbor != null && neighbor.getNbr() == listPathPlayer.get(index).getNbr() - 1){

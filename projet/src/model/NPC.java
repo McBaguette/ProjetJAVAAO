@@ -26,8 +26,11 @@ public class NPC extends Deplacable{
     public boolean move(Labyrinth labyrinth){      //labyrinth with vertex marked with Manahatan algorithm
         for(DefineClass.Directions dir : DefineClass.Directions.values()) {
         	if(labyrinth.isNonBlocking(position, dir)) {
-        		setPosition(labyrinth.getNeighborVertex(position, dir));
-                return true;
+        	    if (labyrinth.getNeighborVertex(position, dir).getNbr() < position.getNbr()){
+                    setPosition(labyrinth.getNeighborVertex(position, dir));
+                    return true;
+                }
+
         	}
         }
         return false;

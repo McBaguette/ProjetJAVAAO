@@ -19,7 +19,9 @@ import view.View;
 public class ControllerTimer{
 
     private static ControllerTimer instance = new ControllerTimer();
-    private static int valueTimer = 250;
+    private static int valueTimer = 500;
+    private static int timeBegining = 3000;
+    private int nbTick;
     private Game game;
     private ControllerView controllerView;
     private ControllerUser controllerUser;
@@ -28,6 +30,7 @@ public class ControllerTimer{
         game = Game.getInstance();
         controllerUser = ControllerUser.getInstance();
         controllerView = ControllerView.getInstance();
+        nbTick = 0;
     }
 
     /**
@@ -58,9 +61,15 @@ public class ControllerTimer{
      * @param event
      */
     public void handle(ActionEvent event) {
-        game.movePlayer(controllerUser.getDirectionsPlayer());
-        game.manageGame();
-        controllerView.refreshView(game.getLabyrinth(), game.getPlayer(), game.getEnemies());
+        if (nbTick*valueTimer >= timeBegining )
+        {
+            game.movePlayer(controllerUser.getDirectionsPlayer());
+            game.manageGame();
+            controllerView.refreshView(game.getLabyrinth(), game.getPlayer(), game.getEnemies());
+        }
+        else
+            nbTick ++;
+
     }
 
     public static ControllerTimer getInstance() {
