@@ -19,6 +19,8 @@ public class View {
 	static final int WALL = 2;	//  thickness of the walls (in units)
 	static final int CELL = 9;	//  size of the cells (in units)
 	static final Paint WALL_COLOR = Color.BURLYWOOD;
+	static final Paint OP_DOOR_COLOR = Color.DARKGRAY;
+	static final Paint CL_DOOR_COLOR = Color.GREEN;
 	static final Paint SCENE_COLOR = Color.WHITE;
 
 	private static View instance = new View();
@@ -80,12 +82,38 @@ public class View {
 		}
 	}
 
-	/*
+	/**
 	 * Draw a wall between the cells s and t
 	 */
 	public void drawWall(int xs, int ys, int xt, int yt,
 								Paint color){
 		int x = 0, y = 0, xspan = 0, yspan = 0;
+		if(ys==yt){
+			x = ((WALL+CELL)+(WALL+CELL)*((int)(xs+xt)/2))*SPAN;
+			y = (WALL + ys*(WALL+CELL)) * SPAN;
+			xspan = WALL*SPAN;
+			yspan = CELL*SPAN;
+			Rectangle square = new Rectangle(x,y,xspan, yspan);
+			square.setFill(color);
+			pane.getChildren().add(square);
+		}
+		else if(xs==xt){
+			x = (WALL+xs*(WALL+CELL))*SPAN;
+			y = ((WALL+CELL)+(WALL+CELL)*((int)(ys+yt)/2))*SPAN;
+			xspan = CELL*SPAN;
+			yspan = WALL*SPAN;
+			Rectangle square = new Rectangle(x,y,xspan, yspan);
+			square.setFill(color);
+			pane.getChildren().add(square);
+		}
+	}
+	
+	/**
+	 * Draw a door between the cells s and t
+	 */
+	public void drawDoor(int xs, int ys, int xt, int yt, boolean open){
+		int x = 0, y = 0, xspan = 0, yspan = 0;
+		Paint color = open?OP_DOOR_COLOR:CL_DOOR_COLOR;
 		if(ys==yt){
 			x = ((WALL+CELL)+(WALL+CELL)*((int)(xs+xt)/2))*SPAN;
 			y = (WALL + ys*(WALL+CELL)) * SPAN;

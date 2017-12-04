@@ -1,5 +1,7 @@
 package controller;
 
+import graphe.Edge;
+
 /**
  * Created by clement on 01/12/2017.
  */
@@ -11,6 +13,7 @@ import javafx.stage.Stage;
 import model.DefineClass;
 import model.Game;
 import model.IDeplacable;
+import model.DefineClass.Type;
 import model.mapobject.Candy;
 import model.mapobject.IMapObject;
 import model.mapobject.Switch;
@@ -75,6 +78,15 @@ public class ControllerView {
                 }
 
             }
+        }
+    }
+    
+    private void drawDoors(Labyrinth lab){
+        for(Edge e :lab.edgeSet()){
+        	Type type = e.getType();
+        	if(type == Type.CLOSED_DOOR || type == Type.OPENED_DOOR ) {
+        		View.getInstance().drawDoor(e.getSource().getX(), e.getSource().getY(), e.getTarget().getX(), e.getTarget().getY(), type==Type.OPENED_DOOR);
+        	}
         }
     }
 
@@ -144,7 +156,7 @@ public class ControllerView {
      * @param enemies : List<IDeplacable>, all the enemies
      */
     public void refreshView(Labyrinth laby, IDeplacable player, List<IDeplacable> enemies){
-
+    	drawDoors(laby);
         for(Vertex v: game.getLabyrinth().vertexSet()){
             List<IMapObject> listMapObject = v.getMapObjects();
             for (IMapObject o: listMapObject){
