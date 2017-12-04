@@ -26,6 +26,7 @@ public class Switch extends MapObject{
 
     @Override
     public String getName() {
-        return "Switch";
+        return "button";
+        //_"+(door.getType()==Type.OPENED_DOOR?"open":"close");
     }
 }

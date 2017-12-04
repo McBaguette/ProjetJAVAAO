@@ -13,6 +13,7 @@ import model.Game;
 import model.IDeplacable;
 import model.mapobject.Candy;
 import model.mapobject.IMapObject;
+import model.mapobject.Switch;
 import view.Images;
 import view.View;
 
@@ -110,6 +111,12 @@ public class ControllerView {
                 if (o instanceof Candy){
                     ImageView img = new ImageView(Images.imageCandy);
                     img.setId(Candy.getInstance().getName());
+                    arrayListImageViewItemsMap[v.getX()][v.getY()].add(img);
+                    view.addImageView(img);
+                }
+                if (o instanceof Switch){
+                    ImageView img = new ImageView(Images.imageButtonClose);
+                    img.setId("button");
                     arrayListImageViewItemsMap[v.getX()][v.getY()].add(img);
                     view.addImageView(img);
                 }

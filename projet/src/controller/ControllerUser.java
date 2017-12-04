@@ -33,12 +33,10 @@ public class ControllerUser implements EventHandler<KeyEvent>{
     @Override
     public void handle(KeyEvent event) {
         if (actionDone && event.getEventType() == KeyEvent.KEY_PRESSED) {
-        	System.out.println("Key pressed !");
             keycode = event.getCode();
         	actionDone = false;
         }
         if(actionDone && event.getEventType() == KeyEvent.KEY_RELEASED) {
-        	System.out.println("Key released !");
             keycode = null;
         }
     }
