@@ -3,7 +3,7 @@ package model.mapobject;
 import graphe.Edge;
 import model.DefineClass.Type;
 
-public class Switch implements IMapObject{
+public class Switch extends MapObject{
 	Edge door;
 	
     public Switch(Edge door){

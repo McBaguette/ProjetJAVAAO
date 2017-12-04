@@ -120,7 +120,9 @@ public class ControllerView {
         loadImageViewsDeplacable();
         imageViewDoor = new ImageView(Images.imageDoorOpen);
         view.addImageView(imageViewDoor);
-        hashItemsMap.put("Candy1", Images.imageCandy);
+        for (int i = 0; i < DefineClass.NUMBER_CANDIES_TYPE; i++){
+            hashItemsMap.put("Candy"+i, Images.imagesCandies[i]);
+        }
         hashItemsMap.put("Switch_open", Images.imageButtonOpen);
         hashItemsMap.put("Switch_close", Images.imageButtonClose);
     }

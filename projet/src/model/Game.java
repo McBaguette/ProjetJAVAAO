@@ -3,6 +3,7 @@ package model;
 import graphe.Labyrinth;
 import graphe.Vertex;
 import model.mapobject.Candy;
+import model.mapobject.IMapObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +36,10 @@ public class Game {
      */
     public void manageGame(){
         moveEnemies();
+        manageInteractionWithMap();
+        if (manageInteractionWithEnemies() == -1)
+            gameOver();
+        System.out.println(score);
     }
 
     /**
@@ -85,9 +90,9 @@ public class Game {
             int x = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
             int y = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
             Vertex v = labyrinth.getVertex(x,y);
-            //we can have many objects on a vertec, but only one candy; and we will place other objects later.
+            //we can have many objects on a vertex, but only one candy; and we will place other objects later.
             if (v.getMapObjects() != null && v.getMapObjects().size() == 0){
-                v.addMapObject(new Candy());
+                v.addMapObject(new Candy((int)(Math.random() * DefineClass.NUMBER_CANDIES_TYPE)));
                 nbCandies ++;
             }
         }
@@ -118,8 +123,11 @@ public class Game {
         List<Vertex> listPathPlayer;
         List<List<Vertex>> listPathEnemies;
         int nbWhile = 0;
+        boolean found = true;
         do
         {
+            if (nbWhile%10 == 0)
+                labyrinth.openDoorRandom();
             nbWhile ++;
             //place randomly enemies
             int positionListEnemies = 0;
@@ -161,28 +169,38 @@ public class Game {
 
             listPathPlayer = new LinkedList<>();
             listPathPlayer.add(player.getPosition());
-            for (int index = 0; index < maxSizePath; index ++){
-                if (index >= listPathPlayer.size())
-                    break;
-                for(DefineClass.Directions dir : DefineClass.Directions.values()){
+            //on trouve le chemin joueur->porte:
+
+            //on le compare avec le chemin des enemies:
+            int index = 0;
+            while (!listPathPlayer.get(index).equals(vertexDoor)) {
+                for (DefineClass.Directions dir: DefineClass.Directions.values()){
                     Vertex neighbor = labyrinth.getNeighborVertex(listPathPlayer.get(index), dir);
-                    if (neighbor != null && neighbor.getNbr() == listPathPlayer.get(index).getNbr() - 1){
-                        //we check if the next position of an enemy is not the neighbor
-                        boolean onEnemiesPaths = false;
-                        for (List l : listPathEnemies){
-                            if (index+1 < l.size() && l.get(index+1).equals(neighbor)){
-                                onEnemiesPaths = true;
-                                break;
-                            }
-                        }
-                        //if not, we can add the vertex to the player's path
-                        if (!onEnemiesPaths){
-                            listPathPlayer.add(neighbor);
-                        }
+                    if (neighbor != null && neighbor.getNbr() == listPathPlayer.get(index).getNbr() -1){
+                        listPathPlayer.add(neighbor);
+                        index ++;
                     }
                 }
             }
-        }while (listPathPlayer.size() < maxSizePath && nbWhile < nbWhileMax);
+
+            index = 0;
+            found = true;
+            for (Vertex v: listPathPlayer){
+                for (List<Vertex> listEnemie: listPathEnemies){
+                    for (Vertex vEnemie:listEnemie){
+                        if (!listPathPlayer.equals(vEnemie) && vEnemie.equals(v)) {
+                            found = false;
+                            break;
+                        }
+                    }
+                    if (!found)
+                        break;
+                }
+                if (!found)
+                    break;
+            }
+
+        }while (!found && nbWhile < nbWhileMax);
         //TODO
         //rajouter le fait d'enlever des bouts de murs, si c'est impossible de créer un jeu.
     }
@@ -206,11 +224,19 @@ public class Game {
             }
         }
     }
-    private void manageInteractionWithMap(){
-
+    private int manageInteractionWithMap(){
+        for (IMapObject o: player.getPosition().getMapObjects()){
+            o.doAction();
+            score += o.getScore();
+        }
+        return 0;
     }
-    private void manageInteractionWithEnemies(){
-
+    private int manageInteractionWithEnemies(){
+        for (IDeplacable enemie: enemies){
+            if (player.getPosition().equals((enemie).getPosition()))
+                return -1;      //Game Over
+        }
+        return 0;
     }
     private void moveEnemies(){
         for(IDeplacable e:enemies){

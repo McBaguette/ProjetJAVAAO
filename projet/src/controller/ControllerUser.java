@@ -16,7 +16,6 @@ import view.View;
 public class ControllerUser implements EventHandler<KeyEvent>{
     private static ControllerUser instance = new ControllerUser();
     private KeyCode keycode;
-    private boolean actionDone = true; //To be sure that at least one action is executed by a pressed key
 
     public static ControllerUser getInstance(){
         return instance;
@@ -32,13 +31,9 @@ public class ControllerUser implements EventHandler<KeyEvent>{
      */
     @Override
     public void handle(KeyEvent event) {
-        if (actionDone && event.getEventType() == KeyEvent.KEY_PRESSED) {
+        //to do movement as Pacman, we don't look released keys
+        if (event.getEventType() == KeyEvent.KEY_PRESSED)
             keycode = event.getCode();
-        	actionDone = false;
-        }
-        if(actionDone && event.getEventType() == KeyEvent.KEY_RELEASED) {
-            keycode = null;
-        }
     }
 
     /**
@@ -46,26 +41,14 @@ public class ControllerUser implements EventHandler<KeyEvent>{
      * @return the direction where the player want to go.
      */
     public DefineClass.Directions getDirectionsPlayer(){
-        if (keycode == KeyCode.RIGHT) {
-        	actionDone = true;
-        	keycode = null;
+        if (keycode == KeyCode.RIGHT)
         	return DefineClass.Directions.EAST;
-        }   
-        if (keycode == KeyCode.LEFT) {
-        	actionDone = true;
-        	keycode = null;
+        if (keycode == KeyCode.LEFT)
             return DefineClass.Directions.WEST;
-        }
-        if (keycode == KeyCode.UP) {
-        	actionDone = true;
-        	keycode = null;
+        if (keycode == KeyCode.UP)
             return DefineClass.Directions.NORTH;
-        }
-        if (keycode == KeyCode.DOWN) {
-        	actionDone = true;
-        	keycode = null;
+        if (keycode == KeyCode.DOWN)
             return DefineClass.Directions.SOUTH;
-        }
         return null;
 
     }

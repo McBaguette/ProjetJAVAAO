@@ -26,9 +26,6 @@ public class PC extends Deplacable{
 
     	if(Game.getInstance().getLabyrinth().isNonBlocking(position, direction)) {
     		setPosition(Game.getInstance().getLabyrinth().getNeighborVertex(position, direction));
-    		for(IMapObject o : position.getMapObjects()) {
-    			o.doAction();
-    		}
             return true;
     	}
         return false;

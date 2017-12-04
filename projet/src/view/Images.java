@@ -12,6 +12,6 @@ public class Images {
     public static Image imageButtonClose = new Image(pathImages + "button_close.png");
     public static Image imageButtonOpen = new Image(pathImages + "button_open.png");
     public static Image imageDoorOpen = new Image(pathImages + "door_open.png");
-    public static Image imageCandy = new Image(pathImages + "candy-1.png");
+    public static Image imagesCandies[] = {new Image(pathImages + "candy-1.png"),new Image(pathImages + "candy-2.png"),new Image(pathImages + "candy-3.png"),new Image(pathImages + "candy-4.png")};
     public static Paint paintWall = Paint.valueOf("red");
 }
