@@ -156,6 +156,7 @@ public class ControllerView {
     		initializeWallView(laby);
     		loadImageViewsDeplacable();
     	}
+
     	drawDoors(laby);
         for(Vertex v: game.getLabyrinth().vertexSet()){
             List<IMapObject> listMapObject = v.getMapObjects();
