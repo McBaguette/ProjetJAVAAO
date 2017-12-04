@@ -13,44 +13,36 @@ import org.junit.Test;
 import static junit.framework.Assert.fail;
 
 public class LabyrinthTest {
-	void printGraph(SimpleGraph<Vertex, Edge> g) {
-		
-		Set<Vertex> V = g.vertexSet();
-		for(Vertex v : V) {
-			//System.out.printf("Sommet en %d:%d\n", v.getX(), v.getY());
-			for(Vertex u : V) {
-				if(!v.equals(u) && g.getEdge(u, v)!=null) {
-					//System.out.printf("\t - sommet en %d:%d\n", u.getX(), u.getY());
-				}	
-			}
-		}
-		
-	}
 	
 	@Test
 	public void test() {
 		Labyrinth g = new Labyrinth();
 		
-		/*Vertex v = new Vertex(1,3);
+		Vertex v1 = new Vertex(1,3);
 		Vertex v2 = new Vertex(5,2);
 		Vertex v3 = new Vertex(4,1);
 		
-		g.addVertex(v);
+		g.addVertex(v1);
 		g.addVertex(v2);
 		g.addVertex(v3);
 		
-		g.addEdge(v, v2, new Edge(Type.CORRIDOR));
-		g.addEdge(v, v3, new Edge(Type.CORRIDOR));
-		
-		printGraph(g);
+		g.addEdge(v1, v2, new Edge(Type.CORRIDOR));
+		g.addEdge(v1, v3, new Edge(Type.CORRIDOR));
 
-		Edge ref = g.getEdge(v2, v);
+		Edge ref = g.getEdge(v2, v1);
 		if(!g.containsVertex(v3)){
-			fail("Should contain this vertex.");
+			fail("Should contain this vertex. (by ref)");
+		}
+		if(!g.containsVertex(new Vertex(4,1))){
+			fail("Should contain this vertex. (by coord)");
 		}
 		if(!g.containsEdge(ref)){
 			fail("Should contain this edge.");
-		}*/
+		}
+		
+		
+		
+		g = new Labyrinth();
 		g.buildLabyrinth(0);
 		System.out.println(g.vertexSet().size() + " - " + g.edgeSet().size());
 		g.toDot("laby");

@@ -16,6 +16,7 @@ import view.View;
 public class ControllerUser implements EventHandler<KeyEvent>{
     private static ControllerUser instance = new ControllerUser();
     private KeyCode keycode;
+    private boolean actionDone = true; //To be sure that at least one action is executed by a pressed key
 
     public static ControllerUser getInstance(){
         return instance;
@@ -31,13 +32,15 @@ public class ControllerUser implements EventHandler<KeyEvent>{
      */
     @Override
     public void handle(KeyEvent event) {
-        if (event.getEventType() == KeyEvent.KEY_PRESSED)
+        if (actionDone && event.getEventType() == KeyEvent.KEY_PRESSED) {
+        	System.out.println("Key pressed !");
             keycode = event.getCode();
-
-
-        if(event.getEventType() == KeyEvent.KEY_RELEASED)
+        	actionDone = false;
+        }
+        if(actionDone && event.getEventType() == KeyEvent.KEY_RELEASED) {
+        	System.out.println("Key released !");
             keycode = null;
-
+        }
     }
 
     /**
@@ -45,18 +48,30 @@ public class ControllerUser implements EventHandler<KeyEvent>{
      * @return the direction where the player want to go.
      */
     public DefineClass.Directions getDirectionsPlayer(){
-        if (keycode == KeyCode.RIGHT)
-            return DefineClass.Directions.EAST;
-        if (keycode == KeyCode.LEFT)
+        if (keycode == KeyCode.RIGHT) {
+        	actionDone = true;
+        	keycode = null;
+        	return DefineClass.Directions.EAST;
+        }   
+        if (keycode == KeyCode.LEFT) {
+        	actionDone = true;
+        	keycode = null;
             return DefineClass.Directions.WEST;
-        if (keycode == KeyCode.UP)
+        }
+        if (keycode == KeyCode.UP) {
+        	actionDone = true;
+        	keycode = null;
             return DefineClass.Directions.NORTH;
-        if (keycode == KeyCode.DOWN)
+        }
+        if (keycode == KeyCode.DOWN) {
+        	actionDone = true;
+        	keycode = null;
             return DefineClass.Directions.SOUTH;
+        }
         return null;
 
     }
-    //aura pour but de renvoyer échap par exemple pour la pause
+    //aura pour but de renvoyer Echap par exemple pour la pause
     public int getOthersEvent(){
         return 0;
     }

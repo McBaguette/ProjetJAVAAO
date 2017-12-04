@@ -37,10 +37,16 @@ public class Vertex {
 		}
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Vertex)) return false;
 		Vertex v = (Vertex) obj;
 		return x == v.getX() && y == v.getY();
+	}
+	
+	@Override
+	public int hashCode() {
+		return (Integer.MAX_VALUE >> 1)*x + y;
 	}
 
 	public int getX() {

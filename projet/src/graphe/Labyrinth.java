@@ -19,25 +19,6 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	}
 
 	public graphe.Vertex getVertex(int x, int y) {
-		// On doit pouvoir se passer de cette m�thode il me semble (?)
-		// Pour l'affichage, il suffira de parcourir le graphe
-		// Et pour les d�placement, on � juste be soin d'acceder aux voisins
-		// Si y'a d'autres cas auquel j'ai pas pens�, j'essayerais d'y remedier !
-		/*
-		 * j'avais ajouté cette méthode, pouvoir initialiser la position de joueurs,
-		 * des monstres et des bonbons, sans avoir à chaque fois à parcourir la liste
-		 * des sommets
-		 */
-		/*
-		 * Parce que si sur un sommet il y a un bonbon, alors le sommet fait référence
-		 * à un objetMap
-		 */
-
-		/*
-		 * Dans la generation du prof, on accede a chaque fois juste aux voisins, du
-		 * coup on doit pouvoir faire avec juste getNeighbors Et pour les bonbon/porte,
-		 * on peut prendre un sommet au hasard avec le set
-		 */
 		Set<Vertex> setVertex = this.vertexSet();
 		for (Vertex v : setVertex) {
 			if (v.getX() == x && v.getY() == y)
@@ -47,19 +28,15 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	}
 
 	public void buildLabyrinth(int numEdges) {
-		// Emile: c'était pas dans le UML, mais je me dis que ce serait plus malin, de
-		// générer un labyrinth en prenant en paramètre le nombre d'arêtes, et comme
-		// ça tu retires aléatoirement des arêtes
-
-		// TODO
 		Vertex v = new Vertex(0, 0);
 		this.addVertex(v);
 		GeneratePerfectLabyrinth(v);
-		for (int i = 1; i <= 10; ++i) openDoorRandom();
+		for (int i = 1; i <= 10; ++i)
+			openDoorRandom();
 	}
 
 	private void GeneratePerfectLabyrinth(Vertex vertex) {
-		// une liste al�eatoire des 4directions
+		// une liste aleatoire des 4 directions
 		Random random = new Random();
 		Vector<Directions> v = new Vector<DefineClass.Directions>();
 		for (int i = 0; i < 4; ++i)
@@ -70,13 +47,11 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 			directions[i] = v.get(index);
 			v.remove(index);
 		}
-		// pourchacunedecesdirections,onavanceenprofondeurd�abord
+		// pour chacune de ces directions, on avance en profondeur d'abord
 		for (int i = 0; i < 4; ++i) {
 			Directions dir = directions[i];
 			Vertex v2 = new Vertex(vertex, dir);
-			//System.out.printf("Check vertex %d/%d... ", v2.getX(), v2.getY());
-			if (v2.inBorders() && this.getVertex(v2.getX(), v2.getY()) == null) {
-				//System.out.printf("Ok.\n");
+			if (v2.inBorders() && !this.containsVertex(v2)) {
 				int x = vertex.getX();
 				int y = vertex.getY();
 				int xt = 0, yt = 0;
@@ -102,33 +77,47 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 				this.addVertex(next);
 				this.addEdge(vertex, next);
 				GeneratePerfectLabyrinth(next);
-			} else {
-				//System.out.printf("Nope.\n");
 			}
 		}
 	}
-	
+
+	/**
+	 * Try to create a new opened door
+	 */
 	public void openDoorRandom() {
 		Random random = new Random();
-		// Onessaie1000fois,apr‘esquoionrenonce
+		// On essaie 1000 fois, apres quoi on renonce
 		for (int i = 1; i <= 1000; ++i) {
-			// Onchoisiunsommetauhasard
-			Vertex vertex = this.getVertex(random.nextInt(DefineClass.WIDTH), random.nextInt(DefineClass.HEIGHT)); //Devrait être optimisé pour ne pas utiliser les coordonées
+			// On choisi un sommet au hasard
+			Vertex vertex = this.getVertex(random.nextInt(DefineClass.WIDTH), random.nextInt(DefineClass.HEIGHT));
 			if (vertex != null) {
-				// Onchoisiunedirectionauhasard(ondevraitprendreseulement
-				// cellesquicorrespondent‘adesmurs...)
+				// On choisi une direction au hasard (on devrait prendre seulement
+				// celles qui correspondent a desmurs...)
 				Directions dir = Directions.values()[random.nextInt(Directions.values().length)];
 				if (isWall(vertex, dir)) {
 					Vertex vertex2 = getVertexByDir(vertex, dir);
 					if (vertex2 != null) {
 						Edge newEdge = new Edge(Type.OPENED_DOOR);
 						addEdge(vertex, vertex2, newEdge);
-						this.getVertex(random.nextInt(DefineClass.WIDTH), random.nextInt(DefineClass.HEIGHT)).addMapObject(new Switch(newEdge));;
+						addSwitch(newEdge);
 						return;
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * @param Edge
+	 *            of type OPENED_DOOR or CLOSED_DOOR
+	 * 
+	 *            Create and add a swtich in the labyrinth which is linked with the
+	 *            door
+	 */
+	public void addSwitch(Edge door) {
+		Random random = new Random();
+		this.getVertex(random.nextInt(DefineClass.WIDTH), random.nextInt(DefineClass.HEIGHT))
+				.addMapObject(new Switch(door));
 	}
 
 	/**
@@ -139,11 +128,6 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	 * @return vertex in the direction dir from v.
 	 */
 	public Vertex getVertexByDir(Vertex v, DefineClass.Directions dir) {
-		/*
-		 * TODO : Verifier si l'ordre des coordonnees est le meme (nord->y- , ouest->x-,
-		 * ect)
-		 */
-
 		int targetX = v.getX(), targetY = v.getY();
 		switch (dir) {
 		case NORTH:
@@ -164,7 +148,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 
 		return getVertex(targetX, targetY);
 	}
-	
+
 	/**
 	 * @param v
 	 *            Vertex
@@ -173,11 +157,6 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	 * @return vertex in the direction dir from v if an edge link them.
 	 */
 	public Vertex getNeighborVertex(Vertex v, DefineClass.Directions dir) {
-		/*
-		 * TODO : Verifier si l'ordre des coordonnees est le meme (nord->y- , ouest->x-,
-		 * ect)
-		 */
-
 		int targetX = v.getX(), targetY = v.getY();
 		switch (dir) {
 		case NORTH:
@@ -199,9 +178,6 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		Set<Edge> neighbors = this.edgesOf(v);
 		for (Edge e : neighbors) { // Ne devrais pas faire plus de 4 passages, sauf erreur de conception du
 									// labyrinthe
-			/*
-			 * TODO : Optimiser si target ou source sont toujours les meme ?
-			 */
 			if (e.getTarget().getX() == targetX && e.getTarget().getY() == targetY)
 				return e.getTarget();
 			if (e.getSource().getX() == targetX && e.getSource().getY() == targetY)
@@ -211,34 +187,10 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		return null;
 	}
 
-	private void calculateManhattanDistance(Vertex source, Vertex target){
-		Queue<Vertex> fifo = new ArrayDeque<Vertex>();
-		target.setNbr(1);
-		fifo.add(target);
-		while(!fifo.isEmpty()){
-			Vertex actual = fifo.remove();
-			boolean b = false;
-			for (Directions dir: Directions.values()){
-				if (this.isNonBlocking(actual, dir)){
-					b = true;
-					Vertex next = this.getNeighborVertex(actual, dir);
-					if (next.getNbr() == 0){
-						next.setNbr(actual.getNbr() +1);
-						//if (!next.equals(source)){
-							fifo.add(next);
-						//}
-					}
-				}
-			}
-			if (!b)
-				System.out.println("erreur edge vertex: "+actual.getX() + " ; "+actual.getY());
-		}
-	}
-	public void launchManhattan(Vertex source, Vertex target) {
-		for (Vertex vertex: this.vertexSet())
-			vertex.setNbr(0);
-		calculateManhattanDistance(source, target);
-	}
+	/*
+	 * public boolean containVertex(Vertex v) { Set VertexSet = this.vertexSet();
+	 * return }
+	 */
 
 	/**
 	 * @param v
@@ -250,10 +202,10 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	public boolean isWall(Vertex v, Directions dir) {
 		Vertex u = this.getNeighborVertex(v, dir);
 
-		if (u == null){
-			return  true;
+		if (u == null) {
+			return true;
 		}
-		return getEdge(v,u).getType() == Type.WALL;
+		return getEdge(v, u).getType() == Type.WALL;
 	}
 
 	/**
@@ -308,18 +260,45 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	public boolean isNonBlocking(Vertex v, Directions dir) {
 		Vertex u = this.getNeighborVertex(v, dir);
 		if (u == null)
-		    return false;
+			return false;
 		Edge edge = this.getEdge(u, v);
 		return (edge != null && (edge.getType() == Type.CORRIDOR || edge.getType() == Type.OPENED_DOOR));
+	}
+
+	private void calculateManhattanDistance(Vertex source, Vertex target) {
+		Queue<Vertex> fifo = new ArrayDeque<Vertex>();
+		target.setNbr(1);
+		fifo.add(target);
+		while (!fifo.isEmpty()) {
+			Vertex actual = fifo.remove();
+			boolean b = false;
+			for (Directions dir : Directions.values()) {
+				if (this.isNonBlocking(actual, dir)) {
+					b = true;
+					Vertex next = this.getNeighborVertex(actual, dir);
+					if (next.getNbr() == 0) {
+						next.setNbr(actual.getNbr() + 1);
+						// if (!next.equals(source)){
+						fifo.add(next);
+						// }
+					}
+				}
+			}
+			if (!b)
+				System.out.println("erreur edge vertex: " + actual.getX() + " ; " + actual.getY());
+		}
+	}
+
+	public void launchManhattan(Vertex source, Vertex target) {
+		for (Vertex vertex : this.vertexSet())
+			vertex.setNbr(0);
+		calculateManhattanDistance(source, target);
 	}
 
 	public void toDot(String fileName) {
 		try {
 			PrintWriter file = new PrintWriter(fileName + ".dot");
 			file.println("graph labyrinth {");
-			/*for (Vertex v : this.vertexSet()) {
-				file.println(v.toDot());
-			}*/
 			for (Edge e : this.edgeSet()) {
 				file.println(e.toDot());
 			}
