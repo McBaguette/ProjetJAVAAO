@@ -28,6 +28,10 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	}
 
 	public void buildLabyrinth(int numEdges) {
+		if (this.vertexSet() != null && this.vertexSet().size() != 0)
+			this.removeAllVertices(this.vertexSet());
+		if (this.edgeSet() != null && this.edgeSet().size() != 0)
+			this.removeAllEdges(this.edgeSet());
 		Vertex v = new Vertex(0, 0);
 		this.addVertex(v);
 		GeneratePerfectLabyrinth(v);

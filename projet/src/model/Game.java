@@ -34,12 +34,20 @@ public class Game {
      * Called by Controller every timer cycle
      * Manage all the game: move enemies, process collision (with enemies and objects on map)
      */
-    public void manageGame(){
+    public int manageGame(){
         moveEnemies();
-        manageInteractionWithMap();
-        if (manageInteractionWithEnemies() == -1)
-            gameOver();
-        System.out.println(score);
+        if (manageInteractionWithMap() == 1){
+            System.out.println("Victory !");
+            return 1;
+        }
+
+        if (manageInteractionWithEnemies() == -1){
+            System.out.println("Game over !");
+            return -1;
+        }
+        //System.out.println(score);
+        return 0;
+
     }
 
     /**
@@ -52,7 +60,7 @@ public class Game {
     }
 
     /**
-     * Call gameOver() of Controller
+     * I don't know if it will be use
      */
     private void gameOver(){
 
@@ -79,55 +87,54 @@ public class Game {
      */
     private void generateLabyrinthGame(int level){
 
-        //call Labyrinth.buildLabyrinth(nbArête)
-        int numEdgesPerfectLabyrinth = DefineClass.HEIGHT*DefineClass.WIDTH*4 - (2*(2*DefineClass.HEIGHT + 2*DefineClass.WIDTH));
-        labyrinth.buildLabyrinth(numEdgesPerfectLabyrinth - level*150);
 
-
-        //place candies (random)
-        int nbCandies = 0;
-        while(nbCandies < DefineClass.NUMBER_CANDIES_ON_MAP) {
-            int x = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
-            int y = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
-            Vertex v = labyrinth.getVertex(x,y);
-            //we can have many objects on a vertex, but only one candy; and we will place other objects later.
-            if (v.getMapObjects() != null && v.getMapObjects().size() == 0){
-                v.addMapObject(new Candy((int)(Math.random() * DefineClass.NUMBER_CANDIES_TYPE)));
-                nbCandies ++;
-            }
-        }
-
-
-        //place door (random)
-        int x = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
-        int y = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
-        vertexDoor = labyrinth.getVertex(x,y);
-        //vertexDoor.setObjeMap = DOOR;
-
-        //place player far from the door
-        labyrinth.launchManhattan(vertexDoor, labyrinth.getVertex(0,0));
-
-        int maxNbr = 0;
-        graphe.Vertex vertexFarAway = null;
-        for (Vertex v: labyrinth.vertexSet()) {
-            if (v.getNbr() > maxNbr){
-                vertexFarAway = v;
-                maxNbr = v.getNbr();
-            }
-        }
-        player.setPosition(vertexFarAway);
-
-        //place enemies en vérifiant que les enemis ne croiseront pas nécessairement le joueur
-        int maxSizePath = 0;
-        int nbWhileMax = 100;
-        List<Vertex> listPathPlayer;
-        List<List<Vertex>> listPathEnemies;
+        int nbWhileMax = 1000;
         int nbWhile = 0;
         boolean found = true;
         do
         {
-            if (nbWhile%10 == 0)
-                labyrinth.openDoorRandom();
+            //call Labyrinth.buildLabyrinth(nbArête)
+            int numEdgesPerfectLabyrinth = DefineClass.HEIGHT*DefineClass.WIDTH*4 - (2*(2*DefineClass.HEIGHT + 2*DefineClass.WIDTH));
+            labyrinth.buildLabyrinth(numEdgesPerfectLabyrinth - level*150);
+
+
+            //place candies (random)
+            int nbCandies = 0;
+            while(nbCandies < DefineClass.NUMBER_CANDIES_ON_MAP) {
+                int x = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
+                int y = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
+                Vertex v = labyrinth.getVertex(x,y);
+                //we can have many objects on a vertex, but only one candy; and we will place other objects later.
+                if (v.getMapObjects() != null && v.getMapObjects().size() == 0){
+                    v.addMapObject(new Candy((int)(Math.random() * DefineClass.NUMBER_CANDIES_TYPE)));
+                    nbCandies ++;
+                }
+            }
+
+
+            //place door (random)
+            int x = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
+            int y = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
+            vertexDoor = labyrinth.getVertex(x,y);
+            //vertexDoor.setObjeMap = DOOR;
+
+            //place player far from the door
+            labyrinth.launchManhattan(vertexDoor, labyrinth.getVertex(0,0));
+
+            int maxNbr = 0;
+            graphe.Vertex vertexFarAway = null;
+            for (Vertex v: labyrinth.vertexSet()) {
+                if (v.getNbr() > maxNbr){
+                    vertexFarAway = v;
+                    maxNbr = v.getNbr();
+                }
+            }
+            player.setPosition(vertexFarAway);
+
+            //place enemies en vérifiant que les enemis ne croiseront pas nécessairement le joueur
+            List<Vertex> listPathPlayer;
+            List<List<Vertex>> listPathEnemies;
+
             nbWhile ++;
             //place randomly enemies
             int positionListEnemies = 0;
@@ -151,58 +158,55 @@ public class Game {
                 positionListEnemies ++;
             }
 
-            //we search the differents paths from enemies to the player
-            maxSizePath = 0;
-            listPathEnemies = new LinkedList<>();
-            for (int i = 0; i < enemies.size(); i++) {
-                listPathEnemies.add(new LinkedList<Vertex>());
-                labyrinth.launchManhattan(enemies.get(i).getPosition(),player.getPosition());
-                listPathEnemies.get(i).add(enemies.get(i).getPosition());
-                findPath(labyrinth, listPathEnemies.get(i), player.getPosition());
-                if (listPathEnemies.get(i).size() > maxSizePath)
-                    maxSizePath = listPathEnemies.get(i).size();
+            //we will simulate the game to see if is possible
+            //first we save:
+            List<Vertex> savePositionEnemies = new LinkedList<>();
+            for(IDeplacable e: enemies){
+                savePositionEnemies.add(e.getPosition());
             }
-            //we launch Manhattan algorithm to find path from the player to the door
-            labyrinth.launchManhattan(player.getPosition(), vertexDoor);
+            Vertex savePlayer = player.getPosition();
+            found = simulatePerfectGame();
 
-
-
-            listPathPlayer = new LinkedList<>();
-            listPathPlayer.add(player.getPosition());
-            //on trouve le chemin joueur->porte:
-
-            //on le compare avec le chemin des enemies:
-            int index = 0;
-            while (!listPathPlayer.get(index).equals(vertexDoor)) {
-                for (DefineClass.Directions dir: DefineClass.Directions.values()){
-                    Vertex neighbor = labyrinth.getNeighborVertex(listPathPlayer.get(index), dir);
-                    if (neighbor != null && neighbor.getNbr() == listPathPlayer.get(index).getNbr() -1){
-                        listPathPlayer.add(neighbor);
-                        index ++;
-                    }
+            if (found){
+                System.out.println("found");
+                player.setPosition(savePlayer);
+                int i = 0;
+                for(Vertex v: savePositionEnemies){
+                    enemies.get(i).setPosition(v);
+                    i++;
                 }
             }
 
-            index = 0;
-            found = true;
-            for (Vertex v: listPathPlayer){
-                for (List<Vertex> listEnemie: listPathEnemies){
-                    for (Vertex vEnemie:listEnemie){
-                        if (!listPathPlayer.equals(vEnemie) && vEnemie.equals(v)) {
-                            found = false;
-                            break;
-                        }
-                    }
-                    if (!found)
-                        break;
-                }
-                if (!found)
-                    break;
-            }
+
 
         }while (!found && nbWhile < nbWhileMax);
+        if (!found){
+            System.out.println("not found");
+        }
+
         //TODO
         //rajouter le fait d'enlever des bouts de murs, si c'est impossible de créer un jeu.
+    }
+    private boolean simulatePerfectGame(){
+        List<Vertex> pathPlayer = new LinkedList<>();
+        pathPlayer.add(player.getPosition());
+        labyrinth.launchManhattan(pathPlayer.get(0), vertexDoor);
+        findPath(labyrinth, pathPlayer, vertexDoor);
+        pathPlayer.remove(0);
+        while(pathPlayer.size() > 0){
+            Vertex positionPlayer = pathPlayer.get(0);
+            pathPlayer.remove(0);
+
+            for (IDeplacable enemy: enemies){
+                labyrinth.launchManhattan(enemy.getPosition(), positionPlayer);
+                ((NPC)enemy).move(labyrinth);
+            }
+            for (IDeplacable enemy: enemies){
+                if (enemy.getPosition().equals(positionPlayer))
+                    return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -225,6 +229,8 @@ public class Game {
         }
     }
     private int manageInteractionWithMap(){
+        if (player.getPosition().equals(vertexDoor))
+            return 1;
         for (IMapObject o: player.getPosition().getMapObjects()){
             o.doAction();
             score += o.getScore();
