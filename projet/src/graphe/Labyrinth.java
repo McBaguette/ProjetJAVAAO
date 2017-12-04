@@ -3,6 +3,7 @@ package graphe;
 import model.DefineClass;
 import model.DefineClass.Directions;
 import model.DefineClass.Type;
+import model.mapobject.Switch;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -120,7 +121,9 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 				if (isWall(vertex, dir)) {
 					Vertex vertex2 = getVertexByDir(vertex, dir);
 					if (vertex2 != null) {
-						addEdge(vertex, vertex2, new Edge(Type.OPENED_DOOR));
+						Edge newEdge = new Edge(Type.OPENED_DOOR);
+						addEdge(vertex, vertex2, newEdge);
+						this.getVertex(random.nextInt(DefineClass.WIDTH), random.nextInt(DefineClass.HEIGHT)).addMapObject(new Switch(newEdge));;
 						return;
 					}
 				}

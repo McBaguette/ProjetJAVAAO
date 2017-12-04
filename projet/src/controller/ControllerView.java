@@ -178,7 +178,7 @@ public class ControllerView {
      * @param v check his list of objectMap.
      */
     private void updateImageViewVertex(Vertex v){
-        while (arrayListImageViewItemsMap[v.getX()][v.getY()].size() != v.getMapObjects().size())
+        while (arrayListImageViewItemsMap[v.getX()][v.getY()].size() != v.getMapObjects().size() && arrayListImageViewItemsMap[v.getX()][v.getY()].size()>0)
         {
             for (ImageView obj: arrayListImageViewItemsMap[v.getX()][v.getY()]){
                 boolean quit = true;
