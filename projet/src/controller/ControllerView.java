@@ -34,6 +34,7 @@ public class ControllerView {
     private static ControllerView instance = new ControllerView();
     private Game game;
     private View view;
+    private Object labyrinth;
     private ImageView imageViewPlayer;
     private ImageView imageViewDoor;
     private List<ImageView> listImageViewEnemies;
@@ -143,6 +144,16 @@ public class ControllerView {
      * @param enemies : List<IDeplacable>, all the enemies
      */
     public void refreshView(Labyrinth laby, IDeplacable player, List<IDeplacable> enemies){
+    	if(labyrinth != laby) {
+    		labyrinth = laby;
+    		System.out.println("New Game !");
+    		hashViewMap.clear();
+    		view.clear();
+    		imageViewPlayer = null;
+    		listImageViewEnemies.clear();
+    		initializeWallView(laby);
+    		loadImageViewsDeplacable();
+    	}
     	drawDoors(laby);
         for(Vertex v: game.getLabyrinth().vertexSet()){
             List<IMapObject> listMapObject = v.getMapObjects();

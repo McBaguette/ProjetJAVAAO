@@ -26,6 +26,7 @@ public class View {
 	private static View instance = new View();
 	private static Scene scene;
 	private static Pane pane;
+	private int w,h;
 
 	private View(){
 		pane = new Pane();
@@ -36,43 +37,52 @@ public class View {
 	}
 
 	/**
-	 * Call to initiliate the game, to draws all cells
+	 * Call to initiliate the game
 	 * @param stage	where draw cells
 	 * @param nbX	number of cells in the labyrinth on x
 	 * @param nbY   number of cells in the labyrinth on y
 	 */
-	private void drawFrames(Stage stage, int nbX, int nbY){
+	private void initFrames(Stage stage, int nbX, int nbY){
+		this.w = nbX;
+		this.h = nbY;
 		scene = new Scene(pane,
 				((WALL+CELL)*nbX+WALL)*SPAN,
 				((WALL+CELL)*nbY+WALL)*SPAN);
 		scene.setFill(SCENE_COLOR);
 		stage.setScene(scene);
 
+		drawFrames();
+	}
+	
+	/**
+	 * Call to draws all cells
+	 */
+	private void drawFrames(){
 		Rectangle square;
 		square = new Rectangle(0,0,
-				SPAN* (nbX*(CELL+WALL)+WALL), WALL*SPAN);
+				SPAN* (w*(CELL+WALL)+WALL), WALL*SPAN);
 		square.setFill(WALL_COLOR);
 		pane.getChildren().add(square);
 
 
-		square = new Rectangle(0,SPAN*(nbY*(CELL+WALL)),
-				SPAN* (nbX*(CELL+WALL)+WALL), WALL*SPAN);
+		square = new Rectangle(0,SPAN*(h*(CELL+WALL)),
+				SPAN* (w*(CELL+WALL)+WALL), WALL*SPAN);
 		square.setFill(WALL_COLOR);
 		pane.getChildren().add(square);
 
 		square = new Rectangle(0,0,
-				WALL*SPAN, SPAN* (nbY*(CELL+WALL)+WALL));
+				WALL*SPAN, SPAN* (h*(CELL+WALL)+WALL));
 		square.setFill(WALL_COLOR);
 		pane.getChildren().add(square);
 
-		square = new Rectangle(SPAN* (nbX*(CELL+WALL)) ,0,
-				WALL*SPAN, SPAN* (nbY*(CELL+WALL)+WALL));
+		square = new Rectangle(SPAN* (w*(CELL+WALL)) ,0,
+				WALL*SPAN, SPAN* (h*(CELL+WALL)+WALL));
 		square.setFill(WALL_COLOR);
 		pane.getChildren().add(square);
 
-		for(int x=0; x<nbX-1; ++x){
+		for(int x=0; x<w-1; ++x){
 			int offsetX = ((WALL+CELL) + (WALL+CELL)*x)*SPAN;
-			for(int y=0;y<nbY-1;++y){
+			for(int y=0;y<h-1;++y){
 				int offsetY = ((WALL+CELL) +(WALL+CELL)*y)*SPAN;
 				square = new Rectangle(offsetX, offsetY,
 						WALL*SPAN, WALL*SPAN);
@@ -161,6 +171,11 @@ public class View {
 		if (image != null)
 			pane.getChildren().remove(image);
 	}
+	
+	public void clear(){
+		pane.getChildren().clear();
+		drawFrames();
+	}
 
 	/**
 	 * Call at the begining of the game, to create keyboard event and call start()
@@ -182,7 +197,7 @@ public class View {
 	 * @param nbCellsY The number of cells on ordinate
 	 */
 	private void start(Stage stage, int nbCellsX, int nbCellsY){
-		drawFrames(stage, nbCellsX, nbCellsY);
+		initFrames(stage, nbCellsX, nbCellsY);
 		stage.setScene(scene);
 		stage.show();
 	}
