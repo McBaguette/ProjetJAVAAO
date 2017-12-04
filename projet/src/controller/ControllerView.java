@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.scene.image.Image;
 import graphe.Edge;
 
 /**
@@ -20,8 +21,11 @@ import model.mapobject.Switch;
 import view.Images;
 import view.View;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * class ControllerView: in this class, we call function to refresh the View
@@ -33,22 +37,19 @@ public class ControllerView {
     private ImageView imageViewPlayer;
     private ImageView imageViewDoor;
     private List<ImageView> listImageViewEnemies;
-    private List<ImageView>[][] arrayListImageViewItemsMap;
+    private HashMap<String,Image> hashItemsMap;
+    private HashMap<IMapObject,ImageView> hashViewMap;
 
     private ControllerView(){
         game = Game.getInstance();
         view = View.getInstance();
         listImageViewEnemies = new LinkedList<>();
-        arrayListImageViewItemsMap = new LinkedList[DefineClass.WIDTH][DefineClass.HEIGHT];
-        for (int y = 0;  y < DefineClass.HEIGHT; y++){
-            for (int x = 0; x < DefineClass.WIDTH; x++){
-                arrayListImageViewItemsMap[x][y] = new LinkedList<>();
-            }
-        }
+        hashItemsMap = new HashMap<String,Image>();    
+        hashViewMap = new HashMap<IMapObject,ImageView>();
     }
 
     /**
-     * Callat the beginnig of a new level, call only one time at every level,
+     * Call at the beginnig of a new level, call only one time at every level,
      * because it's not necessary to refresh wall during the game.
      * @param lab
      */
@@ -74,7 +75,7 @@ public class ControllerView {
                     }
                     Vertex tmpVertex = new Vertex(x,y);
                     if (tmpVertex.inBorders())
-                        View.getInstance().drawWall(v.getX(), v.getY(), x, y, Images.paintWall);
+                        View.getInstance().drawWall(v.getX(), v.getY(), x, y);
                 }
 
             }
@@ -118,23 +119,9 @@ public class ControllerView {
         loadImageViewsDeplacable();
         imageViewDoor = new ImageView(Images.imageDoorOpen);
         view.addImageView(imageViewDoor);
-        for (Vertex v: game.getLabyrinth().vertexSet()){
-            for (IMapObject o: v.getMapObjects()){
-                if (o instanceof Candy){
-                    ImageView img = new ImageView(Images.imageCandy);
-                    img.setId(Candy.getInstance().getName());
-                    arrayListImageViewItemsMap[v.getX()][v.getY()].add(img);
-                    view.addImageView(img);
-                }
-                if (o instanceof Switch){
-                    ImageView img = new ImageView(Images.imageButtonClose);
-                    img.setId("button");
-                    arrayListImageViewItemsMap[v.getX()][v.getY()].add(img);
-                    view.addImageView(img);
-                }
-            }
-        }
-
+        hashItemsMap.put("Candy1", Images.imageCandy);
+        hashItemsMap.put("Switch_open", Images.imageButtonOpen);
+        hashItemsMap.put("Switch_close", Images.imageButtonClose);
     }
 
     /**
@@ -145,8 +132,8 @@ public class ControllerView {
     public void launch(Stage primaryStage, Labyrinth laby){
         view.launch(primaryStage, DefineClass.WIDTH, DefineClass.HEIGHT);
         initializeWallView(laby);
+        
         loadImageViews();
-
     }
 
     /**
@@ -160,12 +147,21 @@ public class ControllerView {
         for(Vertex v: game.getLabyrinth().vertexSet()){
             List<IMapObject> listMapObject = v.getMapObjects();
             for (IMapObject o: listMapObject){
-                ImageView imgView = findImageViewArrayMapObject(v.getX(), v.getY(), o);
+            	if(o.getName() != null && !hashViewMap.containsKey(o)) {
+            		ImageView img = new ImageView(hashItemsMap.get(o.getName()));
+            		hashViewMap.put(o, img);
+            		view.addImageView(img);
+            	}else if(o.getName() == null) {
+            		ImageView img = hashViewMap.get(o);
+            		hashViewMap.remove(o);
+            		view.removeImageView(img);
+            	}
+                ImageView imgView = hashViewMap.get(o);
+                
                 if (imgView != null)
                     view.drawImageView(imgView, v.getX(), v.getY());
             }
             //Update if some objects disappeared from the map
-            updateImageViewVertex(v);
         }
         view.drawImageView(imageViewPlayer, game.getPlayer().getPosition().getX(), game.getPlayer().getPosition().getY());
         view.drawImageView(imageViewDoor, game.getVertexDoor().getX(), game.getVertexDoor().getY());
@@ -175,46 +171,6 @@ public class ControllerView {
             i ++;
         }
 
-    }
-
-    /**
-     * find in the arrayMapObject, the imageView attached to the object o.
-     * @param x : x in array
-     * @param y : y in array
-     * @param o : IMapObject
-     * @return ImageView found
-     */
-    private ImageView findImageViewArrayMapObject(int x, int y, IMapObject o){
-        for (ImageView obj: arrayListImageViewItemsMap[x][y]){
-            if (obj.getId().equals(o.getName()))
-                return obj;
-        }
-        return null;
-    }
-
-    /**
-     * Called to check if some object disapeared from the map, so we don't need their ImageView anymore.
-     * @param v check his list of objectMap.
-     */
-    private void updateImageViewVertex(Vertex v){
-        while (arrayListImageViewItemsMap[v.getX()][v.getY()].size() != v.getMapObjects().size() && arrayListImageViewItemsMap[v.getX()][v.getY()].size()>0)
-        {
-            for (ImageView obj: arrayListImageViewItemsMap[v.getX()][v.getY()]){
-                boolean quit = true;
-                for (IMapObject o: v.getMapObjects() ){
-                    if (obj.getId().equals(o.getName())){
-                        quit = false;
-                        break;
-                    }
-                }
-                if (quit){
-                    view.removeImageView(obj);
-                    arrayListImageViewItemsMap[v.getX()][v.getY()].remove(obj);
-                    break;
-                }
-
-            }
-        }
     }
 
     public static ControllerView getInstance(){

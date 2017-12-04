@@ -1,17 +1,23 @@
 package model.mapobject;
 
-public class Candy extends MapObject{
-    private Candy(){
+import graphe.Vertex;
 
+public class Candy implements IMapObject{
+	boolean isTook;
+	
+    public Candy(){
+    	this.isTook = false;
     }
-    public static IMapObject getInstance(){
-        if (instance == null)
-            instance = new Candy();
-        return instance;
+
+    public void doAction() {
+    	if(!isTook) {
+    		isTook = true;
+    	}
     }
 
     @Override
     public String getName() {
-        return "Candy1";
+        if(!isTook) return "Candy1";
+        else return null;
     }
 }

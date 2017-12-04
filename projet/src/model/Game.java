@@ -87,7 +87,7 @@ public class Game {
             Vertex v = labyrinth.getVertex(x,y);
             //we can have many objects on a vertec, but only one candy; and we will place other objects later.
             if (v.getMapObjects() != null && v.getMapObjects().size() == 0){
-                v.addMapObject(Candy.getInstance());
+                v.addMapObject(new Candy());
                 nbCandies ++;
             }
         }
