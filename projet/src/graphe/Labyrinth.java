@@ -27,16 +27,15 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		return null;
 	}
 
-	public void buildLabyrinth(int numEdges) {
+	public void buildLabyrinth(int numberRandomDoor) {
 		if (this.vertexSet() != null && this.vertexSet().size() != 0)
 			this.removeAllVertices(this.vertexSet());
 		if (this.edgeSet() != null && this.edgeSet().size() != 0)
 			this.removeAllEdges(this.edgeSet());
-		System.out.println("ah ! Denis Brogniard ! ");
 		Vertex v = new Vertex(0, 0);
 		this.addVertex(v);
 		GeneratePerfectLabyrinth(v);
-		for (int i = 1; i <= 10; ++i)
+		for (int i = 1; i <= numberRandomDoor; ++i)
 			openDoorRandom();
 	}
 

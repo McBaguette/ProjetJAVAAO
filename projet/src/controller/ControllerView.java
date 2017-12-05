@@ -118,8 +118,10 @@ public class ControllerView {
      */
     private void loadImageViews(){
         loadImageViewsDeplacable();
-        imageViewDoor = new ImageView(Images.imageDoorOpen);
-        view.addImageView(imageViewDoor);
+        if (imageViewDoor == null){
+            imageViewDoor = new ImageView(Images.imageDoorOpen);
+            view.addImageView(imageViewDoor);
+        }
         for (int i = 0; i < DefineClass.NUMBER_CANDIES_TYPE; i++){
             hashItemsMap.put("Candy"+i, Images.imagesCandies[i]);
         }
@@ -156,7 +158,6 @@ public class ControllerView {
     		initializeWallView(laby);
     		loadImageViewsDeplacable();
     	}
-
     	drawDoors(laby);
         for(Vertex v: game.getLabyrinth().vertexSet()){
             List<IMapObject> listMapObject = v.getMapObjects();

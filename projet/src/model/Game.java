@@ -16,18 +16,19 @@ public class Game {
     private List<IDeplacable> enemies;
     private Vertex vertexDoor;
 
-    private int score;
-
-    public Game(){
+    private int score, level;
+    private Game(){
         labyrinth = new Labyrinth();
+        score = 0;
+        level = 0;
     }
 
     /**
-     * Called by Controller, to start all the game.
+     * Called by Controller, to start a level.
      */
     public void launch(){
-        score = 0;
-        restart(0);
+        launchNewLevel(level);
+        level ++;
     }
 
     /**
@@ -70,15 +71,19 @@ public class Game {
      * Call to create a new level, when the player went to the door
      * @param level which level you want
      */
-    private void restart(int level){
-        init(level);
-
+    private void launchNewLevel(int level){
         generateLabyrinthGame(level);
     }
+
+    /**
+     * Initiliazed objects needed for the class.
+     * @param level
+     */
     private void init(int level){
         labyrinth = new Labyrinth();
         player = new PC();
         enemies = new LinkedList<IDeplacable>();
+        vertexDoor = null;
         for (int i = 0; i < level+1; i++)
             enemies.add(new NPC());
     }
@@ -99,7 +104,7 @@ public class Game {
             //call Labyrinth.buildLabyrinth(nbArête)
             int numEdgesPerfectLabyrinth = DefineClass.HEIGHT*DefineClass.WIDTH*4 - (2*(2*DefineClass.HEIGHT + 2*DefineClass.WIDTH));
             init(level);
-            labyrinth.buildLabyrinth(numEdgesPerfectLabyrinth - level*150);
+            labyrinth.buildLabyrinth(level*10);
 
 
             //place candies (random)
@@ -172,9 +177,7 @@ public class Game {
             Vertex savePlayer = player.getPosition();
             System.out.println("simu");
             found = simulatePerfectGame();
-            System.out.println("after simu");
             if (found){
-                System.out.println("found");
                 player.setPosition(savePlayer);
                 int i = 0;
                 for(Vertex v: savePositionEnemies){
@@ -193,6 +196,12 @@ public class Game {
         //TODO
         //rajouter le fait d'enlever des bouts de murs, si c'est impossible de créer un jeu.
     }
+
+    /**
+     * To test if the game is possible or not, will simulates moves of the enemies and the player
+     * You had to save and restore states of the enemies before and after
+     * @return to say if the game is possible or not
+     */
     private boolean simulatePerfectGame(){
         List<Vertex> pathPlayer = new LinkedList<>();
         pathPlayer.add(player.getPosition());
