@@ -119,7 +119,7 @@ public class ControllerView {
     private void loadImageViews(){
         loadImageViewsDeplacable();
         if (imageViewDoor == null){
-            imageViewDoor = new ImageView(Images.imageDoorOpen);
+            imageViewDoor = new ImageView(Images.imageDoor);
             view.addImageView(imageViewDoor);
         }
         for (int i = 0; i < DefineClass.NUMBER_CANDIES_TYPE; i++){
@@ -154,9 +154,10 @@ public class ControllerView {
     		hashViewMap.clear();
     		view.clear();
     		imageViewPlayer = null;
+    		imageViewDoor = null;
     		listImageViewEnemies.clear();
     		initializeWallView(laby);
-    		loadImageViewsDeplacable();
+    		loadImageViews();
     	}
     	drawDoors(laby);
         for(Vertex v: game.getLabyrinth().vertexSet()){

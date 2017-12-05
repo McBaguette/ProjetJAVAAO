@@ -26,7 +26,7 @@ public class ControllerTimer{
     private ControllerView controllerView;
     private ControllerUser controllerUser;
 
-    public ControllerTimer (){
+    private ControllerTimer (){
         game = Game.getInstance();
         controllerUser = ControllerUser.getInstance();
         controllerView = ControllerView.getInstance();
@@ -41,6 +41,7 @@ public class ControllerTimer{
         game.launch();
         controllerView.launch(primaryStage, game.getLabyrinth());
         controllerView.refreshView(game.getLabyrinth(), game.getPlayer(), game.getEnemies());
+        nbTick = 0;
         initTimer();
 
     }
