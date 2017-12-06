@@ -148,7 +148,7 @@ public class ControllerView {
      * @param enemies : List<IDeplacable>, all the enemies
      */
     public void refreshView(Labyrinth laby, IDeplacable player, List<IDeplacable> enemies){
-    	if(labyrinth != laby) {
+    	if(labyrinth != null && labyrinth != laby) {
     		labyrinth = laby;
     		System.out.println("New Game !");
     		hashViewMap.clear();
