@@ -68,14 +68,10 @@ public class ControllerTimer{
             game.movePlayer(controllerUser.getDirectionsPlayer());
             switch(game.manageGame()) {
             case 1:
-                game.launch(true);
-                controllerView.restart(game.getLabyrinth());
-                initTimer();
+                restart(true);
                 break;
             case -1:
-            	game.launch(false);
-                controllerView.restart(game.getLabyrinth());
-                initTimer();
+                restart(false);
             	break;
             default:
             	break;
@@ -85,6 +81,12 @@ public class ControllerTimer{
         else
             nbTick ++;
 
+    }
+    private void restart(boolean increaseDifficulty){
+        game.launch(true);
+        controllerView.restart(game.getLabyrinth());
+        timeline.playFromStart();
+        nbTick = 0;
     }
 
     public static ControllerTimer getInstance() {
