@@ -20,7 +20,7 @@ public class Game {
     private Game(){
         labyrinth = new Labyrinth();
         score = 0;
-        level = 0;
+        level = 1;
     }
 
     /**
@@ -95,8 +95,6 @@ public class Game {
      * @param level
      */
     private void generateLabyrinthGame(int level){
-
-
         int nbWhileMax = 1000;
         int nbWhile = 0;
         boolean found = true;
@@ -105,7 +103,7 @@ public class Game {
             //call Labyrinth.buildLabyrinth(nbArête)
             int numEdgesPerfectLabyrinth = DefineClass.HEIGHT*DefineClass.WIDTH*4 - (2*(2*DefineClass.HEIGHT + 2*DefineClass.WIDTH));
             init(level);
-            labyrinth.buildLabyrinth(level*10);
+            labyrinth.buildLabyrinth(level*5);
 
 
             //place candies (random)
@@ -154,14 +152,13 @@ public class Game {
                     int coordX = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
                     int coordY = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
                     enemy.setPosition(labyrinth.getVertex(coordX, coordY));
-                    for(int p = positionListEnemies; p != 0; p--){
+                    for(int p = positionListEnemies-1; p > 0; p--){
                         if (enemies.get(p).getPosition().equals(enemy.getPosition())){
                             ok = false;
                             break;
                         }
                     }
                     System.out.println("test");
-
 
                 }while(!ok);
                 positionListEnemies ++;
