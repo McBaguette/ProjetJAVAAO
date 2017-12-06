@@ -103,7 +103,7 @@ public class Game {
             init(level);
             labyrinth.buildLabyrinth();
             labyrinth.createDoorsRandom(20/level, DefineClass.Type.OPENED_DOOR);
-            if (nbWhile % 50 == 0)
+            if (nbWhile % 25 == 0)
                 labyrinth.createDoorsRandom(1,DefineClass.Type.OPENED_DOOR);
 
 
@@ -178,8 +178,7 @@ public class Game {
                 }
             }
 
-
-
+            System.out.println(nbWhile);
         }while (!found && nbWhile < nbWhileMax);
         if (!found){
             System.out.println("not found");
