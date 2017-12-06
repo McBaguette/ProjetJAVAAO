@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import static junit.framework.Assert.fail;
 
+import view.Images;
+
 /**
  * Created by jakod on 04/12/2017.
  */

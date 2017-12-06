@@ -136,8 +136,11 @@ public class ControllerView {
      */
     public void launch(Stage primaryStage, Labyrinth laby){
         view.launch(primaryStage, DefineClass.WIDTH, DefineClass.HEIGHT);
+        restart(laby);
+    }
+    public void restart(Labyrinth laby){
         initializeWallView(laby);
-        
+
         loadImageViews();
     }
 

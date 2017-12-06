@@ -27,16 +27,15 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		return null;
 	}
 
-	public void buildLabyrinth(int numberRandomDoor) {
+	public void buildLabyrinth() {
 		if (this.vertexSet() != null && this.vertexSet().size() != 0)
 			this.removeAllVertices(this.vertexSet());
 		if (this.edgeSet() != null && this.edgeSet().size() != 0)
 			this.removeAllEdges(this.edgeSet());
+
 		Vertex v = new Vertex(0, 0);
 		this.addVertex(v);
 		GeneratePerfectLabyrinth(v);
-		for (int i = 1; i <= numberRandomDoor; ++i)
-			openDoorRandom();
 	}
 
 	private void GeneratePerfectLabyrinth(Vertex vertex) {
@@ -51,44 +50,36 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 			directions[i] = v.get(index);
 			v.remove(index);
 		}
+
 		// pour chacune de ces directions, on avance en profondeur d'abord
 		for (int i = 0; i < 4; ++i) {
 			Directions dir = directions[i];
 			Vertex v2 = new Vertex(vertex, dir);
 			if (v2.inBorders() && !this.containsVertex(v2)) {
-				int x = vertex.getX();
-				int y = vertex.getY();
-				int xt = 0, yt = 0;
-				switch (dir) {
-				case NORTH:
-					xt = x;
-					yt = y - 1;
-					break;
-				case SOUTH:
-					xt = x;
-					yt = y + 1;
-					break;
-				case EAST:
-					xt = x + 1;
-					yt = y;
-					break;
-				case WEST:
-					xt = x - 1;
-					yt = y;
-					break;
-				}
-				Vertex next = new Vertex(xt, yt);
-				this.addVertex(next);
-				this.addEdge(vertex, next);
-				GeneratePerfectLabyrinth(next);
+				this.addVertex(v2);
+                try{
+                    this.addEdge(vertex, v2);
+                }
+                catch(Exception e){
+                    System.out.println(this.containsVertex(vertex) + " et "+this.containsVertex(v2));
+                    System.out.println("erreur edge");
+                    e.printStackTrace();
+                }
+				GeneratePerfectLabyrinth(v2);
 			}
 		}
 	}
 
+	public void createDoorsRandom(int number, Type type){
+	    for (int i = 0; i < number; i++){
+	        createDoorRandom(type);
+        }
+    }
+
 	/**
-	 * Try to create a new opened door
+	 * Try to create a new doors
 	 */
-	public void openDoorRandom() {
+	private void createDoorRandom(Type type) {
 		Random random = new Random();
 		// On essaie 1000 fois, apres quoi on renonce
 		for (int i = 1; i <= 1000; ++i) {
@@ -101,7 +92,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 				if (isWall(vertex, dir)) {
 					Vertex vertex2 = getVertexByDir(vertex, dir);
 					if (vertex2 != null) {
-						Edge newEdge = new Edge(Type.CLOSED_DOOR);
+						Edge newEdge = new Edge(type);
 						addEdge(vertex, vertex2, newEdge);
 						addSwitch(newEdge);
 						return;

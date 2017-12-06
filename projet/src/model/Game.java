@@ -85,7 +85,7 @@ public class Game {
         player = new PC();
         enemies = new LinkedList<IDeplacable>();
         vertexDoor = null;
-        for (int i = 0; i < level+1; i++)
+        for (int i = 0; i < level; i++)
             enemies.add(new NPC());
     }
 
@@ -100,10 +100,12 @@ public class Game {
         boolean found = true;
         do
         {
-            //call Labyrinth.buildLabyrinth(nbArête)
-            int numEdgesPerfectLabyrinth = DefineClass.HEIGHT*DefineClass.WIDTH*4 - (2*(2*DefineClass.HEIGHT + 2*DefineClass.WIDTH));
             init(level);
-            labyrinth.buildLabyrinth(level*5);
+            labyrinth.buildLabyrinth();
+            labyrinth.createDoorsRandom(20/level, DefineClass.Type.OPENED_DOOR);
+            if (nbWhile % 50 == 0)
+                labyrinth.createDoorsRandom(1,DefineClass.Type.OPENED_DOOR);
+
 
 
             //place candies (random)
@@ -119,13 +121,12 @@ public class Game {
                 }
             }
 
-
             //place door (random)
             int x = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
             int y = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
             vertexDoor = labyrinth.getVertex(x,y);
             //place player far from the door
-            labyrinth.launchManhattan(vertexDoor, labyrinth.getVertex(0,0));
+            labyrinth.launchManhattan(labyrinth.getVertex(0,0), vertexDoor);
 
             int maxNbr = 0;
             graphe.Vertex vertexFarAway = null;
@@ -138,9 +139,6 @@ public class Game {
             player.setPosition(vertexFarAway);
 
             //place enemies en vérifiant que les enemis ne croiseront pas nécessairement le joueur
-            List<Vertex> listPathPlayer;
-            List<List<Vertex>> listPathEnemies;
-            System.out.println("auieu");
             nbWhile ++;
             //place randomly enemies
             int positionListEnemies = 0;
@@ -158,7 +156,6 @@ public class Game {
                             break;
                         }
                     }
-                    System.out.println("test");
 
                 }while(!ok);
                 positionListEnemies ++;
@@ -171,7 +168,6 @@ public class Game {
                 savePositionEnemies.add(e.getPosition());
             }
             Vertex savePlayer = player.getPosition();
-            System.out.println("simu");
             found = simulatePerfectGame();
             if (found){
                 player.setPosition(savePlayer);

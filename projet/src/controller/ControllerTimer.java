@@ -25,12 +25,14 @@ public class ControllerTimer{
     private Game game;
     private ControllerView controllerView;
     private ControllerUser controllerUser;
+    private Timeline timeline;
 
     private ControllerTimer (){
         game = Game.getInstance();
         controllerUser = ControllerUser.getInstance();
         controllerView = ControllerView.getInstance();
         nbTick = 0;
+        timeline = new Timeline();
     }
 
     /**
@@ -50,7 +52,6 @@ public class ControllerTimer{
      * Call at the begining of the game, to create the game timer.
      */
     public void initTimer(){
-        Timeline timeline = new Timeline();
         final KeyFrame keyFrameForModel = new KeyFrame(Duration.millis(valueTimer), actionEvent -> handle(actionEvent));
         timeline.getKeyFrames().addAll(keyFrameForModel);
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -67,8 +68,14 @@ public class ControllerTimer{
             game.movePlayer(controllerUser.getDirectionsPlayer());
             switch(game.manageGame()) {
             case 1:
+                game.launch(true);
+                controllerView.restart(game.getLabyrinth());
+                initTimer();
+                break;
             case -1:
-            	initTimer();
+            	game.launch(false);
+                controllerView.restart(game.getLabyrinth());
+                initTimer();
             	break;
             default:
             	break;
