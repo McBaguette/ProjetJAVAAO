@@ -101,7 +101,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 				if (isWall(vertex, dir)) {
 					Vertex vertex2 = getVertexByDir(vertex, dir);
 					if (vertex2 != null) {
-						Edge newEdge = new Edge(Type.OPENED_DOOR);
+						Edge newEdge = new Edge(Type.CLOSED_DOOR);
 						addEdge(vertex, vertex2, newEdge);
 						addSwitch(newEdge);
 						return;
