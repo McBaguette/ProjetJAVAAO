@@ -26,9 +26,10 @@ public class Game {
     /**
      * Called by Controller, to start a level.
      */
-    public void launch(){
+    public void launch(boolean increaseDifficulty){
+        if (increaseDifficulty)
+            level ++;
         launchNewLevel(level);
-        level ++;
     }
 
     /**
@@ -122,9 +123,7 @@ public class Game {
             //place door (random)
             int x = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
             int y = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
-            System.out.println("auieu");
             vertexDoor = labyrinth.getVertex(x,y);
-            System.out.println("auieu");
             //place player far from the door
             labyrinth.launchManhattan(vertexDoor, labyrinth.getVertex(0,0));
 

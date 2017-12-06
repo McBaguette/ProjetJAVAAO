@@ -18,7 +18,7 @@ public class GameTest {
         int nbWhile = 100;
 
         for (int i = 0; i < nbWhile; i++){
-            Game.getInstance().launch();
+            Game.getInstance().launch(false);
             List<Vertex> path = new LinkedList<>();
             path.add(Game.getInstance().getPlayer().getPosition());
             Game.getInstance().getLabyrinth().launchManhattan(Game.getInstance().getPlayer().getPosition(), Game.getInstance().getVertexDoor());
