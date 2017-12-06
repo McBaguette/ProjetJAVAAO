@@ -5,6 +5,8 @@ import graphe.Edge;
 import graphe.Vertex;
 import javafx.scene.image.Image;
 import model.mapobject.IMapObject;
+import view.Images;
+import view.Sprite;
 
 /**
  * Class for player in the game
@@ -12,6 +14,7 @@ import model.mapobject.IMapObject;
 public class PC extends Deplacable{
     public PC(){
         super();
+        sprite = new Sprite(Images.imagePlayer);
     }
     public PC(Vertex position){
         super(position);

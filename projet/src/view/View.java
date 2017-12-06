@@ -36,6 +36,8 @@ public class View {
 		return instance;
 	}
 
+
+
 	/**
 	 * Call to initiliate the game
 	 * @param stage	where draw cells
