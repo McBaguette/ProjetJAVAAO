@@ -65,7 +65,14 @@ public class ControllerTimer{
         if (nbTick*valueTimer >= timeBegining )
         {
             game.movePlayer(controllerUser.getDirectionsPlayer());
-            game.manageGame();
+            switch(game.manageGame()) {
+            case 1:
+            case -1:
+            	initTimer();
+            	break;
+            default:
+            	break;
+            }
             controllerView.refreshView(game.getLabyrinth(), game.getPlayer(), game.getEnemies());
         }
         else
