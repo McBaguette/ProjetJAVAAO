@@ -146,12 +146,17 @@ public class Game {
                 //enemies can't be at the same position
                 boolean ok = true;
                 do{
+                    ok = true;
                     enemy.setPosition(null);
                     int coordX = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
                     int coordY = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
                     enemy.setPosition(labyrinth.getVertex(coordX, coordY));
-                    for(int p = positionListEnemies-1; p > 0; p--){
-                        if (enemies.get(p).getPosition().equals(enemy.getPosition())){
+                    if (enemies.size() == 4)
+                    {
+                        int i =0;
+                    }
+                    for(int p = positionListEnemies; p > 0; p--){
+                        if (enemies.get(p-1).getPosition().equals(enemy.getPosition())){
                             ok = false;
                             break;
                         }
