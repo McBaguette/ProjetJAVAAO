@@ -58,16 +58,14 @@ public class View {
 	
 	private Rectangle createWall(int xs, int ys, int xt, int yt) {
 		int x, y, xspan, yspan;
+		xspan = WALL * SPAN;
+		yspan = CELL * SPAN;
 		if (ys == yt) {
 			x = ((WALL + CELL) + (WALL + CELL) * ((int) (xs + xt) / 2)) * SPAN;
 			y = (WALL + ys * (WALL + CELL)) * SPAN;
-			xspan = WALL * SPAN;
-			yspan = CELL * SPAN;
 		} else if (xs == xt) {
 			x = (WALL + xs * (WALL + CELL)) * SPAN;
 			y = ((WALL + CELL) + (WALL + CELL) * ((int) (ys + yt) / 2)) * SPAN;
-			xspan = CELL * SPAN;
-			yspan = WALL * SPAN;
 		} else {
 			return null;
 		}
