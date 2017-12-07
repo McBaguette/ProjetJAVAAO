@@ -98,7 +98,11 @@ public class ControllerTimer{
         timeline.playFromStart();
         nbTick = 0;
     }
-
+    
+    /**
+     * Return the unique instance of this class.  
+     */
+    
     public static ControllerTimer getInstance() {
         return instance;
     }
