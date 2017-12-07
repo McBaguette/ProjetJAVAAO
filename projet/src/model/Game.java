@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import static java.lang.System.exit;
+
 public class Game {
     private static Game instance = new Game();
     private Labyrinth labyrinth;
@@ -17,27 +19,25 @@ public class Game {
     private List<IDeplacable> enemies;
     private Vertex vertexDoor;
 
-    private int score, level;
+    private int score, level, scoreForTheLevel;
     private Game(){
         labyrinth = new Labyrinth();
         player = new PC();
         enemies = new LinkedList<>();
         vertexDoor = new Vertex(0,0);
         score = 0;
-        level = 1;
+        level = 2;
     }
 
     /**
-     * Called by Controller, to start a level.
+     * Called by ControllerTimer, to start a level.
+     * @param increaseDifficulty to say if the game has to be more difficult
      */
     public void launch(boolean increaseDifficulty){
         if (increaseDifficulty)
             level ++;
-        try {
-            launchNewLevel(level);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        launchNewLevel(level);
     }
 
     /**
@@ -47,15 +47,16 @@ public class Game {
     public int manageGame(){
         moveEnemies();
         if (manageInteractionWithMap() == 1){
+            score += scoreForTheLevel;
             System.out.println("Victory !");
+            printScore();
             return 1;
         }
-
         if (manageInteractionWithEnemies() == -1){
-            System.out.println("Game over !");
+            System.out.println("Defeat !");
+            printScore();
             return -1;
         }
-        //System.out.println(score);
         return 0;
 
     }
@@ -69,37 +70,41 @@ public class Game {
             ((PC)player).move(dir);
     }
 
-    /**
-     * I don't know if it will be use
-     */
-    private void gameOver(){
-
-    }
 
     /**
      * Call to create a new level, when the player went to the door
      * @param level which level you want
      */
-    private void launchNewLevel(int level) throws Exception{
+    private void launchNewLevel(int level){
+        scoreForTheLevel = 0;
         vertexDoor = GameGeneration.generateLabyrithGame(labyrinth, player, enemies, level);
         if (vertexDoor == null){
-            throw new Exception("Impossible to create a game");
+            System.out.println("Impossible to create the game");
+            exit(0);
         }
     }
 
 
-
-
-
+    /**
+     * Here we check if the player is on the door (so the end of the level)
+     * And check if the player is on a ObjectMap, call doAction associate to the ObjectMap and increase the score
+     * @return 1 if the player is on the door (so if the player win) and 0 if no.
+     */
     private int manageInteractionWithMap(){
+        for (IMapObject o: player.getPosition().getMapObjects()) {
+            o.doAction();
+            scoreForTheLevel += o.getScore();
+        }
         if (player.getPosition().equals(vertexDoor))
             return 1;
-        for (IMapObject o: player.getPosition().getMapObjects()){
-            o.doAction();
-            score += o.getScore();
-        }
+
         return 0;
     }
+
+    /**
+     * Check if the player is on an enemy (so if the player lost)
+     * @return -1 if the player lost, 0 if not
+     */
     private int manageInteractionWithEnemies(){
         for (IDeplacable enemie: enemies){
             if (player.getPosition().equals((enemie).getPosition()))
@@ -107,11 +112,22 @@ public class Game {
         }
         return 0;
     }
+
+    /**
+     * Moves enemies, launchn manhattan between enemy and player, and call enemy.move()
+     */
     private void moveEnemies(){
         for(IDeplacable e:enemies){
             labyrinth.launchManhattan(e.getPosition(), player.getPosition());
             ((NPC)e).move(labyrinth);
         }
+    }
+
+    /**
+     * Print on console the score
+     */
+    public void printScore(){
+        System.out.println("Your score is "+getScore());
     }
 
     public static Game getInstance(){
@@ -128,4 +144,5 @@ public class Game {
         return enemies;
     }
     public Vertex getVertexDoor(){return vertexDoor;}
+    public int getScore(){return score;}
 }

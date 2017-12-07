@@ -29,10 +29,19 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	}
 
 	public void buildLabyrinth() {
-		if (this.vertexSet() != null && this.vertexSet().size() != 0)
-			this.removeAllVertices(this.vertexSet());
-		if (this.edgeSet() != null && this.edgeSet().size() != 0)
-			this.removeAllEdges(this.edgeSet());
+
+		if (this.vertexSet() != null && this.vertexSet().size() != 0){
+			Object[] setv = this.vertexSet().toArray();
+			for (int i = 0; i < setv.length; i++){
+				this.removeVertex((Vertex) setv[i]);
+			}
+		}
+		if (this.edgeSet() != null && this.edgeSet().size() != 0){
+			Object[] setE = this.edgeSet().toArray();
+			for (int i = 0; i < setE.length; i++)
+				this.removeEdge((Edge)setE[i]);
+		}
+
 
 		Vertex v = new Vertex(0, 0);
 		this.addVertex(v);
@@ -274,9 +283,8 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 					Vertex next = this.getNeighborVertex(actual, dir);
 					if (next.getNbr() == 0) {
 						next.setNbr(actual.getNbr() + 1);
-						// if (!next.equals(source)){
 						fifo.add(next);
-						// }
+
 					}
 				}
 			}

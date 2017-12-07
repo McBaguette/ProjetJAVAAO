@@ -8,9 +8,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by clement on 07/12/2017.
+ * class GameGeneration:
+ * All methods here are static
+ * In this class we generate a Labyrinth game
  */
 public class GameGeneration {
+    /**
+     * Create a labyrinth game, place candies, place enemies, place player and create a game winnable
+     * @param labyrinth
+     * @param player
+     * @param enemies
+     * @param level
+     * @return
+     */
     public static Vertex generateLabyrithGame(Labyrinth labyrinth, IDeplacable player, List<IDeplacable> enemies, int level){
         int nbWhileMax = 1000;
         int nbWhile = 0;
@@ -21,8 +31,7 @@ public class GameGeneration {
             initEnemies(enemies, level);
             labyrinth.buildLabyrinth();
             labyrinth.createDoorsRandom(20/level, DefineClass.Type.OPENED_DOOR);
-            if (nbWhile % 25 == 0)
-                labyrinth.createDoorsRandom(1,DefineClass.Type.OPENED_DOOR);
+            labyrinth.createDoorsRandom(nbWhile/25,DefineClass.Type.OPENED_DOOR);
 
 
 
@@ -63,10 +72,6 @@ public class GameGeneration {
                     ok = true;
                     enemy.setPosition(null);
                     enemy.setPosition(labyrinth.getRandomVertex());
-                    if (enemies.size() == 4)
-                    {
-                        int i =0;
-                    }
                     for(int p = positionListEnemies; p > 0; p--){
                         if (enemies.get(p-1).getPosition().equals(enemy.getPosition())){
                             ok = false;
@@ -79,21 +84,7 @@ public class GameGeneration {
             }
 
             //we will simulate the game to see if is possible
-            //first we save:
-            List<Vertex> savePositionEnemies = new LinkedList<>();
-            for(IDeplacable e: enemies){
-                savePositionEnemies.add(e.getPosition());
-            }
-            Vertex savePlayer = player.getPosition();
             found = simulatePerfectGame(labyrinth, player, enemies, vertexDoor);
-            if (found){
-                player.setPosition(savePlayer);
-                int i = 0;
-                for(Vertex v: savePositionEnemies){
-                    enemies.get(i).setPosition(v);
-                    i++;
-                }
-            }
 
             System.out.println(nbWhile);
         }while (!found && nbWhile < nbWhileMax);

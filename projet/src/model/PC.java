@@ -14,7 +14,6 @@ import view.Sprite;
 public class PC extends Deplacable{
     public PC(){
         super();
-        sprite = new Sprite(Images.imagePlayer);
     }
     public PC(Vertex position){
         super(position);

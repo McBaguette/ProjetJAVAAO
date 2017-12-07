@@ -14,7 +14,7 @@ public class Edge extends DefaultEdge {
 	}
 	
 	public Edge(Type type) {
-		super();
+		this();
 		this.type = type;
 	}
 

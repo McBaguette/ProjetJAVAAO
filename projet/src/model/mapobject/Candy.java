@@ -17,7 +17,6 @@ public class Candy extends MapObject{
             wich = 0;
         else if (wich > DefineClass.NUMBER_CANDIES_TYPE)
             wich = DefineClass.NUMBER_CANDIES_TYPE-1;
-        sprite = new Sprite(Images.imagesCandies[wich]);
         score = 10;
     }
 

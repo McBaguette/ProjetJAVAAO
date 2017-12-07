@@ -21,7 +21,7 @@ import view.View;
 public class ControllerTimer{
 
     private static ControllerTimer instance = new ControllerTimer();
-    private static int valueTimer = 500;
+    private static int valueTimer = 50;
     private static int timeBegining = 3000;
     private int nbTick;
     private Game game;

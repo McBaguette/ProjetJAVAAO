@@ -14,10 +14,10 @@ public class NPC extends Deplacable{
     private boolean flee;
     public NPC(){
         super();
-        sprite = new Sprite(Images.imageEnemy);
     }
     public NPC(Vertex position){
         this();
+        this.position = position;
         flee = false;
     }
 
