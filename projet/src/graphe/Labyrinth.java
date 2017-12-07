@@ -85,7 +85,7 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		// On essaie 1000 fois, apres quoi on renonce
 		for (int i = 1; i <= 1000; ++i) {
 			// On choisi un sommet au hasard
-			Vertex vertex = this.getVertex(random.nextInt(DefineClass.WIDTH), random.nextInt(DefineClass.HEIGHT));
+			Vertex vertex = this.getVertex(random.nextInt(DefineClass.WIDTH-1), random.nextInt(DefineClass.HEIGHT-1));
 			if (vertex != null) {
 				// On choisi une direction au hasard (on devrait prendre seulement
 				// celles qui correspondent a desmurs...)
@@ -112,8 +112,11 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	 */
 	public void addSwitch(Edge door) {
 		Random random = new Random();
-		this.getVertex(random.nextInt(DefineClass.WIDTH), random.nextInt(DefineClass.HEIGHT))
-				.addMapObject(new Switch(door));
+		Vertex v = this.getVertex(random.nextInt(DefineClass.WIDTH), random.nextInt(DefineClass.HEIGHT));
+		while(v == null || v.getMapObjects().size() > 0) {
+			v = this.getVertex(random.nextInt(DefineClass.WIDTH), random.nextInt(DefineClass.HEIGHT));
+		}
+		v.addMapObject(new Switch(door));
 	}
 
 	/**
@@ -296,9 +299,13 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 	 * @return Vertex from the labyrinth
 	 */
 	public Vertex getRandomVertex(){
-		int x = UsefulFunctions.generateRandomNumber(0, DefineClass.SOUTH_BORDER);
-		int y = UsefulFunctions.generateRandomNumber(0, DefineClass.EAST_BORDER);
-		return getVertex(x,y);
+		Vertex v = null;
+		while(v == null) {
+			int x = UsefulFunctions.generateRandomNumber(0, DefineClass.SOUTH_BORDER);
+			int y = UsefulFunctions.generateRandomNumber(0, DefineClass.EAST_BORDER);
+			v = getVertex(x,y);
+		}
+		return v;
 	}
 
 	public void toDot(String fileName) {
