@@ -83,6 +83,6 @@ public class Vertex {
 	}
 
 	public boolean inBorders() {
-		return x>=0 && y >= 0 && x <= DefineClass.SOUTH_BORDER && y <= DefineClass.EAST_BORDER;
+		return x>=0 && y >= 0 && x <= DefineClass.EAST_BORDER && y <= DefineClass.SOUTH_BORDER;
 	}
 }
