@@ -56,39 +56,55 @@ public class View {
 		drawFrames();
 	}
 	
+	private Rectangle createWall(int xs, int ys, int xt, int yt) {
+		int x, y, xspan, yspan;
+		if (ys == yt) {
+			x = ((WALL + CELL) + (WALL + CELL) * ((int) (xs + xt) / 2)) * SPAN;
+			y = (WALL + ys * (WALL + CELL)) * SPAN;
+			xspan = WALL * SPAN;
+			yspan = CELL * SPAN;
+		} else if (xs == xt) {
+			x = (WALL + xs * (WALL + CELL)) * SPAN;
+			y = ((WALL + CELL) + (WALL + CELL) * ((int) (ys + yt) / 2)) * SPAN;
+			xspan = CELL * SPAN;
+			yspan = WALL * SPAN;
+		} else {
+			return null;
+		}
+		return new Rectangle(x, y, xspan, yspan);
+	}
+
 	/**
 	 * Call to draws all cells
 	 */
-	private void drawFrames(){
+	private void drawFrames() {
+		double wall_span = WALL * SPAN;
+		double lab_width = w * (CELL + WALL);
+		double lab_height = h * (CELL + WALL);
+		
+		Rectangle right = new Rectangle(0, 0, SPAN * (lab_width + WALL), wall_span);
+		Rectangle down = new Rectangle(0, SPAN * lab_height, SPAN * (lab_width + WALL), wall_span);
+		Rectangle top = new Rectangle(0, 0, wall_span, SPAN * (lab_height + WALL));
+		Rectangle left = new Rectangle(SPAN * lab_width, 0, wall_span, SPAN * (lab_height + WALL));
+
+		right.setFill(WALL_COLOR);
+		down.setFill(WALL_COLOR);
+		top.setFill(WALL_COLOR);
+		left.setFill(WALL_COLOR);
+
+		pane.getChildren().add(right);
+		pane.getChildren().add(down);
+		pane.getChildren().add(top);
+		pane.getChildren().add(left);
+
 		Rectangle square;
-		square = new Rectangle(0,0,
-				SPAN* (w*(CELL+WALL)+WALL), WALL*SPAN);
-		square.setFill(WALL_COLOR);
-		pane.getChildren().add(square);
-
-
-		square = new Rectangle(0,SPAN*(h*(CELL+WALL)),
-				SPAN* (w*(CELL+WALL)+WALL), WALL*SPAN);
-		square.setFill(WALL_COLOR);
-		pane.getChildren().add(square);
-
-		square = new Rectangle(0,0,
-				WALL*SPAN, SPAN* (h*(CELL+WALL)+WALL));
-		square.setFill(WALL_COLOR);
-		pane.getChildren().add(square);
-
-		square = new Rectangle(SPAN* (w*(CELL+WALL)) ,0,
-				WALL*SPAN, SPAN* (h*(CELL+WALL)+WALL));
-		square.setFill(WALL_COLOR);
-		pane.getChildren().add(square);
-
-		for(int x=0; x<w-1; ++x){
-			int offsetX = ((WALL+CELL) + (WALL+CELL)*x)*SPAN;
-			for(int y=0;y<h-1;++y){
-				int offsetY = ((WALL+CELL) +(WALL+CELL)*y)*SPAN;
-				square = new Rectangle(offsetX, offsetY,
-						WALL*SPAN, WALL*SPAN);
+		
+		for (int x = 0; x < w - 1; ++x) {
+			for (int y = 0; y < h - 1; ++y) {
+				square = new Rectangle(0, 0, WALL * SPAN, WALL * SPAN);
 				square.setFill(WALL_COLOR);
+				square.setX(((WALL + CELL) + (WALL + CELL) * x) * SPAN);
+				square.setY(((WALL + CELL) + (WALL + CELL) * y) * SPAN);
 				pane.getChildren().add(square);
 			}
 		}
@@ -97,52 +113,14 @@ public class View {
 	/**
 	 * Draw a wall between the cells s and t
 	 */
-	public void drawWall(int xs, int ys, int xt, int yt){
-		int x = 0, y = 0, xspan = 0, yspan = 0;
-		if(ys==yt){
-			x = ((WALL+CELL)+(WALL+CELL)*((int)(xs+xt)/2))*SPAN;
-			y = (WALL + ys*(WALL+CELL)) * SPAN;
-			xspan = WALL*SPAN;
-			yspan = CELL*SPAN;
-			Rectangle square = new Rectangle(x,y,xspan, yspan);
+	public void drawWall(int xs, int ys, int xt, int yt, boolean isDoor, boolean isOpen) {
+		Rectangle square = createWall(xs, ys, xt, yt);
+		if (!isDoor) {
 			square.setFill(WALL_COLOR);
-			pane.getChildren().add(square);
+		} else {
+			square.setFill(isOpen ? OP_DOOR_COLOR : CL_DOOR_COLOR);
 		}
-		else if(xs==xt){
-			x = (WALL+xs*(WALL+CELL))*SPAN;
-			y = ((WALL+CELL)+(WALL+CELL)*((int)(ys+yt)/2))*SPAN;
-			xspan = CELL*SPAN;
-			yspan = WALL*SPAN;
-			Rectangle square = new Rectangle(x,y,xspan, yspan);
-			square.setFill(WALL_COLOR);
-			pane.getChildren().add(square);
-		}
-	}
-	
-	/**
-	 * Draw a door between the cells s and t
-	 */
-	public void drawDoor(int xs, int ys, int xt, int yt, boolean open){
-		int x = 0, y = 0, xspan = 0, yspan = 0;
-		Paint color = open?OP_DOOR_COLOR:CL_DOOR_COLOR;
-		if(ys==yt){
-			x = ((WALL+CELL)+(WALL+CELL)*((int)(xs+xt)/2))*SPAN;
-			y = (WALL + ys*(WALL+CELL)) * SPAN;
-			xspan = WALL*SPAN;
-			yspan = CELL*SPAN;
-			Rectangle square = new Rectangle(x,y,xspan, yspan);
-			square.setFill(color);
-			pane.getChildren().add(square);
-		}
-		else if(xs==xt){
-			x = (WALL+xs*(WALL+CELL))*SPAN;
-			y = ((WALL+CELL)+(WALL+CELL)*((int)(ys+yt)/2))*SPAN;
-			xspan = CELL*SPAN;
-			yspan = WALL*SPAN;
-			Rectangle square = new Rectangle(x,y,xspan, yspan);
-			square.setFill(color);
-			pane.getChildren().add(square);
-		}
+		pane.getChildren().add(square);
 	}
 	
 	
