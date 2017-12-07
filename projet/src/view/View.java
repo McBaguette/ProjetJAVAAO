@@ -144,6 +144,8 @@ public class View {
 			pane.getChildren().add(square);
 		}
 	}
+	
+	
 
 	/**
 	 * Set the ImageView image to the coordonate x,y.
@@ -173,6 +175,8 @@ public class View {
 		if (image != null)
 			pane.getChildren().remove(image);
 	}
+	
+	
 	
 	public void clear(){
 		pane.getChildren().clear();
@@ -206,5 +210,9 @@ public class View {
 
 	public Scene getScene(){
 		return scene;
+	}
+	
+	public Pane getPane(){
+		return pane;
 	}
 }
