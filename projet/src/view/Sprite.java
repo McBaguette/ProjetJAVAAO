@@ -4,38 +4,33 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
+import view.View;
 
 /**
  * Created by clement on 06/12/2017.
  */
 public class Sprite implements ISprite{
     private ImageView imageView;
-    private Pane panel;
 
     public Sprite(Image img) {
         imageView = new ImageView(img);
-        panel = null;
+
     }
 
     @Override
-    public void draw(Pane panel, int x, int y) {
-        addImageToView(panel);
-        imageView.setX(x);
-        imageView.setY(y);
-
+    public void draw(int x, int y) {
+        //addImageToView(panel);
+    	double xt = (int)((View.WALL+x*(View.WALL+View.CELL))*View.SPAN);
+		double yt = (int)((View.WALL+y*(View.WALL+View.CELL))*View.SPAN);
+        imageView.setX(xt);
+        imageView.setY(yt);
     }
-    private void addImageToView(Pane panel){
-        if (this.panel == null){
-            this.panel = panel;
+    public void addImageToView(Pane panel){
             panel.getChildren().add(imageView);
-        }
+        
     }
-    public void removeImageFromView(){
-        if (this.panel != null){
-            this.panel.getChildren().remove(imageView);
-            this.panel = null;
-        }
+    public void removeImageFromView(Pane panel){
+            panel.getChildren().remove(imageView);
 
     }
     public void setImage(Image image){

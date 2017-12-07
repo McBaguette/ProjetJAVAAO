@@ -8,7 +8,7 @@ import javafx.stage.Stage;
  * Created by clement on 06/12/2017.
  */
 public interface ISprite {
-    public void draw(Pane panel, int x, int y);
-    public void removeImageFromView();
+    public void draw(int x, int y);
+    public void removeImageFromView(Pane panel);
     public void setImage(Image image);
 }
