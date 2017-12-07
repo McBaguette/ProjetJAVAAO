@@ -11,19 +11,15 @@ import model.Game;
 import view.View;
 
 /**
- * Created by jakod on 29/11/2017.
+ * Class ControllerUser : this class permit a communication between the client and the game for the direction of the player with the keyboard inputs.
  */
+
 public class ControllerUser implements EventHandler<KeyEvent>{
     private static ControllerUser instance = new ControllerUser();
     private KeyCode keycode;
 
-    public static ControllerUser getInstance(){
-        return instance;
-    }
-
     private ControllerUser(){
     }
-
 
     /**
      * Handler created in the View, called when there is a keyboard event.
@@ -52,8 +48,16 @@ public class ControllerUser implements EventHandler<KeyEvent>{
         return null;
 
     }
-    //aura pour but de renvoyer Echap par exemple pour la pause
+    //will be used to return Echap for the pause or orther actions. 
     public int getOthersEvent(){
         return 0;
+    }
+    
+    /**
+     * Return the unique instance of this class.  
+     */
+    
+    public static ControllerUser getInstance(){
+        return instance;
     }
 }
