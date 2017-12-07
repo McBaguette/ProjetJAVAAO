@@ -84,6 +84,11 @@ public class ControllerView {
         }
     }
     
+    /**
+      * Called by refreshview. In function of the edge type this method call the drawDoor method of the View.
+      * @param lab 
+      */
+   
     private void drawDoors(Labyrinth lab){
         for(Edge e :lab.edgeSet()){
         	Type type = e.getType();
@@ -139,6 +144,13 @@ public class ControllerView {
         view.launch(primaryStage, DefineClass.WIDTH, DefineClass.HEIGHT);
         restart(laby);
     }
+    
+    /**
+     * Called by launch to restart the view of the game.
+     * It clear the view and image view of the game and launch the initializeWallView method to draw the labyrinth using the param laby.
+     * param laby
+    */
+    
     public void restart(Labyrinth laby){
         hashViewMap.clear();
         view.clear();
@@ -188,7 +200,11 @@ public class ControllerView {
         }
 
     }
-
+    
+    /**
+     * Return the unique instance of this class.  
+     */
+    
     public static ControllerView getInstance(){
         return instance;
     }
