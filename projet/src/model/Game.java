@@ -85,7 +85,8 @@ public class Game {
         player = new PC();
         enemies = new LinkedList<IDeplacable>();
         vertexDoor = null;
-        for (int i = 0; i < level; i++)
+        int nbEnemies = level/2;
+        for (int i = 0; i < nbEnemies && i < DefineClass.NUMBER_ENEMIES_MAX ;  i++)
             enemies.add(new NPC());
     }
 
@@ -111,20 +112,16 @@ public class Game {
             //place candies (random)
             int nbCandies = 0;
             while(nbCandies < DefineClass.NUMBER_CANDIES_ON_MAP) {
-                int x = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
-                int y = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
-                Vertex v = labyrinth.getVertex(x,y);
+                Vertex v = labyrinth.getRandomVertex();
                 //we can have many objects on a vertex, but only one candy; and we will place other objects later.
                 if (v.getMapObjects() != null && v.getMapObjects().size() == 0){
-                    v.addMapObject(new Candy((int)(Math.random() * DefineClass.NUMBER_CANDIES_TYPE)));
+                    v.addMapObject(new Candy(UsefulFunctions.generateRandomNumber(0, DefineClass.NUMBER_CANDIES_TYPE-1)));
                     nbCandies ++;
                 }
             }
 
             //place door (random)
-            int x = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
-            int y = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
-            vertexDoor = labyrinth.getVertex(x,y);
+            vertexDoor = labyrinth.getRandomVertex();
             //place player far from the door
             labyrinth.launchManhattan(labyrinth.getVertex(0,0), vertexDoor);
 
@@ -148,9 +145,7 @@ public class Game {
                 do{
                     ok = true;
                     enemy.setPosition(null);
-                    int coordX = (int) (Math.random() * (DefineClass.SOUTH_BORDER+1));
-                    int coordY = (int) (Math.random() * (DefineClass.EAST_BORDER+1));
-                    enemy.setPosition(labyrinth.getVertex(coordX, coordY));
+                    enemy.setPosition(labyrinth.getRandomVertex());
                     if (enemies.size() == 4)
                     {
                         int i =0;

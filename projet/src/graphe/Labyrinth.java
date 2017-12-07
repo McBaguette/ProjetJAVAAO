@@ -3,6 +3,7 @@ package graphe;
 import model.DefineClass;
 import model.DefineClass.Directions;
 import model.DefineClass.Type;
+import model.UsefulFunctions;
 import model.mapobject.Switch;
 
 import java.io.FileNotFoundException;
@@ -288,6 +289,16 @@ public class Labyrinth extends SimpleGraph<Vertex, Edge> {
 		for (Vertex vertex : this.vertexSet())
 			vertex.setNbr(0);
 		calculateManhattanDistance(source, target);
+	}
+
+	/**
+	 * Give a Vertex took randomly
+	 * @return Vertex from the labyrinth
+	 */
+	public Vertex getRandomVertex(){
+		int x = UsefulFunctions.generateRandomNumber(0, DefineClass.SOUTH_BORDER);
+		int y = UsefulFunctions.generateRandomNumber(0, DefineClass.EAST_BORDER);
+		return getVertex(x,y);
 	}
 
 	public void toDot(String fileName) {
