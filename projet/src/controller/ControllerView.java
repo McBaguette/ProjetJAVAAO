@@ -35,9 +35,9 @@ public class ControllerView {
     private static ControllerView instance = new ControllerView();
     private Game game;
     private View view;
-    private ImageView imageViewPlayer;
-    private ImageView imageViewDoor;
-    private List<ImageView> listImageViewEnemies;
+    private Sprite imageViewPlayer;
+    private Sprite imageViewDoor;
+    private List<Sprite> listImageViewEnemies;
     private HashMap<String,Image> hashItemsMap;
     private HashMap<IMapObject,Sprite> hashViewMap;
 
@@ -98,18 +98,18 @@ public class ControllerView {
      */
     private void loadImageViewsDeplacable(){
         if (imageViewPlayer == null){
-            imageViewPlayer = new ImageView(Images.imagePlayer);
-            view.addImageView(imageViewPlayer);
+            imageViewPlayer = new Sprite(Images.imagePlayer);
+            imageViewPlayer.addImageToView(view.getPane());
         }
 
         while(listImageViewEnemies.size() > game.getEnemies().size()){
-            view.removeImageView(listImageViewEnemies.get(0));
+        	listImageViewEnemies.get(0).removeImageFromView(view.getPane());
             listImageViewEnemies.remove(0);
         }
         while (listImageViewEnemies.size() < game.getEnemies().size()){
-            ImageView img = new ImageView(Images.imageEnemy);
-            listImageViewEnemies.add(img);
-            view.addImageView(img);
+            Sprite sprite = new Sprite(Images.imageEnemy);
+            listImageViewEnemies.add(sprite);
+            sprite.addImageToView(view.getPane());
         }
 
     }
@@ -120,8 +120,8 @@ public class ControllerView {
     private void loadImageViews(){
         loadImageViewsDeplacable();
         if (imageViewDoor == null){
-            imageViewDoor = new ImageView(Images.imageDoor);
-            view.addImageView(imageViewDoor);
+            imageViewDoor = new Sprite(Images.imageDoor);
+            imageViewDoor.addImageToView(view.getPane());
         }
         for (int i = 0; i < DefineClass.NUMBER_CANDIES_TYPE; i++){
             hashItemsMap.put("Candy"+i, Images.imagesCandies[i]);
@@ -166,21 +166,24 @@ public class ControllerView {
             		sprite.addImageToView(view.getPane());
             	}else if(o.getName() == null) {
             		Sprite sprite = hashViewMap.get(o);
-            		hashViewMap.remove(o);
-            		sprite.removeImageFromView();
+            		if(sprite!=null){
+            			hashViewMap.remove(o);
+            			sprite.removeImageFromView(view.getPane());
+            		}
             	}
                 Sprite sprite = hashViewMap.get(o);
                 
                 if (sprite != null)
-                	sprite.draw(view.getPane(), v.getX(), v.getY());
+                	sprite.draw(v.getX(), v.getY());
             }
             //Update if some objects disappeared from the map
         }
-        view.drawImageView(imageViewPlayer, game.getPlayer().getPosition().getX(), game.getPlayer().getPosition().getY());
-        view.drawImageView(imageViewDoor, game.getVertexDoor().getX(), game.getVertexDoor().getY());
+        imageViewPlayer.draw(game.getPlayer().getPosition().getX(), game.getPlayer().getPosition().getY());
+        imageViewDoor.draw(game.getVertexDoor().getX(), game.getVertexDoor().getY());
+        
         int i = 0;
         for (IDeplacable e:enemies){
-            view.drawImageView(listImageViewEnemies.get(i), e.getPosition().getX(), e.getPosition().getY());
+        	listImageViewEnemies.get(i).draw(e.getPosition().getX(), e.getPosition().getY());
             i ++;
         }
 

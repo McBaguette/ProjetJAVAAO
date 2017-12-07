@@ -15,9 +15,9 @@ import java.awt.*;
 
 public class View {
 
-	static final int SPAN = 4;	//  Pixels  for  a  unit
-	static final int WALL = 2;	//  thickness of the walls (in units)
-	static final int CELL = 9;	//  size of the cells (in units)
+	public static final int SPAN = 4;	//  Pixels  for  a  unit
+	public static final int WALL = 2;	//  thickness of the walls (in units)
+	public static final int CELL = 9;	//  size of the cells (in units)
 	static final Paint WALL_COLOR = Color.BURLYWOOD;
 	static final Paint OP_DOOR_COLOR = Color.GREEN;
 	static final Paint CL_DOOR_COLOR = Color.RED;
@@ -143,37 +143,6 @@ public class View {
 			square.setFill(color);
 			pane.getChildren().add(square);
 		}
-	}
-	
-	
-
-	/**
-	 * Set the ImageView image to the coordonate x,y.
-	 * @param image the ImageView to set
-	 * @param x coordonate will be recalculate to be drawn on screen
-	 * @param y coordonate will be recalculate to be drawn on screen
-	 */
-	public void drawImageView(ImageView image, int x, int y){
-		double xt = (int)((WALL+x*(WALL+CELL))*SPAN);
-		double yt = (int)((WALL+y*(WALL+CELL))*SPAN);
-		image.setX(xt);
-		image.setY(yt);
-	}
-
-	/**
-	 * Add an ImageView to the Pane pane
-	 * @param image ImageView to add
-	 */
-	public void addImageView(ImageView image){
-		pane.getChildren().add(image);
-	}
-	/**
-	 * Remove an ImageView to the Pane pane
-	 * @param image ImageView to remove
-	 */
-	public void removeImageView(ImageView image){
-		if (image != null)
-			pane.getChildren().remove(image);
 	}
 	
 	
