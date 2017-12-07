@@ -19,6 +19,7 @@ import model.mapobject.Candy;
 import model.mapobject.IMapObject;
 import model.mapobject.Switch;
 import view.Images;
+import view.Sprite;
 import view.View;
 
 import java.util.HashMap;
@@ -38,14 +39,15 @@ public class ControllerView {
     private ImageView imageViewDoor;
     private List<ImageView> listImageViewEnemies;
     private HashMap<String,Image> hashItemsMap;
-    private HashMap<IMapObject,ImageView> hashViewMap;
+    private HashMap<IMapObject,Sprite> hashViewMap;
 
     private ControllerView(){
         game = Game.getInstance();
         view = View.getInstance();
         listImageViewEnemies = new LinkedList<>();
         hashItemsMap = new HashMap<String,Image>();    
-        hashViewMap = new HashMap<IMapObject,ImageView>();
+        hashViewMap = new HashMap<IMapObject,Sprite>();
+        
     }
 
     /**
@@ -159,18 +161,18 @@ public class ControllerView {
             List<IMapObject> listMapObject = v.getMapObjects();
             for (IMapObject o: listMapObject){
             	if(o.getName() != null && !hashViewMap.containsKey(o)) {
-            		ImageView img = new ImageView(hashItemsMap.get(o.getName()));
-            		hashViewMap.put(o, img);
-            		view.addImageView(img);
+            		Sprite sprite = new Sprite(hashItemsMap.get(o.getName()));
+            		hashViewMap.put(o, sprite);
+            		sprite.addImageToView(view.getPane());
             	}else if(o.getName() == null) {
-            		ImageView img = hashViewMap.get(o);
+            		Sprite sprite = hashViewMap.get(o);
             		hashViewMap.remove(o);
-            		view.removeImageView(img);
+            		sprite.removeImageFromView();
             	}
-                ImageView imgView = hashViewMap.get(o);
+                Sprite sprite = hashViewMap.get(o);
                 
-                if (imgView != null)
-                    view.drawImageView(imgView, v.getX(), v.getY());
+                if (sprite != null)
+                	sprite.draw(view.getPane(), v.getX(), v.getY());
             }
             //Update if some objects disappeared from the map
         }
