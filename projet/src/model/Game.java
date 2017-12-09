@@ -11,6 +11,10 @@ import java.util.concurrent.ExecutionException;
 
 import static java.lang.System.exit;
 
+/**
+ * Class Game is a singleton, manage the game and create it
+ * Contains the Labyrinth, the player,
+ */
 public class Game {
     private static Game instance = new Game();
     private Labyrinth labyrinth;

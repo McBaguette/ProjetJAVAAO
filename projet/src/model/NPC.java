@@ -7,14 +7,12 @@ import graphe.Vertex;
  * Class for enemies in the game
  */
 public class NPC extends Movable {
-    private boolean flee;
     public NPC(){
         super();
     }
     public NPC(Vertex position){
         this();
         this.position = position;
-        flee = false;
     }
 
     /**
@@ -33,11 +31,5 @@ public class NPC extends Movable {
         	}
         }
         return false;
-    }
-    public boolean getFlee(){
-        return flee;
-    }
-    public void setFlee(boolean b){
-        flee = b;
     }
 }

@@ -5,6 +5,7 @@ import graphe.Vertex;
 import javafx.scene.image.Image;
 import view.ISprite;
 
+
 public abstract class Movable implements IMovable {
 
     protected Vertex position;
