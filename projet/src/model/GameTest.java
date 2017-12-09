@@ -41,11 +41,11 @@ public class GameTest {
             while(path.size() > 0){
                 Game.getInstance().getPlayer().setPosition(path.get(0));
                 path.remove(0);
-                for (IDeplacable enemy: Game.getInstance().getEnemies()){
+                for (IMovable enemy: Game.getInstance().getEnemies()){
                     Game.getInstance().getLabyrinth().launchManhattan(enemy.getPosition(), Game.getInstance().getPlayer().getPosition());
                     ((NPC)enemy).move(Game.getInstance().getLabyrinth());
                 }
-                for (IDeplacable enemy: Game.getInstance().getEnemies()){
+                for (IMovable enemy: Game.getInstance().getEnemies()){
                     if (enemy.getPosition().equals(Game.getInstance().getPlayer().getPosition()))
                         fail("Not suppose to be game over");
                 }

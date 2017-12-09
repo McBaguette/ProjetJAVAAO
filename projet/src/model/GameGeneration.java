@@ -21,7 +21,7 @@ public class GameGeneration {
      * @param level
      * @return
      */
-    public static Vertex generateLabyrithGame(Labyrinth labyrinth, IDeplacable player, List<IDeplacable> enemies, int level){
+    public static Vertex generateLabyrithGame(Labyrinth labyrinth, IMovable player, List<IMovable> enemies, int level){
         int nbWhileMax = 1000;
         int nbWhile = 0;
         boolean found;
@@ -65,7 +65,7 @@ public class GameGeneration {
             nbWhile ++;
             //place randomly enemies
             int positionListEnemies = 0;
-            for (IDeplacable enemy: enemies){
+            for (IMovable enemy: enemies){
                 //enemies can't be at the same position
                 boolean ok = true;
                 do{
@@ -85,8 +85,6 @@ public class GameGeneration {
 
             //we will simulate the game to see if is possible
             found = simulatePerfectGame(labyrinth, player, enemies, vertexDoor);
-
-            System.out.println(nbWhile);
         }while (!found && nbWhile < nbWhileMax);
         if (!found){
             System.out.println("not found");
@@ -100,7 +98,7 @@ public class GameGeneration {
      * To test if the game is possible or not, will simulates moves of the enemies and the player
      * @return to say if the game is possible or not
      */
-    public static boolean simulatePerfectGame(Labyrinth labyrinth, IDeplacable player, List<IDeplacable> enemies, Vertex vertexDoor){
+    public static boolean simulatePerfectGame(Labyrinth labyrinth, IMovable player, List<IMovable> enemies, Vertex vertexDoor){
         List<Vertex> pathPlayer = new LinkedList<>();
         pathPlayer.add(player.getPosition());
         labyrinth.launchManhattan(pathPlayer.get(0), vertexDoor);
@@ -108,19 +106,19 @@ public class GameGeneration {
         if (pathPlayer.size() > 0)
             pathPlayer.remove(0);
 
-        List<IDeplacable> copyEnemies = new LinkedList<>();
-        for (IDeplacable e: enemies){
+        List<IMovable> copyEnemies = new LinkedList<>();
+        for (IMovable e: enemies){
             copyEnemies.add(new NPC(e.getPosition()));
         }
         while(pathPlayer.size() > 0){
             Vertex positionPlayer = pathPlayer.get(0);
             pathPlayer.remove(0);
 
-            for (IDeplacable enemy: copyEnemies){
+            for (IMovable enemy: copyEnemies){
                 labyrinth.launchManhattan(enemy.getPosition(), positionPlayer);
                 ((NPC)enemy).move(labyrinth);
             }
-            for (IDeplacable enemy: copyEnemies){
+            for (IMovable enemy: copyEnemies){
                 if (enemy.getPosition().equals(positionPlayer))
                     return false;
             }
@@ -132,7 +130,7 @@ public class GameGeneration {
      * Initiliazed objects needed for the class.
      * @param level
      */
-    public static void initEnemies(List<IDeplacable> enemies, int level){
+    public static void initEnemies(List<IMovable> enemies, int level){
         enemies.clear();
         int nbEnemies = level/2;
         for (int i = 0; i < nbEnemies && i < DefineClass.NUMBER_ENEMIES_MAX ;  i++)

@@ -6,7 +6,8 @@ import javafx.scene.image.Image;
 import view.ISprite;
 import view.Sprite;
 
-public interface IDeplacable {
+public interface IMovable
+{
     public Vertex getPosition();
     public void setPosition(Vertex to);
 }

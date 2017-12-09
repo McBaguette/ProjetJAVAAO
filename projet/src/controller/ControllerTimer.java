@@ -44,7 +44,7 @@ public class ControllerTimer{
     public void launch(Stage primaryStage) {
         game.launch(false);
         controllerView.launch(primaryStage, game.getLabyrinth());
-        controllerView.refreshView(game.getLabyrinth(), game.getPlayer(), game.getEnemies());
+        controllerView.refreshView();
         nbTick = 0;
         initTimer();
 
@@ -80,7 +80,7 @@ public class ControllerTimer{
             default:
             	break;
             }
-            controllerView.refreshView(game.getLabyrinth(), game.getPlayer(), game.getEnemies());
+            controllerView.refreshView();
         }
         else
             nbTick ++;

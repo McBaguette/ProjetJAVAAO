@@ -15,8 +15,8 @@ public class Game {
     private static Game instance = new Game();
     private Labyrinth labyrinth;
 
-    private IDeplacable player;
-    private List<IDeplacable> enemies;
+    private IMovable player;
+    private List<IMovable> enemies;
     private Vertex vertexDoor;
 
     private int score, level, scoreForTheLevel;
@@ -106,7 +106,7 @@ public class Game {
      * @return -1 if the player lost, 0 if not
      */
     private int manageInteractionWithEnemies(){
-        for (IDeplacable enemie: enemies){
+        for (IMovable enemie: enemies){
             if (player.getPosition().equals((enemie).getPosition()))
                 return -1;      //Game Over
         }
@@ -117,7 +117,7 @@ public class Game {
      * Moves enemies, launchn manhattan between enemy and player, and call enemy.move()
      */
     private void moveEnemies(){
-        for(IDeplacable e:enemies){
+        for(IMovable e:enemies){
             labyrinth.launchManhattan(e.getPosition(), player.getPosition());
             ((NPC)e).move(labyrinth);
         }
@@ -137,10 +137,10 @@ public class Game {
     public Labyrinth getLabyrinth(){
         return labyrinth;
     }
-    public IDeplacable getPlayer(){
+    public IMovable getPlayer(){
         return player;
     }
-    public List<IDeplacable> getEnemies(){
+    public List<IMovable> getEnemies(){
         return enemies;
     }
     public Vertex getVertexDoor(){return vertexDoor;}

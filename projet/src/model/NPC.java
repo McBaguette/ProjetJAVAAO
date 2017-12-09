@@ -1,16 +1,12 @@
 package model;
 
-import graphe.Edge;
 import graphe.Labyrinth;
 import graphe.Vertex;
-import javafx.scene.image.Image;
-import view.Images;
-import view.Sprite;
 
 /**
  * Class for enemies in the game
  */
-public class NPC extends Deplacable{
+public class NPC extends Movable {
     private boolean flee;
     public NPC(){
         super();

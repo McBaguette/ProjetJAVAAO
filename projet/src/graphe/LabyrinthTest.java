@@ -4,10 +4,7 @@ package graphe;
 import java.util.Set;
 
 import model.DefineClass;
-import model.Deplacable;
-import org.jgrapht.graph.SimpleGraph;
 
-import model.DefineClass.Type;
 import org.junit.Test;
 
 import static junit.framework.Assert.fail;

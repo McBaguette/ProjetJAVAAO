@@ -1,17 +1,12 @@
 package model;
 
 
-import graphe.Edge;
 import graphe.Vertex;
-import javafx.scene.image.Image;
-import model.mapobject.IMapObject;
-import view.Images;
-import view.Sprite;
 
 /**
  * Class for player in the game
  */
-public class PC extends Deplacable{
+public class PC extends Movable {
     public PC(){
         super();
     }

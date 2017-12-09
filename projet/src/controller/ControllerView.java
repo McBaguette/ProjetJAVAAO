@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import model.DefineClass;
 import model.Game;
-import model.IDeplacable;
+import model.IMovable;
 import model.DefineClass.Type;
 import model.mapobject.Candy;
 import model.mapobject.IMapObject;
@@ -163,12 +163,9 @@ public class ControllerView {
 
     /**
      * Called by ControllerTimer, will call View.drawImageView, to refresh the window
-     * @param laby : Labyrinth, so the map of the game
-     * @param player : IDeplacable, the player
-     * @param enemies : List<IDeplacable>, all the enemies
      */
-    public void refreshView(Labyrinth laby, IDeplacable player, List<IDeplacable> enemies){
-    	drawDoors(laby);
+    public void refreshView(){
+    	drawDoors(game.getLabyrinth());
         for(Vertex v: game.getLabyrinth().vertexSet()){
             List<IMapObject> listMapObject = v.getMapObjects();
             for (IMapObject o: listMapObject){
@@ -188,13 +185,12 @@ public class ControllerView {
                 if (sprite != null)
                 	sprite.draw(v.getX(), v.getY());
             }
-            //Update if some objects disappeared from the map
         }
         imageViewPlayer.draw(game.getPlayer().getPosition().getX(), game.getPlayer().getPosition().getY());
         imageViewDoor.draw(game.getVertexDoor().getX(), game.getVertexDoor().getY());
         
         int i = 0;
-        for (IDeplacable e:enemies){
+        for (IMovable e:game.getEnemies()){
         	listImageViewEnemies.get(i).draw(e.getPosition().getX(), e.getPosition().getY());
             i ++;
         }
