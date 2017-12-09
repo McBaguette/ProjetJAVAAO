@@ -35,6 +35,8 @@ public class Edge extends DefaultEdge {
 	}
 
 	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
 		if (!(obj instanceof Edge)) return false;
 		Edge e = (Edge)obj;
 		return this.getSource().equals(e.getSource()) && this.getTarget().equals(e.getTarget());

@@ -65,9 +65,17 @@ public class LabyrinthTest {
 		g.toDot("Manhattandot");
 		for (int y = 0; y < DefineClass.HEIGHT; y++){
 			for (int x = 0; x < DefineClass.WIDTH; x++){
-				System.out.print(g.getVertex(x,y).getNbr() + " ");
+				Vertex v = g.getVertex(x,y);
+				System.out.print(v.getNbr() + " ");
 				if(g.getVertex(x,y).getNbr() == 0)
 					fail("Manhattan fail");
+				for (DefineClass.Directions dir: DefineClass.Directions.values()){
+					Vertex v2 = g.getNeighborVertex(v,dir);
+					if (v2 != null){
+						if (Math.abs(v.getNbr() - v2.getNbr()) != 1)
+							fail("Manhattan fail");
+					}
+				}
 			}
 			System.out.print("\n");
 		}
